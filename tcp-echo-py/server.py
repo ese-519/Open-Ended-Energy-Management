@@ -1,12 +1,12 @@
 import socket
 import sys
 
-def main():
+def start_server(ipaddr, port):
   # Create a TCP/IP socket
   sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
   # Bind the socket to the port
-  server_address = ('localhost', 10000)
+  server_address = (ipaddr, port)
   print >>sys.stderr, 'starting up on %s port %s' % server_address
   sock.bind(server_address)
 
@@ -37,4 +37,4 @@ def main():
       connection.close()
 
 if __name__ == "__main__":
-  sys.exit(main())
+  sys.exit(start_server('127.0.0.1', 9000))
