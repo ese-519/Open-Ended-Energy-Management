@@ -23,6 +23,7 @@
 #   },
 #   "version": "1.0"
 # }
+import socket
 
 def lambda_handler(event, context):
     if (event['session']['application']['applicationId'] !=
@@ -35,6 +36,40 @@ def lambda_handler(event, context):
         return on_intent(event["request"], event["session"])
     elif event["request"]["type"] == "SessionEndedRequest":
         return on_session_ended(event["request"], event["session"])
+
+def client_tcp_session(server_addr, server_port):
+    # Create a TCP/IP socket
+    sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+
+    # Connect the socket to the port where the server is listening
+    server_address = (server_addr, server_port)
+#    print >>sys.stderr, 'connecting to %s port %s' % server_address
+    sock.connect(server_address)
+    alldata = []
+
+    try:
+      # Send data
+      message = 'This is the message.  It will be repeated.'
+#      print >>sys.stderr, 'sending "%s"' % message
+      sock.sendall(message)
+
+      # Look for the response
+      amount_received = 0
+      amount_expected = len(message)
+
+      while amount_received < amount_expected:
+        data = sock.recv(16)
+        alldata.append(data)
+        amount_received += len(data)
+#        print >>sys.stderr, 'received "%s"' % data
+
+    finally:
+#      print >>sys.stderr, 'closing socket'
+      sock.close()
+    if len(alldata) > 0:
+        return ''.join(alldata)
+    else:
+        return 'No response data received.'
         
 
 def on_intent(intent_request, session):
