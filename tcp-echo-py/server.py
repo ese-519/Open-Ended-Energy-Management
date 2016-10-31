@@ -37,4 +37,4 @@ def start_server(ipaddr, port):
       connection.close()
 
 if __name__ == "__main__":
-  sys.exit(start_server('127.0.0.1', 9000))
+  sys.exit(start_server('0.0.0.0', 9000))
