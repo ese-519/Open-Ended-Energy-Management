@@ -10,20 +10,23 @@ def client_tcp_session(server_addr, server_port):
   print >>sys.stderr, 'connecting to %s port %s' % server_address
   sock.connect(server_address)
 
+  end_flag = '$'
+
   try:
     # Send data
-    message = 'This is the message.  It will be repeated.'
+    message = 'This is the message.  It will be repeated.' + end_flag
     print >>sys.stderr, 'sending "%s"' % message
     sock.sendall(message)
-
+  except Exception as e:
+    print e
+  else:
     # Look for the response
-    amount_received = 0
-    amount_expected = len(message)
-
-    while amount_received < amount_expected:
+    print 'finished sending message'
+    while True:
       data = sock.recv(16)
-      amount_received += len(data)
       print >>sys.stderr, 'received "%s"' % data
+      if end_flag in data:
+        break
 
   finally:
     print >>sys.stderr, 'closing socket'
