@@ -21,16 +21,15 @@ The Bin numbers correspond to the following power consumption ranges:
 
 % define an empty response structure.
 response=[];
-
-% check is the input argument is valid
-validarg = [1,2,3,4,5];
+% is the input argument is valid
+validarg = ['1','2','3','4','5'];
 
 isvalid = ismember(bin_number,validarg);
-
+disp(isvalid);
 if(~isvalid)
     disp('Invalid argument!!: Arg must be either 1,2,3,4 or 5');    
 else
-
+bin_number = str2num(bin_number);
 % load the Bin data structure into the Matlab workspace.
 load Bin.mat
 
@@ -43,6 +42,8 @@ response.values = [Bin(bin_number).dom_mode(1),Bin(bin_number).tod_mode(1),...
     Bin(bin_number).avg_tempC,Bin(bin_number).avg_sol,...
     Bin(bin_number).avg_winspeed, Bin(bin_number).avg_gusts,...
     Bin(bin_number).avg_hum,Bin(bin_number).avg_dew];
+
+response
 end
 end
 
