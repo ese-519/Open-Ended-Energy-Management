@@ -189,9 +189,9 @@ def describe_conditions_for_usage(intent):
     #TODO: build query, send to ec2, get response
     query_params = {'type': 1, 'building': 'Levine Hall', 'usagekW': 60} 
     query_str = json.dumps(query_params)
-    client_tcp_session(ec2_addr, ec2_tcp_port, query_str)
+    speech_output = client_tcp_session(ec2_addr, ec2_tcp_port, query_str)
 
-    speech_output = '{} used {} killowats when add conditions here'.format(building, usagekW)
+#    speech_output = '{} used {} killowats when add conditions here'.format(building, usagekW)
 
     return build_response(session_attributes, build_speechlet_response(
         card_title, speech_output, reprompt_text, should_end_session))
