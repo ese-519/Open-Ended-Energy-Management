@@ -13,6 +13,7 @@ def query_kdd(data):
 def start_server(ipaddr, port):
   # Create a TCP/IP socket
   sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+  sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
 
   # Bind the socket to the port
   server_address = (ipaddr, port)
@@ -44,7 +45,7 @@ def start_server(ipaddr, port):
           query_str = ''.join([s for s in query_parts])
           # parse query type and parameters
           query = json.loads(query_str)
-          print query
+          print "received:", query
           # TODO: use subprocess.call to query KDD
           # TODO: wait for KDD query to complete
           # TODO: update DB with query result to update graphical output with pymongo.MongoClient
@@ -53,6 +54,7 @@ def start_server(ipaddr, port):
           end_flag = '$'
           response_str = json.dumps(response) + end_flag
           connection.sendall(response_str)
+	  print "sent:", response_str
           break
     finally:
       # Clean up the connection
