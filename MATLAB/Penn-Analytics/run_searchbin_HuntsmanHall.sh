@@ -18,16 +18,14 @@ export LD_LIBRARY_PATH;
 echo LD_LIBRARY_PATH is ${LD_LIBRARY_PATH};
 #shift 1
 
-bin=$1
-building_name = $2
-#args=
-#while [ $# -gt 0 ]; do
- #    bin=$1
-  #   building_name = $2
-args="${args} \"${bin}\${building_name}\"" 
-  #   shift
-# done
- eval "\"${exe_dir}/searchbin\"" $args
+args=
+while [ $# -gt 0 ]; do
+   bin=$1
+  
+args="${args} \"${bin}\"" 
+   shift
+done
+ eval "\"${exe_dir}/searchbin_HuntsmanHall\"" $args
 
 exit
 
