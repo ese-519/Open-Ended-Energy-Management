@@ -14,7 +14,7 @@ function requestHandler(req, res) {
     res.writeHead(200, {'Content-Type': 'image/x-icon'});
     res.end();
     console.log('favicon requested');
-  } else if (fileName === 'index.html') {
+  } else if (fileName === 'index.html' || fileName === 'chart.html') {
     content = localDir + fileName;
 
     fs.readFile(content, function(err, contents) {
