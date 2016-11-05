@@ -24,6 +24,12 @@
 #   "version": "1.0"
 # }
 import socket
+import json
+
+ec2_addr = '54.165.125.83'
+ec2_tcp_port = 9000
+#message = 'This is the message.  It will be repeated.'
+#query_params = {'type': 1, 'building': 'Levine Hall', 'usagekW': 60} 
 
 def lambda_handler(event, context):
     if (event['session']['application']['applicationId'] !=
@@ -37,34 +43,29 @@ def lambda_handler(event, context):
     elif event["request"]["type"] == "SessionEndedRequest":
         return on_session_ended(event["request"], event["session"])
 
-def client_tcp_session(server_addr, server_port):
+def client_tcp_session(server_addr, server_port, message):
     # Create a TCP/IP socket
     sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
     # Connect the socket to the port where the server is listening
     server_address = (server_addr, server_port)
-#    print >>sys.stderr, 'connecting to %s port %s' % server_address
     sock.connect(server_address)
     alldata = []
 
     try:
       # Send data
-      message = 'This is the message.  It will be repeated.'
-#      print >>sys.stderr, 'sending "%s"' % message
       sock.sendall(message)
 
       # Look for the response
       amount_received = 0
-      amount_expected = len(message)
+      amount_expected = len(message) #TODO: update amount expected, use sock.recv instead?
 
       while amount_received < amount_expected:
         data = sock.recv(16)
         alldata.append(data)
         amount_received += len(data)
-#        print >>sys.stderr, 'received "%s"' % data
 
     finally:
-#      print >>sys.stderr, 'closing socket'
       sock.close()
     if len(alldata) > 0:
         return ''.join(alldata)
@@ -76,16 +77,18 @@ def on_intent(intent_request, session):
     intent = intent_request["intent"]
     intent_name = intent_request["intent"]["name"]
 
-    if intent_name == "GetBuildingStatus":
+    if intent_name == "AMAZON.HelpIntent":
+        return get_welcome_response()
+    elif intent_name == "AMAZON.CancelIntent" or intent_name == "AMAZON.StopIntent":
+        return handle_session_end_request()
+    elif intent_name == "GetBuildingStatus":
         return get_building_status(intent)
     elif intent_name == "GetTopConsuming":
         return get_top_consuming()
     elif intent_name == "GetPeakTime":
         return get_peak_time(intent)
-    elif intent_name == "AMAZON.HelpIntent":
-        return get_welcome_response()
-    elif intent_name == "AMAZON.CancelIntent" or intent_name == "AMAZON.StopIntent":
-        return handle_session_end_request()
+    elif intent_name == "DescribeConditionsForUsage":
+        return describe_conditions_for_usage(intent)
     else:
         raise ValueError("Invalid intent")
 
@@ -94,8 +97,8 @@ def on_launch(launch_request, session):
     
 def get_welcome_response():
     session_attributes = {}
-    card_title = "Energy Advisor Demo"
-    speech_output = "Welcome to the Alexa Energy Advisor Demo skill. " \
+    card_title = "Energy Advisor"
+    speech_output = "Welcome to the Alexa Energy Advisor skill. " \
                     "You can ask me for information about energy usage of a " \
                     "building on Penn's campus, for the peak time for a building, " \
                     "or for the top consuming buildings on campus."
@@ -133,14 +136,14 @@ def build_response(session_attributes, speechlet_response):
     }
     
 def handle_session_end_request():
-    card_title = "Energy Advisor Demo - Thanks"
-    speech_output = "Thank you for using the Energy Advisor Demo skill.  See you next time!"
+    card_title = "Energy Advisor - Thanks"
+    speech_output = "Thank you for using the Energy Advisor skill.  See you next time!"
     should_end_session = True
     return build_response({}, build_speechlet_response(card_title, speech_output, None, should_end_session))
     
 def get_top_consuming():
     session_attributes = {}
-    card_title = "Energy Advisor Demo Top Consuming"
+    card_title = "Energy Advisor Top Consuming"
     reprompt_text = ""
     should_end_session = False
 
@@ -151,7 +154,7 @@ def get_top_consuming():
         
 def get_building_status(intent):
     session_attributes = {}
-    card_title = "Energy Advisor Demo Building Status"
+    card_title = "Energy Advisor Building Status"
     reprompt_text = ""
     should_end_session = False
     
@@ -164,7 +167,7 @@ def get_building_status(intent):
         
 def get_peak_time(intent):
     session_attributes = {}
-    card_title = "Energy Advisor Demo Peak Time"
+    card_title = "Energy Advisor Peak Time"
     reprompt_text = ""
     should_end_session = False
     
@@ -174,3 +177,20 @@ def get_peak_time(intent):
 
     return build_response(session_attributes, build_speechlet_response(
         card_title, speech_output, reprompt_text, should_end_session))
+
+def describe_conditions_for_usage(intent):
+    session_attributes = {}
+    card_title = "Energy Advisor Building Conditions"
+    reprompt_text = ""
+    should_end_session = False
+    
+    building = intent["slots"]["Building"]["value"]
+    usagekW = intent["slots"]["UsagekW"]["value"]
+
+    #TODO: build query, send to ec2, get response
+
+    speech_output = '{} used {} killowats when add conditions here'.format(building, usagekW)
+
+    return build_response(session_attributes, build_speechlet_response(
+        card_title, speech_output, reprompt_text, should_end_session))
+

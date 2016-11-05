@@ -1,0 +1,3 @@
+Name: Energy Advisor
+Invocation name: energy advisor
+Audio player: No
