@@ -29,7 +29,6 @@ import json
 ec2_addr = '54.165.125.83'
 ec2_tcp_port = 9000
 #message = 'This is the message.  It will be repeated.'
-#query_params = {'type': 1, 'building': 'Levine Hall', 'usagekW': 60} 
 
 def lambda_handler(event, context):
     if (event['session']['application']['applicationId'] !=
@@ -188,6 +187,9 @@ def describe_conditions_for_usage(intent):
     usagekW = intent["slots"]["UsagekW"]["value"]
 
     #TODO: build query, send to ec2, get response
+    query_params = {'type': 1, 'building': 'Levine Hall', 'usagekW': 60} 
+    query_str = json.dumps(query_params)
+    client_tcp_session(ec2_addr, ec2_tcp_port, query_str)
 
     speech_output = '{} used {} killowats when add conditions here'.format(building, usagekW)
 

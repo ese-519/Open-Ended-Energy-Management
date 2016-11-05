@@ -1,5 +1,6 @@
 import socket
 import sys
+import json
 import subprocess
 import pymongo
 
@@ -42,8 +43,10 @@ def start_server(ipaddr, port):
         else:
           print >>sys.stderr, 'no more data from', client_address
           # reconstruct query string
-          query = ''.append([s for s in query_from_lambda])
+          query_str = ''.append([s for s in query_from_lambda])
           # TODO: parse query type and parameters
+          query = json.loads(query_str)
+          print query
           # TODO: use subprocess.call to query KDD
           # TODO: wait for KDD query to complete
           # TODO: update DB with query result to update graphical output with pymongo.MongoClient
