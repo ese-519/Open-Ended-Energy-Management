@@ -43,7 +43,7 @@ response.values = [Bin(bin_number).dom_mode(1),Bin(bin_number).tod_mode(1),...
     Bin(bin_number).avg_winspeed, Bin(bin_number).avg_gusts,...
     Bin(bin_number).avg_hum,Bin(bin_number).avg_dew];
 
-response
+savejson('',response,'Filename','response.json')
 end
 end
 
