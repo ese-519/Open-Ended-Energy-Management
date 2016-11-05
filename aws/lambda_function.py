@@ -52,20 +52,20 @@ def client_tcp_session(server_addr, server_port, message):
     alldata = []
 
     try:
-      # Send data
-      sock.sendall(message)
+        # Send data
+        sock.sendall(message)
 
-      # Look for the response
-      amount_received = 0
-      amount_expected = len(message) #TODO: update amount expected, use sock.recv instead?
+        # Look for the response
+        end_flag = '$'
 
-      while amount_received < amount_expected:
-        data = sock.recv(16)
-        alldata.append(data)
-        amount_received += len(data)
+        while True:
+            data = sock.recv(16)
+            if data[-1] == end_flag:
+              break
+            alldata.append(data)
 
     finally:
-      sock.close()
+        sock.close()
     if len(alldata) > 0:
         return ''.join(alldata)
     else:

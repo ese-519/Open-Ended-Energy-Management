@@ -36,8 +36,6 @@ def start_server(ipaddr, port):
         data = connection.recv(16)
         print >>sys.stderr, 'received "%s"' % data
         if data:
-#TODO: remove          print >>sys.stderr, 'sending data back to the client'
-#          connection.sendall(data)
           # build query from lambda
           query_parts.append(data)
         else:
@@ -51,11 +49,11 @@ def start_server(ipaddr, port):
           # TODO: wait for KDD query to complete
           # TODO: update DB with query result to update graphical output with pymongo.MongoClient
           # TODO: determine content for vocal response, send back to lambda using connection.sendall(some_data_here)
-	  response = {'param1': 'value1', 'param2': 2, 'param3': 'value3'}
-	  response_str = json.dumps(response)
-	  connection.sendall(response_str)
+          response = {'param1': 'value1', 'param2': 2, 'param3': 'value3'}
+          end_flag = '$'
+          response_str = json.dumps(response) + end_flag
+          connection.sendall(response_str)
           break
-            
     finally:
       # Clean up the connection
       connection.close()
