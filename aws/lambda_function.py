@@ -50,24 +50,26 @@ def client_tcp_session(server_addr, server_port, message):
     server_address = (server_addr, server_port)
     sock.connect(server_address)
     alldata = []
+    end_flag = '$'
 
     try:
         # Send data
         sock.sendall(message)
-
+    except Exception as e:
+        return "Exception during sendall"
+    else:
         # Look for the response
-        end_flag = '$'
-
         while True:
             data = sock.recv(16)
-            if data[-1] == end_flag:
-              break
             alldata.append(data)
-
+            if end_flag in data:
+                break
     finally:
         sock.close()
     if len(alldata) > 0:
-        return ''.join(alldata)
+        alldata_str = ''.join(alldata)
+        alldata_str = alldata_str[0:-1]
+        return alldata_str
     else:
         return 'No response data received.'
         
