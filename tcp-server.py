@@ -58,7 +58,7 @@ def start_server(ipaddr, port):
       response = {'param1': 'value1', 'param2': 2, 'param3': 'value3'}
       response_str = json.dumps(response) + end_flag
       connection.sendall(response_str)
-  	  print "sent:", response_str
+      print "sent:", response_str
 
     finally:
       # Clean up the connection

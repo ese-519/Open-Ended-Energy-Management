@@ -54,7 +54,7 @@ def client_tcp_session(server_addr, server_port, message):
 
     try:
         # Send data
-        sock.sendall(message)
+        sock.sendall(message + end_flag)
     except Exception as e:
         return "Exception during sendall"
     else:
@@ -191,9 +191,11 @@ def describe_conditions_for_usage(intent):
     #TODO: build query, send to ec2, get response
     query_params = {'type': 1, 'building': 'Levine Hall', 'usagekW': 60} 
     query_str = json.dumps(query_params)
-    speech_output = client_tcp_session(ec2_addr, ec2_tcp_port, query_str)
+    query_res_str = client_tcp_session(ec2_addr, ec2_tcp_port, query_str)
+    query_res = json.loads(query_res_str)
+    speech_output = '{} used {} killowats when a was {} and b was {} and c was {}'.format(building, 
+        usagekW, query_res['param1'], query_res['param2'], query_res['param3'])
 
-#    speech_output = '{} used {} killowats when add conditions here'.format(building, usagekW)
 
     return build_response(session_attributes, build_speechlet_response(
         card_title, speech_output, reprompt_text, should_end_session))
