@@ -186,7 +186,7 @@ def describe_conditions_for_usage(intent):
     should_end_session = False
     
     building = intent["slots"]["Building"]["value"]
-    usagekW = intent["slots"]["UsagekW"]["value"]
+    usagekW = int(intent["slots"]["UsagekW"]["value"])
 
     if usagekW < 37:
         binNum = 1
@@ -199,6 +199,7 @@ def describe_conditions_for_usage(intent):
     elif usagekW <= 111:
         binNum = 5
     else:
+        binNum = 5
         #TODO: add error case, inform user that max usage is 111 kW
         
     #build query, send to ec2, get response
