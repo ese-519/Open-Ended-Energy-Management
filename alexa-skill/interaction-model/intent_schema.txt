@@ -1,0 +1,47 @@
+{
+  "intents": [
+    {
+      "intent": "DescribeConditionsForUsage",
+      "slots" : [
+        {
+          "name": "Building",
+          "type": "LIST_OF_BUILDINGS"
+        },
+        {
+          "name": "UsagekW",
+          "type": "AMAZON.NUMBER"
+        }
+      ]
+    },
+    {
+      "intent": "GetBuildingStatus",
+      "slots" : [
+        {
+          "name": "Building",
+          "type": "LIST_OF_BUILDINGS"
+        }
+      ]
+    },
+    {
+      "intent": "GetTopConsuming"
+    },
+    {
+      "intent": "GetPeakTime",
+      "slots" : [
+        {
+          "name": "Building",
+          "type": "LIST_OF_BUILDINGS"
+        }
+      ]
+    },
+    {
+      "intent": "AMAZON.HelpIntent"
+    },
+    {
+      "intent": "AMAZON.StopIntent"
+    },
+    {
+      "intent": "AMAZON.CancelIntent"
+    }
+  ]
+}
