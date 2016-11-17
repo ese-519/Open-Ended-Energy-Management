@@ -188,14 +188,27 @@ def describe_conditions_for_usage(intent):
     building = intent["slots"]["Building"]["value"]
     usagekW = intent["slots"]["UsagekW"]["value"]
 
-    #TODO: build query, send to ec2, get response
-    query_params = {'type': 1, 'building': 'Levine Hall', 'usagekW': 60} 
+    if usagekW < 37:
+        binNum = 1
+    elif usagekW <= 55:
+        binNum = 2
+    elif usagekW <= 74:
+        binNum = 3
+    elif usagekW <= 92:
+        binNum = 4
+    elif usagekW <= 111:
+        binNum = 5
+    else:
+        #TODO: add error case, inform user that max usage is 111 kW
+        
+    #build query, send to ec2, get response
+    query_params = {'type': 1, 'building': building, 'usagekWBin': binNum} 
     query_str = json.dumps(query_params)
     query_res_str = client_tcp_session(ec2_addr, ec2_tcp_port, query_str)
     query_res = json.loads(query_res_str)
-    speech_output = '{} used {} killowats when a was {} and b was {} and c was {}'.format(building, 
-        usagekW, query_res['param1'], query_res['param2'], query_res['param3'])
-
+    #TODO: parse response from server and build speech_output
+    speech_output = '{} used {} killowats when a was {} and b was {} and c was {}'.format(
+        building, usagekW, query_res['param1'], query_res['param2'], query_res['param3'])
 
     return build_response(session_attributes, build_speechlet_response(
         card_title, speech_output, reprompt_text, should_end_session))

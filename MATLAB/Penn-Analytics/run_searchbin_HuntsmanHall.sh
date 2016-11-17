@@ -25,7 +25,7 @@ while [ $# -gt 0 ]; do
 args="${args} \"${bin}\"" 
    shift
 done
- eval "\"${exe_dir}/searchbin_HuntsmanHall\"" $args
+eval "\"${exe_dir}/searchbin_HuntsmanHall\"" $args
 
 exit
 

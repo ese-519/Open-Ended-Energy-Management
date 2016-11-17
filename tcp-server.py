@@ -1,7 +1,7 @@
 import socket
 import sys
 import json
-import subprocess
+from subprocess import call
 import pymongo
 
 def update_db():
@@ -50,8 +50,10 @@ def start_server(ipaddr, port):
       query_str = query_str[0:-1]
       # parse query type and parameters
       query = json.loads(query_str)
+      print "received query:", query
 
       # TODO: use subprocess.call to query KDD
+      call(["./MATLAB/Penn-Analytics/run_searchbin_HuntsmanHall.sh", str(1)])
       # TODO: wait for KDD query to complete
       # TODO: update DB with query result to update graphical output with pymongo.MongoClient
       # TODO: determine content for vocal response, send back to lambda using connection.sendall(some_data_here)
