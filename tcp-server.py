@@ -10,6 +10,22 @@ def update_db():
 def query_kdd(data):
   pass
 
+def call_searchbin(query):
+  # extract and normalize building name - no spaces, all lowercase
+  building = ''.join(query['building'].split(' ')).lower()
+  # extract usage "bin" number 
+  binNum = query['usagekWBin']
+
+  # TODO: use subprocess.call to query KDD
+  scriptName = ''.join(['run_searchbin_', building, '.sh'])
+  scriptPath = '/'.join(['.', 'MATLAB', 'Penn-Analytics', scriptName])
+  call([scriptPath, str(binNum)])
+  # TODO: wait for KDD query to complete
+  # TODO: update DB with query result to update graphical output with pymongo.MongoClient
+  # TODO: determine content for vocal response, send back to lambda using connection.sendall(some_data_here)
+  response = {'param1': 'value1', 'param2': 2, 'param3': 'value3'}
+  return response
+
 def start_server(ipaddr, port):
   # Create a TCP/IP socket
   sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -51,13 +67,10 @@ def start_server(ipaddr, port):
       # parse query type and parameters
       query = json.loads(query_str)
       print "received query:", query
+      
+      if query['type'] == 1:
+        response = call_searchbin(query)
 
-      # TODO: use subprocess.call to query KDD
-      call(["./MATLAB/Penn-Analytics/run_searchbin_HuntsmanHall.sh", str(1)])
-      # TODO: wait for KDD query to complete
-      # TODO: update DB with query result to update graphical output with pymongo.MongoClient
-      # TODO: determine content for vocal response, send back to lambda using connection.sendall(some_data_here)
-      response = {'param1': 'value1', 'param2': 2, 'param3': 'value3'}
       response_str = json.dumps(response) + end_flag
       connection.sendall(response_str)
       print "sent:", response_str
