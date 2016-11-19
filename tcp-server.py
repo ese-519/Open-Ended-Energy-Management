@@ -2,7 +2,7 @@ import socket
 import sys
 import json
 from subprocess import call
-import pymongo
+from pymongo import MongoClient
 import time
 from watchdog.observers import Observer
 from watchdog.events import FileSystemEvent, FileSystemEventHandler
@@ -30,8 +30,12 @@ def read_json(target_path):
     response_data = json.load(json_data)
   return response_data 
 
-def update_db():
-  pass  
+def db_insert(db_name, collection_name, data_obj):
+  client = MongoClient('localhost:27017')
+  db = client[db_name]
+  coll = db[collection_name]
+  result = coll.insert_one(data_obj) #TODO: set _id explicitly?
+  return result.inserted_id # return ObjectId of item inserted 
 
 def call_searchbin(query):
   # extract and normalize building name - no spaces, all lowercase
@@ -75,7 +79,7 @@ def call_searchbin(query):
   # TODO: read query output file
   response = read_json(target_path)
 
-  # TODO: update DB with query result to update graphical output with pymongo.MongoClient
+  # TODO: update DB with query result to update graphical output 
   # TODO: return content for vocal response 
   return response
 
