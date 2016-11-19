@@ -4,19 +4,24 @@ from watchdog.observers import Observer
 from watchdog.events import FileSystemEvent, FileSystemEventHandler
 
 class MyHandler(FileSystemEventHandler):
-   def __init__(self, target_file_path):
-      self.target_file_path = target_file_path
+  def __init__(self, target_file_path):
+    self.target_file_path = target_file_path
+    self.flag_done = False
 
-   def process(self, event):
-      print event.src_path, event.event_type
+  def process_done(self):
+    return self.flag_done
 
-   def on_created(self, event):
-      if event.src_path == self.target_file_path:
-          self.process(event)
+  def process(self, event):
+    self.flag_done = True
+    print event.src_path, event.event_type
 
-   def on_modified(self, event):
-      if event.src_path == self.target_file_path:
-          self.process(event)
+  def on_created(self, event):
+    if event.src_path == self.target_file_path:
+      self.process(event)
+
+  def on_modified(self, event):
+    if event.src_path == self.target_file_path:
+      self.process(event)
 
 
 if __name__ == "__main__":
