@@ -27,7 +27,7 @@ def call_searchbin(query):
   # use subprocess.call to query KDD
   scriptName = ''.join(['run_searchbin_', building, '.sh'])
   scriptPath = '/'.join(['.', 'MATLAB', 'Penn-Analytics', scriptName])
-  call([scriptPath, str(binNum)])
+  call(['sudo', scriptPath, str(binNum)])
   # TODO: wait for KDD query to complete
   # TODO: read query output file
   # TODO: update DB with query result to update graphical output with pymongo.MongoClient

@@ -170,8 +170,8 @@ def describe_conditions_for_usage(intent):
     query_res = json.loads(query_res_str)
 
     # TODO: parse response from server and build speech_output
-    speech_output = 'The building {} used {} kilowatts under the following conditions. 
-      Day of month {}, time of day {}, average temperature {} degrees, average solar {}, 
+    speech_output = 'The building {} used {} kilowatts under the following conditions. \
+      Day of month {}, time of day {}, average temperature {} degrees, average solar {}, \ 
       average wind speed {}, average wind gusts {}, average humidity {}, and average dew point {}'.format(
       building, usagekW, query_res['DayOfMonth'], query_res['TimeOfDay'], query_res['AvgTemperature'], 
       query_res['AvgSolar'], query_res['AvgWindSpeed'], query_res['AvgGusts'], query_res['AvgHumidity'], 
