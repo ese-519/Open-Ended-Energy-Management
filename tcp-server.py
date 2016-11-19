@@ -4,25 +4,34 @@ import json
 from subprocess import call
 import pymongo
 
-def update_db():
-  pass
-
-def query_kdd(data):
-  pass
-
 def call_searchbin(query):
   # extract and normalize building name - no spaces, all lowercase
   building = ''.join(query['building'].split(' ')).lower()
-  # extract usage "bin" number 
-  binNum = query['usagekWBin']
+  # extract usage in kilowatts
+  usagekW = query['usagekW']
 
-  # TODO: use subprocess.call to query KDD
+  if usagekW < 37:
+    binNum = 1
+  elif usagekW <= 55:
+    binNum = 2
+  elif usagekW <= 74:
+    binNum = 3
+  elif usagekW <= 92:
+    binNum = 4
+  elif usagekW <= 111:
+    binNum = 5
+  else:
+    binNum = 5
+    #TODO: add error case, inform user that max usage is 111 kW
+
+  # use subprocess.call to query KDD
   scriptName = ''.join(['run_searchbin_', building, '.sh'])
   scriptPath = '/'.join(['.', 'MATLAB', 'Penn-Analytics', scriptName])
   call([scriptPath, str(binNum)])
   # TODO: wait for KDD query to complete
+  # TODO: read query output file
   # TODO: update DB with query result to update graphical output with pymongo.MongoClient
-  # TODO: determine content for vocal response, send back to lambda using connection.sendall(some_data_here)
+  # TODO: return content for vocal response 
   response = {'param1': 'value1', 'param2': 2, 'param3': 'value3'}
   return response
 

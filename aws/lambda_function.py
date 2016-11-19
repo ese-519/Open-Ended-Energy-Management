@@ -1,28 +1,3 @@
-# event format
-# {
-#   "session": {
-#     "sessionId": "SessionId.5b9134fc-39c4-4c4f-b1ce-86fd54d2776b",
-#     "application": {
-#       "applicationId": "amzn1.ask.skill.2f62b83b-282b-4c46-a5a8-e2feb4055015"
-#     },
-#     "attributes": {},
-#     "user": {
-#       "userId": "amzn1.ask.account.AHKFXC4K4APST47XY6F5T6TLG2IA6WQKCG2THWGQNXLTLZBE3VVOCRLJUWGINGOOM6ABVPGYM6TSSG5EZLG6OM4IPOUU2W4YJABY2ZXYGXDVQLNP5HMOSE3SVCC4MJUPLMG2N234R3QXOYN6HBOWKZJVGVNRMOM6Z2QUYREUL6KWKOVA4JKBFRTT6Y3IF2PHKWKBMIKVIIPH6NY"
-#     },
-#     "new": true
-#   },
-#   "request": {
-#     "type": "IntentRequest",
-#     "requestId": "EdwRequestId.51e8d6be-9470-4f72-9444-17fad6859d1b",
-#     "locale": "en-US",
-#     "timestamp": "2016-10-03T02:43:28Z",
-#     "intent": {
-#       "name": "GetTopConsuming",
-#       "slots": {}
-#     }
-#   },
-#   "version": "1.0"
-# }
 import socket
 import json
 
@@ -188,28 +163,19 @@ def describe_conditions_for_usage(intent):
     building = intent["slots"]["Building"]["value"]
     usagekW = int(intent["slots"]["UsagekW"]["value"])
 
-    if usagekW < 37:
-        binNum = 1
-    elif usagekW <= 55:
-        binNum = 2
-    elif usagekW <= 74:
-        binNum = 3
-    elif usagekW <= 92:
-        binNum = 4
-    elif usagekW <= 111:
-        binNum = 5
-    else:
-        binNum = 5
-        #TODO: add error case, inform user that max usage is 111 kW
-        
-    #build query, send to ec2, get response
-    query_params = {'type': 1, 'building': building, 'usagekWBin': binNum} 
+    # build query, send to ec2, get response
+    query_params = {'type': 1, 'building': building, 'usagekW': usagekW} 
     query_str = json.dumps(query_params)
     query_res_str = client_tcp_session(ec2_addr, ec2_tcp_port, query_str)
     query_res = json.loads(query_res_str)
-    #TODO: parse response from server and build speech_output
-    speech_output = '{} used {} killowats when a was {} and b was {} and c was {}'.format(
-        building, usagekW, query_res['param1'], query_res['param2'], query_res['param3'])
+
+    # TODO: parse response from server and build speech_output
+    speech_output = 'The building {} used {} kilowatts under the following conditions. 
+      Day of month {}, time of day {}, average temperature {} degrees, average solar {}, 
+      average wind speed {}, average wind gusts {}, average humidity {}, and average dew point {}'.format(
+      building, usagekW, query_res['DayOfMonth'], query_res['TimeOfDay'], query_res['AvgTemperature'], 
+      query_res['AvgSolar'], query_res['AvgWindSpeed'], query_res['AvgGusts'], query_res['AvgHumidity'], 
+      query_res['AvgDewPoint'])
 
     return build_response(session_attributes, build_speechlet_response(
         card_title, speech_output, reprompt_text, should_end_session))
