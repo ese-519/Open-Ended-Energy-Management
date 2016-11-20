@@ -1,9 +1,7 @@
-DescribeConditionsForUsage Describe the conditions for {Building} when energy usage is {UsagekW}
+cribeConditionsForUsage Describe the conditions for {Building} when energy usage is {UsagekW}
 DescribeConditionsForUsage Describe the conditions for {Building} when energy usage is {UsagekW} kilowatts
 PredictDay What is the predicted energy consumption for {Day}
 PredictMonth What is the predicted energy consumption for {Month}
 PredictMonth What is the predicted energy consumption for the month of {Month}
-EvalSetPointsChange What is the expected consumption if I change {SetPointType} to {SetPointValOne}
-EvalSetPointsChange What is the expected consumption if I change {SetPointType} to {SetPointValOne} and {SetPointType} to {SetPointValTwo}
-EvalSetPointsChange What is the expected consumption if I change {SetPointType} to {SetPointValOne} and {SetPointType} to {SetPointValTwo} and {SetPointType} to {SetPointValThree}
+EvalOneSetPointsChange What is the expected consumption if I change {SetPointTypeOne} to {SetPointValOne} from time {StartTime} to {EndTime}
 BestStrategy What should my set points be for the best strategy
