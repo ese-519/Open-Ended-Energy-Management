@@ -57,12 +57,6 @@ def on_intent(intent_request, session):
         return get_welcome_response()
     elif intent_name == "AMAZON.CancelIntent" or intent_name == "AMAZON.StopIntent":
         return handle_session_end_request()
-    elif intent_name == "GetBuildingStatus":
-        return get_building_status(intent)
-    elif intent_name == "GetTopConsuming":
-        return get_top_consuming()
-    elif intent_name == "GetPeakTime":
-        return get_peak_time(intent)
     elif intent_name == "DescribeConditionsForUsage":
         return describe_conditions_for_usage(intent)
     else:
@@ -117,43 +111,6 @@ def handle_session_end_request():
     should_end_session = True
     return build_response({}, build_speechlet_response(card_title, speech_output, None, should_end_session))
     
-def get_top_consuming():
-    session_attributes = {}
-    card_title = "Energy Advisor Top Consuming"
-    reprompt_text = ""
-    should_end_session = False
-
-    speech_output = 'The top consuming buildings are currently College Hall and David Rittenhouse Laboratory'
-
-    return build_response(session_attributes, build_speechlet_response(
-        card_title, speech_output, reprompt_text, should_end_session))
-        
-def get_building_status(intent):
-    session_attributes = {}
-    card_title = "Energy Advisor Building Status"
-    reprompt_text = ""
-    should_end_session = False
-    
-    building = intent["slots"]["Building"]["value"]
-
-    speech_output = 'The current energy usage for {0} is 10 kilowatt hours'.format(building)
-
-    return build_response(session_attributes, build_speechlet_response(
-        card_title, speech_output, reprompt_text, should_end_session))
-        
-def get_peak_time(intent):
-    session_attributes = {}
-    card_title = "Energy Advisor Peak Time"
-    reprompt_text = ""
-    should_end_session = False
-    
-    building = intent["slots"]["Building"]["value"]
-
-    speech_output = 'Peak energy usage for {0} occurred at 3:15pm'.format(building)
-
-    return build_response(session_attributes, build_speechlet_response(
-        card_title, speech_output, reprompt_text, should_end_session))
-
 def describe_conditions_for_usage(intent):
     session_attributes = {}
     card_title = "Energy Advisor Building Conditions"
@@ -169,7 +126,8 @@ def describe_conditions_for_usage(intent):
     query_res_str = client_tcp_session(ec2_addr, ec2_tcp_port, query_str)
     query_res = json.loads(query_res_str)
 
-    # TODO: parse response from server and build speech_output
+    # parse response from server and build speech_output
+    # TODO: validate query_res before building speech_output
     speech_output = 'The building {} used {} kilowatts under the following conditions. \
       Day of month {}, time of day {}, average temperature {} degrees, average solar {}, \ 
       average wind speed {}, average wind gusts {}, average humidity {}, and average dew point {}'.format(

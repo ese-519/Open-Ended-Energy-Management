@@ -14,25 +14,46 @@
       ]
     },
     {
-      "intent": "GetBuildingStatus",
+      "intent": "PredictDay",
       "slots" : [
         {
-          "name": "Building",
-          "type": "LIST_OF_BUILDINGS"
+          "name": "Day",
+          "type": "AMAZON.DATE"
         }
       ]
     },
     {
-      "intent": "GetTopConsuming"
-    },
-    {
-      "intent": "GetPeakTime",
-      "slots" : [
+      "intent": "PredictMonth",
+      "slots": [
         {
-          "name": "Building",
-          "type": "LIST_OF_BUILDINGS"
+          "name": "Month",
+          "type": "MONTH_NAME"
         }
       ]
+    },
+    {
+      "intent": "EvalSetPointsChange",
+      "slots": [
+        {
+          "name": "SetPointType",
+          "type": "SET_POINT_TYPE"
+        },
+        {
+          "name": "SetPointValOne",
+          "type": "AMAZON.NUMBER"
+        },
+        {
+          "name": "SetPointValTwo",
+          "type": "AMAZON.NUMBER"
+        },
+        {
+          "name": "SetPointValThree",
+          "type": "AMAZON.NUMBER"
+        }
+      ]
+    },
+    {
+      "intent": "BestStrategy"
     },
     {
       "intent": "AMAZON.HelpIntent"
