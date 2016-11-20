@@ -78,10 +78,26 @@ def call_searchbin(query):
 
   # TODO: read query output file
   response = read_json(target_path)
+  print 'read data from response file {}: {}'.format(target_path, response)
+
+  # transform response data into name-value pairs
+  response_transformed = {}
+  names = response['names']
+  vals = response['values']
+  for i in range(0, len(names)):
+    response_transformed[names[i]] = vals[i]
 
   # TODO: update DB with query result to update graphical output 
+  db_name = 'energydata'
+  coll_name = 'searchbin_results'
+  db_data = {}
+  for k in response_transformed.keys():
+    db_data[k] = response_transformed[k]
+  inserted_obj_id = db_insert(db_name, coll_name, db_data)
+  print 'inserted into:', db_name, coll_name, inserted_obj_id
+
   # TODO: return content for vocal response 
-  return response
+  return response_transformed
 
 def start_server(ipaddr, port):
   # Create a TCP/IP socket
