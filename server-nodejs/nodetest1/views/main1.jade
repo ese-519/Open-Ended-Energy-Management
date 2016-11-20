@@ -1,0 +1,13 @@
+extends layout
+
+block content
+    h1.
+        Status
+    ul
+        each dat, i in data
+            li=dat.building
+            li=dat.DayOfMonth
+            li=dat.TimeOfDay
+            li=dat.AvgTemperature
+            li=dat.AvgWindSpeed
+            li=dat.AvgHumidity
