@@ -1,13 +1,17 @@
-extends ../node_modules/jade-bootstrap/_bootstrap
-append styles
-  // Custom styles for this template
-  link(href='../css/starter-template.css', rel='stylesheet')
-block body
-  //+navbar-fixed("Hermione","navbar","inverse")
-  +label-default("Default")
-  +label-default("Default")
-  +label-primary("Primary")
-  +label-success("Success")
-  +label-info("Info")
-  +label-warning("Warning")
-  +label-danger("Danger")
+extends layout
+
+block content
+    nav.navbar.navbar-inverse( role="navigation" )
+        .navbar-header
+            navbar-toggle.collapsed( data-toggle="collapse", data-target="#navbar-inverse", aria-expanded="false", aria-controls="navbar")
+                span.sr-only Toggle navigation
+                span.icon-bar
+                span.icon-bar
+                span.icon-bar
+            a.navbar-brand(style = "font-family : Times New Roman; font-size:22px; color:white", href="#") Hermione - An Interactive Energy Management Dashboard System
+     
+        #navbar-inverse.collapse.navbar-collapse
+            ul.nav.navbar-nav.pull-right
+                li: a.btn-info.btn-lg.disabled(style = "color:red; font-size:15px", href="#") Temperature - #{data.AvgTemperature}F
+                li: a.btn-warning.btn-lg.disabled(style = "color:black; font-size:15px", href="#about" ) Wind Speed - #{data.AvgWindSpeed}
+                li: a.btn-success.btn-lg.disabled(style = "color:darkblue; font-size:15px", href="#contact" ) Humidity - #{data.AvgHumidity}
