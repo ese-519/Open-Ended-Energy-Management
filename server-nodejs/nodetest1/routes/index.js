@@ -21,7 +21,7 @@ router.get('/', function(req, res) {
 
     db = req.db;
     var searchbin_collection = db.get('searchbin_results');
-    searchbin_collection.find( { "_id" : "000000000000000000000001" },{},function(e,docs){
+    searchbin_collection.find( { "_id" : 1 },{},function(e,docs){
          searchbin_data = docs[0];
          console.log('searchbin_data: ' + JSON.stringify(searchbin_data))
          console.log('docs: ' + JSON.stringify(docs[0]))
