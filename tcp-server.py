@@ -6,7 +6,7 @@ from pymongo import MongoClient
 import time
 from watchdog.observers import Observer
 from watchdog.events import FileSystemEvent, FileSystemEventHandler
-import matlab.engine
+#import matlab.engine
 
 class MyFileHandler(FileSystemEventHandler):
   def __init__(self, target_file_path):
@@ -191,10 +191,10 @@ def call_searchbin(query, matlab_engine=None):
   return response_transformed
 
 def start_server(ipaddr, port):
-  #eng = None
-  eng = matlab.engine.start_matlab()
-  eng.addpath('./MATLAB')
-  eng.addpath_all(nargout=0)
+  eng = None
+  #eng = matlab.engine.start_matlab()
+  #eng.addpath('./MATLAB')
+  #eng.addpath_all(nargout=0)
 
   # Create a TCP/IP socket
   sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
