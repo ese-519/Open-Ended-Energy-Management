@@ -33,7 +33,7 @@ bin_number = str2num(bin_number);
 % load the Bin data structure into the Matlab workspace.
 
 
-building_name = 'HunstmanHall'
+building_name = 'HuntsmanHall'
 load ( ['Bin-' building_name '.mat'])
 
 % define the names of the output variables or features which will be
