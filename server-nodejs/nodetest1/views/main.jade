@@ -6,6 +6,15 @@ block content
         h1(style = "color:blue; font-size:50px; text-align:center") Hermione
         p(style = "color:#333; font-size:30px; text-align:center") An Interactive Energy Management Dashboard System
 
+    div
+        h4 Hello! I could answer questions such as:
+        ul
+            li Describe the conditions for {Building} when energy usage is {UsagekW} kilowatts
+            li What is the predicted energy consumption for {Day}
+            li What is the predicted energy consumption for the month of {Month}
+            li What is the expected consumption if I change {SetPointTypeOne} to {SetPointValOne} from time {StartTime} to {EndTime}
+            li What should my set points be for the best strategy
+
     div.container(style = "padding-top : 20px; padding-bottom: 20px")
 
         div(style = "background-color: black; color: white; padding: 6px 6px 6px 6px; font: bold 30px Arial; text-align: center") #{searchbin_data.building} - Usage for #{searchbin_data.usagekW}kW
