@@ -135,13 +135,15 @@ def describe_conditions_for_usage(intent):
     query_res = json.loads(query_res_str)
 
     # parse response from server and build speech_output
-    # TODO: validate query_res before building speech_output
-    speech_output = 'The building {} used {} kilowatts under the following conditions.' \
-      'Day of month {}, time of day {}, average temperature {} degrees, average solar {},' \
-      'average wind speed {}, average wind gusts {}, average humidity {}, and average dew point {}'.format(
-      building, usagekW, query_res['DayOfMonth'], query_res['TimeOfDay'], query_res['AvgTemperature'], 
-      query_res['AvgSolar'], query_res['AvgWindSpeed'], query_res['AvgGusts'], query_res['AvgHumidity'], 
-      query_res['AvgDewPoint'])
+    if 'error_msg' in query_res.keys():
+        speech_output = 'I am sorry, there was an error.' + query_res['error_msg']
+    else:
+        speech_output = 'The building {} used {} kilowatts under the following average conditions.' \
+          'Day of month {}, time of day {}, average temperature {} degrees, average solar {},' \
+          'average wind speed {}, average wind gusts {}, average humidity {}, and average dew point {}'.format(
+          building, usagekW, query_res['DayOfMonth'], query_res['TimeOfDay'], round(query_res['AvgTemperature'], 1), 
+          round(query_res['AvgSolar'], 1), round(query_res['AvgWindSpeed'], 1), round(query_res['AvgGusts'], 1), 
+          round(query_res['AvgHumidity'], 1), round(query_res['AvgDewPoint'], 1))
 
     return build_response(session_attributes, build_speechlet_response(
         card_title, speech_output, reprompt_text, should_end_session))

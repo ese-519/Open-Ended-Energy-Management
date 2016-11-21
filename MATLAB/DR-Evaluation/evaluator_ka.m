@@ -29,8 +29,8 @@ function evaluator_ka
 %% Create an mlepProcess instance and configure it
 close all
 clear all
-addpath(genpath('../MLE+'))
-addpath(genpath('../matlab_json_iax'))
+% addpath(genpath('../MLE+'))
+% addpath(genpath('../matlab_json_iax'))
 % input_evaluator = []
 % input_evaluator.start =14
 % input_evaluator.end= 15
