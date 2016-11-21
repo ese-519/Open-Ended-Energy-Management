@@ -1,0 +1,49 @@
+extends layout
+
+block content
+    nav.navbar.navbar-inverse( role="navigation" )
+        .navbar-header
+            navbar-toggle.collapsed( data-toggle="collapse", data-target="#navbar-inverse", aria-expanded="false", aria-controls="navbar")
+                span.sr-only Toggle navigation
+                span.icon-bar
+                span.icon-bar
+                span.icon-bar
+            a.navbar-brand(style = "font-family : Times New Roman; font-size:22px; color:white", href="#") Hermione - An Interactive Energy Management Dashboard System
+     
+        #navbar-inverse.collapse.navbar-collapse
+            ul.nav.navbar-nav.pull-right
+                li: a.btn-info.btn-lg.disabled#temp(style = "color:red; font-size:15px", href="#") Temperature - #{searchbin_data.AvgTemperature}F
+                li: a.btn-warning.btn-lg.disabled#windSpeed(style = "color:black; font-size:15px", href="#about" ) Wind Speed - #{searchbin_data.AvgWindSpeed}
+                li: a.btn-success.btn-lg.disabled#humidity(style = "color:darkblue; font-size:15px", href="#contact" ) Humidity - #{searchbin_data.AvgHumidity}
+
+
+    div#lineContainer
+
+    script.
+      $(function () { 
+                 var myChart = Highcharts.chart('lineContainer', {
+               chart: {
+                   type: 'line'
+               },
+               title: {
+                   text: 'Energy Consumption'
+               },
+               xAxis: {
+                   categories: [#{baseline_data.time}]
+               },
+               yAxis: {
+                   title: {
+                       text: 'Power (kW)'
+                   }
+               },
+               series: [{
+                   name: 'Power',
+                   data: [#{baseline_data.y_predict}]
+               }]
+           });
+      });
+
+     script.
+         setInterval(function() {
+             location.reload(true);
+         }, 3000) 
