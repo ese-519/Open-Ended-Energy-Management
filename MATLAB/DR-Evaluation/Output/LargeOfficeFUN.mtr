@@ -1,0 +1,8 @@
+Program Version,EnergyPlus-Linux-64 8.1.0.008, YMD=2016.11.20 10:39
+1,5,Environment Title[],Latitude[deg],Longitude[deg],Time Zone[],Elevation[m]
+2,6,Day of Simulation[],Month[],Day of Month[],DST Indicator[1=yes 0=no],Hour[],StartMinute[],EndMinute[],DayType
+3,3,Cumulative Day of Simulation[],Month[],Day of Month[],DST Indicator[1=yes 0=no],DayType  ! When Daily Meters Requested
+4,2,Cumulative Days of Simulation[],Month[]  ! When Monthly Meters Requested
+5,1,Cumulative Days of Simulation[] ! When Run Period Meters Requested
+End of Data Dictionary
+1,587017 587017 587017 TMY2 WMO#=587017,  41.99, -87.50,  -6.00, 172.00
