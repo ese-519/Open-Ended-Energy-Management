@@ -1,4 +1,4 @@
-cribeConditionsForUsage Describe the conditions for {Building} when energy usage is {UsagekW}
+DescribeConditionsForUsage Describe the conditions for {Building} when energy usage is {UsagekW}
 DescribeConditionsForUsage Describe the conditions for {Building} when energy usage is {UsagekW} kilowatts
 PredictDay What is the predicted energy consumption for {Day}
 PredictMonth What is the predicted energy consumption for {Month}
