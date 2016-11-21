@@ -31,7 +31,10 @@ if(~isvalid)
 else
 bin_number = str2num(bin_number);
 % load the Bin data structure into the Matlab workspace.
-load Bin.mat
+
+
+building_name = 'HunstmanHall'
+load ( ['Bin-' building_name '.mat'])
 
 % define the names of the output variables or features which will be
 % returned.
@@ -43,7 +46,7 @@ response.values = [Bin(bin_number).dom_mode(1),Bin(bin_number).tod_mode(1),...
     Bin(bin_number).avg_winspeed, Bin(bin_number).avg_gusts,...
     Bin(bin_number).avg_hum,Bin(bin_number).avg_dew];
 
-savejson('',response,'Filename','response.json')
+savejson('',response,'Filename',['response_' building_name '.json']);
 end
 end
 
