@@ -136,9 +136,9 @@ def describe_conditions_for_usage(intent):
 
     # parse response from server and build speech_output
     # TODO: validate query_res before building speech_output
-    speech_output = 'The building {} used {} kilowatts under the following conditions. \
-      Day of month {}, time of day {}, average temperature {} degrees, average solar {}, \ 
-      average wind speed {}, average wind gusts {}, average humidity {}, and average dew point {}'.format(
+    speech_output = 'The building {} used {} kilowatts under the following conditions.' \
+      'Day of month {}, time of day {}, average temperature {} degrees, average solar {},' \
+      'average wind speed {}, average wind gusts {}, average humidity {}, and average dew point {}'.format(
       building, usagekW, query_res['DayOfMonth'], query_res['TimeOfDay'], query_res['AvgTemperature'], 
       query_res['AvgSolar'], query_res['AvgWindSpeed'], query_res['AvgGusts'], query_res['AvgHumidity'], 
       query_res['AvgDewPoint'])
@@ -208,4 +208,5 @@ def eval_one_set_points_change(intent):
 def best_strategy(intent):
     #TODO: implement
     pass
+
 
