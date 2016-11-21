@@ -1,0 +1,13 @@
+{
+	"names": [
+		"DayOfMonth",
+		"TimeOfDay",
+		"AvgTemperature",
+		"AvgSolar",
+		"AvgWindSpeed",
+		"AvgGusts",
+		"AvgHumidity",
+		"AvgDewPoint"
+	],
+	"values": [6,22,19.62452952,229.8798269,0.3554434828,2.110486019,59.95204144,9.817516644]
+}

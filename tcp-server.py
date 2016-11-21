@@ -191,6 +191,8 @@ def call_searchbin(query, matlab_engine=None):
 def start_server(ipaddr, port):
   #eng = None
   eng = matlab.engine.start_matlab()
+  eng.addpath('./MATLAB')
+  eng.addpath_all(nargout=0)
 
   # Create a TCP/IP socket
   sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
