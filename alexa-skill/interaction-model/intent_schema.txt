@@ -14,25 +14,112 @@
       ]
     },
     {
-      "intent": "GetBuildingStatus",
+      "intent": "PredictDay",
       "slots" : [
         {
-          "name": "Building",
-          "type": "LIST_OF_BUILDINGS"
+          "name": "Day",
+          "type": "AMAZON.DATE"
         }
       ]
     },
     {
-      "intent": "GetTopConsuming"
-    },
-    {
-      "intent": "GetPeakTime",
-      "slots" : [
+      "intent": "PredictMonth",
+      "slots": [
         {
-          "name": "Building",
-          "type": "LIST_OF_BUILDINGS"
+          "name": "Month",
+          "type": "MONTH_NAME"
         }
       ]
+    },
+    {
+      "intent": "EvalOneSetPointsChange",
+      "slots": [
+        {
+          "name": "SetPointTypeOne",
+          "type": "SET_POINT_TYPE"
+        },
+        {
+          "name": "SetPointValOne",
+          "type": "AMAZON.NUMBER"
+        },
+        {
+          "name": "StartTime",
+          "type": "AMAZON.TIME"
+        },
+        {
+          "name": "EndTime",
+          "type": "AMAZON.TIME"
+        }
+      ]
+    },
+    {
+      "intent": "EvalTwoSetPointsChange",
+      "slots": [
+        {
+          "name": "SetPointTypeOne",
+          "type": "SET_POINT_TYPE"
+        },
+        {
+          "name": "SetPointValOne",
+          "type": "AMAZON.NUMBER"
+        },
+        {
+          "name": "SetPointTypeTwo",
+          "type": "SET_POINT_TYPE"
+        },
+        {
+          "name": "SetPointValTwo",
+          "type": "AMAZON.NUMBER"
+        },
+        {
+          "name": "StartTime",
+          "type": "AMAZON.TIME"
+        },
+        {
+          "name": "EndTime",
+          "type": "AMAZON.TIME"
+        }
+      ]
+    },
+    {
+      "intent": "EvalThreeSetPointsChange",
+      "slots": [
+        {
+          "name": "SetPointTypeOne",
+          "type": "SET_POINT_TYPE"
+        },
+        {
+          "name": "SetPointValOne",
+          "type": "AMAZON.NUMBER"
+        },
+        {
+          "name": "SetPointTypeTwo",
+          "type": "SET_POINT_TYPE"
+        },
+        {
+          "name": "SetPointValTwo",
+          "type": "AMAZON.NUMBER"
+        },
+        {
+          "name": "SetPointTypeThree",
+          "type": "SET_POINT_TYPE"
+        },
+        {
+          "name": "SetPointValThree",
+          "type": "AMAZON.NUMBER"
+        },
+        {
+          "name": "StartTime",
+          "type": "AMAZON.TIME"
+        },
+        {
+          "name": "EndTime",
+          "type": "AMAZON.TIME"
+        }
+      ]
+    },
+    {
+      "intent": "BestStrategy"
     },
     {
       "intent": "AMAZON.HelpIntent"

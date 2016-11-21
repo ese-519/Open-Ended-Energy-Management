@@ -1,28 +1,3 @@
-# event format
-# {
-#   "session": {
-#     "sessionId": "SessionId.5b9134fc-39c4-4c4f-b1ce-86fd54d2776b",
-#     "application": {
-#       "applicationId": "amzn1.ask.skill.2f62b83b-282b-4c46-a5a8-e2feb4055015"
-#     },
-#     "attributes": {},
-#     "user": {
-#       "userId": "amzn1.ask.account.AHKFXC4K4APST47XY6F5T6TLG2IA6WQKCG2THWGQNXLTLZBE3VVOCRLJUWGINGOOM6ABVPGYM6TSSG5EZLG6OM4IPOUU2W4YJABY2ZXYGXDVQLNP5HMOSE3SVCC4MJUPLMG2N234R3QXOYN6HBOWKZJVGVNRMOM6Z2QUYREUL6KWKOVA4JKBFRTT6Y3IF2PHKWKBMIKVIIPH6NY"
-#     },
-#     "new": true
-#   },
-#   "request": {
-#     "type": "IntentRequest",
-#     "requestId": "EdwRequestId.51e8d6be-9470-4f72-9444-17fad6859d1b",
-#     "locale": "en-US",
-#     "timestamp": "2016-10-03T02:43:28Z",
-#     "intent": {
-#       "name": "GetTopConsuming",
-#       "slots": {}
-#     }
-#   },
-#   "version": "1.0"
-# }
 import socket
 import json
 
@@ -82,14 +57,16 @@ def on_intent(intent_request, session):
         return get_welcome_response()
     elif intent_name == "AMAZON.CancelIntent" or intent_name == "AMAZON.StopIntent":
         return handle_session_end_request()
-    elif intent_name == "GetBuildingStatus":
-        return get_building_status(intent)
-    elif intent_name == "GetTopConsuming":
-        return get_top_consuming()
-    elif intent_name == "GetPeakTime":
-        return get_peak_time(intent)
     elif intent_name == "DescribeConditionsForUsage":
         return describe_conditions_for_usage(intent)
+    elif intent_name == "PredictDay":
+        return predict_day(intent)
+    elif intent_name == "PredictMonth":
+        return predict_month(intent)
+    elif intent_name == "EvalOneSetPointsChange":
+        return eval_one_set_points_change(intent)
+    elif intent_name == "BestStrategy":
+        return best_strategy(intent)
     else:
         raise ValueError("Invalid intent")
 
@@ -100,11 +77,11 @@ def get_welcome_response():
     session_attributes = {}
     card_title = "Energy Advisor"
     speech_output = "Welcome to the Alexa Energy Advisor skill. " \
-                    "You can ask me for information about energy usage of a " \
-                    "building on Penn's campus, for the peak time for a building, " \
-                    "or for the top consuming buildings on campus."
-    reprompt_text = "Please ask me for the status of a building, " \
-                    "for example College Hall."
+                    "You can ask me to describe conditions when a specific building " \
+                    "consumed a certain amount of energy, predict energy usage on a" \
+                    "particular day or month, determine expected consumption based on" \
+                    "set point values, or for a suggested energy reduction strategy"
+    reprompt_text = speech_output
     should_end_session = False
     return build_response(session_attributes, build_speechlet_response(
         card_title, speech_output, reprompt_text, should_end_session))
@@ -142,43 +119,6 @@ def handle_session_end_request():
     should_end_session = True
     return build_response({}, build_speechlet_response(card_title, speech_output, None, should_end_session))
     
-def get_top_consuming():
-    session_attributes = {}
-    card_title = "Energy Advisor Top Consuming"
-    reprompt_text = ""
-    should_end_session = False
-
-    speech_output = 'The top consuming buildings are currently College Hall and David Rittenhouse Laboratory'
-
-    return build_response(session_attributes, build_speechlet_response(
-        card_title, speech_output, reprompt_text, should_end_session))
-        
-def get_building_status(intent):
-    session_attributes = {}
-    card_title = "Energy Advisor Building Status"
-    reprompt_text = ""
-    should_end_session = False
-    
-    building = intent["slots"]["Building"]["value"]
-
-    speech_output = 'The current energy usage for {0} is 10 kilowatt hours'.format(building)
-
-    return build_response(session_attributes, build_speechlet_response(
-        card_title, speech_output, reprompt_text, should_end_session))
-        
-def get_peak_time(intent):
-    session_attributes = {}
-    card_title = "Energy Advisor Peak Time"
-    reprompt_text = ""
-    should_end_session = False
-    
-    building = intent["slots"]["Building"]["value"]
-
-    speech_output = 'Peak energy usage for {0} occurred at 3:15pm'.format(building)
-
-    return build_response(session_attributes, build_speechlet_response(
-        card_title, speech_output, reprompt_text, should_end_session))
-
 def describe_conditions_for_usage(intent):
     session_attributes = {}
     card_title = "Energy Advisor Building Conditions"
@@ -186,17 +126,86 @@ def describe_conditions_for_usage(intent):
     should_end_session = False
     
     building = intent["slots"]["Building"]["value"]
-    usagekW = intent["slots"]["UsagekW"]["value"]
+    usagekW = int(intent["slots"]["UsagekW"]["value"])
 
-    #TODO: build query, send to ec2, get response
-    query_params = {'type': 1, 'building': 'Levine Hall', 'usagekW': 60} 
+    # build query, send to ec2, get response
+    query_params = {'type': 1, 'building': building, 'usagekW': usagekW} 
     query_str = json.dumps(query_params)
     query_res_str = client_tcp_session(ec2_addr, ec2_tcp_port, query_str)
     query_res = json.loads(query_res_str)
-    speech_output = '{} used {} killowats when a was {} and b was {} and c was {}'.format(building, 
-        usagekW, query_res['param1'], query_res['param2'], query_res['param3'])
 
+    # parse response from server and build speech_output
+    # TODO: validate query_res before building speech_output
+    speech_output = 'The building {} used {} kilowatts under the following conditions. \
+      Day of month {}, time of day {}, average temperature {} degrees, average solar {}, \ 
+      average wind speed {}, average wind gusts {}, average humidity {}, and average dew point {}'.format(
+      building, usagekW, query_res['DayOfMonth'], query_res['TimeOfDay'], query_res['AvgTemperature'], 
+      query_res['AvgSolar'], query_res['AvgWindSpeed'], query_res['AvgGusts'], query_res['AvgHumidity'], 
+      query_res['AvgDewPoint'])
 
     return build_response(session_attributes, build_speechlet_response(
         card_title, speech_output, reprompt_text, should_end_session))
+
+
+def predict_day(intent):
+    session_attributes = {}
+    card_title = "Energy Advisor Day Prediction"
+    reprompt_text = ""
+    should_end_session = False
+    
+    day = intent["slots"]["Day"]["value"]
+    query_params = {"type": 2, "day": day}
+    query_str = json.dumps(query_params)
+    query_res_str = client_tcp_session(ec2_addr, ec2_tcp_port, query_str)
+    query_res = json.loads(query_res_str)
+
+    # parse response from server and build speech_output
+    speech_output = "" #TODO: complete
+    return build_response(session_attributes, build_speechlet_response(
+        card_title, speech_output, reprompt_text, should_end_session))
+
+def predict_month(intent):
+    session_attributes = {}
+    card_title = "Energy Advisor Month Prediction"
+    reprompt_text = ""
+    should_end_session = False
+    
+    month = intent["slots"]["Month"]["value"]
+    query_params = {"type": 3, "month": day}
+    query_str = json.dumps(query_params)
+    query_res_str = client_tcp_session(ec2_addr, ec2_tcp_port, query_str)
+    query_res = json.loads(query_res_str)
+
+    # parse response from server and build speech_output
+    speech_output = "" #TODO: complete
+    return build_response(session_attributes, build_speechlet_response(
+        card_title, speech_output, reprompt_text, should_end_session))
+
+def eval_one_set_points_change(intent):
+    session_attributes = {}
+    card_title = "Energy Advisor Evaluate Set Point Change"
+    reprompt_text = ""
+    should_end_session = False
+
+    #TODO: add handling for 1, 2, or 3 set points given    
+    setpoint_type = intent["slots"]["SetPointTypeOne"]["value"]
+    setpoint_val = intent["slots"]["SetPointValOne"]["value"]
+    start_time = intent["slots"]["StartTime"]["value"]
+    end_time = intent["slots"]["EndTime"]["value"]
+
+    query_params = {"type": 4, "setpoint_type": setpoint_type,
+      "setpoint_val": setpoint_val, "start_time": start_time,
+      "end_time": end_time}
+    query_str = json.dumps(query_params)
+    query_res_str = client_tcp_session(ec2_addr, ec2_tcp_port, query_str)
+    query_res = json.loads(query_res_str)
+
+    # parse response from server and build speech_output
+    speech_output = "" #TODO: complete
+    return build_response(session_attributes, build_speechlet_response(
+        card_title, speech_output, reprompt_text, should_end_session))
+
+def best_strategy(intent):
+    #TODO: implement
+    pass
 

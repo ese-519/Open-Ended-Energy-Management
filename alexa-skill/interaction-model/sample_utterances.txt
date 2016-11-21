@@ -1,15 +1,7 @@
 DescribeConditionsForUsage Describe the conditions for {Building} when energy usage is {UsagekW}
-GetBuildingStatus What is the status of {Building}
-GetBuildingStatus What is the current status of {Building}
-GetBuildingStatus What is the current usage of {Building}
-GetBuildingStatus What is the current energy usage of {Building}
-GetTopConsuming What are the top consuming buildings
-GetTopConsuming What are the top consuming buildings today
-GetTopConsuming Which are the top consuming buildings today
-GetTopConsuming What are the current top consuming buildings
-GetTopConsuming Which are the current top consuming buildings
-GetTopConsuming Which buildings are consuming the most energy
-GetPeakTime What is the peak time for {Building}
-GetPeakTime What is the peak time for energy usage in {Building}
-GetPeakTime When is the peak time for {Building}
-GetPeakTime When is the peak time for energy usage in {Building}
+DescribeConditionsForUsage Describe the conditions for {Building} when energy usage is {UsagekW} kilowatts
+PredictDay What is the predicted energy consumption for {Day}
+PredictMonth What is the predicted energy consumption for {Month}
+PredictMonth What is the predicted energy consumption for the month of {Month}
+EvalOneSetPointsChange What is the expected consumption if I change {SetPointTypeOne} to {SetPointValOne} from time {StartTime} to {EndTime}
+BestStrategy What should my set points be for the best strategy
