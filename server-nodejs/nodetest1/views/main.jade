@@ -12,41 +12,34 @@ block content
      
         #navbar-inverse.collapse.navbar-collapse
             ul.nav.navbar-nav.pull-right
-                li: a.btn-info.btn-lg.disabled(style = "color:red; font-size:15px", href="#") Temperature - #{data.AvgTemperature}F
-                li: a.btn-warning.btn-lg.disabled(style = "color:black; font-size:15px", href="#about" ) Wind Speed - #{data.AvgWindSpeed}
-                li: a.btn-success.btn-lg.disabled(style = "color:darkblue; font-size:15px", href="#contact" ) Humidity - #{data.AvgHumidity}
+                li: a.btn-info.btn-lg.disabled(style = "color:red; font-size:15px", href="#") Temperature - #{searchbin_data.AvgTemperature}F
+                li: a.btn-warning.btn-lg.disabled(style = "color:black; font-size:15px", href="#about" ) Wind Speed - #{searchbin_data.AvgWindSpeed}
+                li: a.btn-success.btn-lg.disabled(style = "color:darkblue; font-size:15px", href="#contact" ) Humidity - #{searchbin_data.AvgHumidity}
 
 
     div#lineContainer
 
     script.
       $(function () { 
-          var myChart = Highcharts.chart('lineContainer', {
-              chart: {
-                  type: 'line'
-              },
-              title: {
-                  text: 'Power Consumption'
-              },
-              xAxis: {
-                  //categories: ['Levine', 'DRL', 'Van Pelt Library']
-                  categories: ['September', 'October']
-              },
-              yAxis: {
-                  title: {
-                      text: 'Energy (kWh)'
-                  }
-              },
-              series: [{
-                  name: 'Towne',
-                  data: [4000, 7800]
-              }, {
-                  name: 'Skirkanich',
-                  data: [8200, 5000]
-              }, {
-                  name: 'Moore',
-                  data: [6000, 6500]
-              }]
-          });
+                 var myChart = Highcharts.chart('lineContainer', {
+               chart: {
+                   type: 'line'
+               },
+               title: {
+                   text: 'Energy Consumption'
+               },
+               xAxis: {
+                   categories: [#{baseline_data.time}]
+               },
+               yAxis: {
+                   title: {
+                       text: 'Power (kW)'
+                   }
+               },
+               series: [{
+                   name: 'Power',
+                   data: [#{baseline_data.y_predict}]
+               }]
+           });
       });
  
