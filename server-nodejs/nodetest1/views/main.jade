@@ -1,23 +1,27 @@
 extends layout
 
 block content
-    nav.navbar.navbar-inverse( role="navigation" )
-        .navbar-header
-            navbar-toggle.collapsed( data-toggle="collapse", data-target="#navbar-inverse", aria-expanded="false", aria-controls="navbar")
-                span.sr-only Toggle navigation
-                span.icon-bar
-                span.icon-bar
-                span.icon-bar
-            a.navbar-brand(style = "font-family : Times New Roman; font-size:22px; color:white", href="#") Hermione - An Interactive Energy Management Dashboard System
-     
-        #navbar-inverse.collapse.navbar-collapse
-            ul.nav.navbar-nav.pull-right
-                li: a.btn-info.btn-lg.disabled#temp(style = "color:red; font-size:15px", href="#") Temperature - #{searchbin_data.AvgTemperature}F
-                li: a.btn-warning.btn-lg.disabled#windSpeed(style = "color:black; font-size:15px", href="#about" ) Wind Speed - #{searchbin_data.AvgWindSpeed}
-                li: a.btn-success.btn-lg.disabled#humidity(style = "color:darkblue; font-size:15px", href="#contact" ) Humidity - #{searchbin_data.AvgHumidity}
 
+    div.jumbotron(style = "background-color:#999; padding-top: 2px; padding-bottom:2px")
+        h1(style = "color:blue; font-size:50px; text-align:center") Hermione
+        p(style = "color:#333; font-size:30px; text-align:center") An Interactive Energy Management Dashboard System
 
-    div#lineContainer
+    div.container(style = "padding-top : 20px; padding-bottom: 20px")
+
+        div(style = "background-color: black; color: white; padding: 6px 6px 6px 6px; font: bold 30px Arial; text-align: center") #{searchbin_data.building}
+        
+        div.row
+            div.col-sm-3(style = "background-color: #00bfff; color: black; padding: 6px 6px 6px 6px; font: bold 20px Arial; text-align: center") Day - #{searchbin_data.DayOfMonth}
+            div.col-sm-3(style = "background-color: lightgreen; color: black; padding: 6px 6px 6px 6px; font: bold 20px Arial; text-align: center") Time - #{searchbin_data.TimeOfDay}
+            div.col-sm-3(style = "background-color: pink; color: black; padding: 6px 6px 6px 6px; font: bold 20px Arial; text-align: center") Temperature - #{searchbin_data.AvgTemperature}
+            div.col-sm-3(style = "background-color: orange; color: black; padding: 6px 6px 6px 6px; font: bold 20px Arial; text-align: center") Wind Speed - #{searchbin_data.AvgWindSpeed}
+        div.row
+            div.col-sm-3(style = "background-color: orange; color: black; padding: 6px 6px 6px 6px; font: bold 20px Arial; text-align: center") Humidity - #{searchbin_data.AvgHumidity}
+            div.col-sm-3(style = "background-color: pink; color: black; padding: 6px 6px 6px 6px; font: bold 20px Arial; text-align: center") Solar - #{searchbin_data.AvgSolar}
+            div.col-sm-3(style = "background-color: lightgreen; color: black; padding: 6px 6px 6px 6px; font: bold 20px Arial; text-align: center") Gust Speed - #{searchbin_data.AvgGusts}
+            div.col-sm-3(style = "background-color: #00bfff; color: black; padding: 6px 6px 6px 6px; font: bold 20px Arial; text-align: center") Dew Point - #{searchbin_data.AvgDewPoint}
+
+    div#lineContainer(style = "padding-top : 20px; padding-bottom: 20px")
 
     script.
       $(function () { 
