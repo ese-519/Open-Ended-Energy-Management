@@ -12,9 +12,9 @@ block content
      
         #navbar-inverse.collapse.navbar-collapse
             ul.nav.navbar-nav.pull-right
-                li: a.btn-info.btn-lg.disabled(style = "color:red; font-size:15px", href="#") Temperature - #{searchbin_data.AvgTemperature}F
-                li: a.btn-warning.btn-lg.disabled(style = "color:black; font-size:15px", href="#about" ) Wind Speed - #{searchbin_data.AvgWindSpeed}
-                li: a.btn-success.btn-lg.disabled(style = "color:darkblue; font-size:15px", href="#contact" ) Humidity - #{searchbin_data.AvgHumidity}
+                li: a.btn-info.btn-lg.disabled#temp(style = "color:red; font-size:15px", href="#") Temperature - #{searchbin_data.AvgTemperature}F
+                li: a.btn-warning.btn-lg.disabled#windSpeed(style = "color:black; font-size:15px", href="#about" ) Wind Speed - #{searchbin_data.AvgWindSpeed}
+                li: a.btn-success.btn-lg.disabled#humidity(style = "color:darkblue; font-size:15px", href="#contact" ) Humidity - #{searchbin_data.AvgHumidity}
 
 
     div#lineContainer
