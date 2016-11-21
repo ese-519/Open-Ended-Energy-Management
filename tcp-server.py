@@ -181,7 +181,8 @@ def call_searchbin(query, matlab_engine=None):
     val = response_transformed[k]
     if isinstance(val, float):
       val = round(val, 3)
-    db_data[k] = response_transformed[k]
+      response_transformed[k] = round(response_transformed[k], 1)
+    db_data[k] = val 
   db_data['building'] = building
   db_data['usagekW'] = usagekW
   inserted_obj_id = db_insert(db_name, coll_name, db_data)

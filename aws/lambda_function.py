@@ -1,7 +1,8 @@
 import socket
 import json
 
-ec2_addr = '54.165.125.83'
+#ec2_addr = '54.165.125.83'
+ec2_addr = '165.123.155.203' # bob's macbook
 ec2_tcp_port = 9000
 #message = 'This is the message.  It will be repeated.'
 
@@ -141,9 +142,9 @@ def describe_conditions_for_usage(intent):
         speech_output = 'The building {} used {} kilowatts under the following average conditions.' \
           'Day of month {}, time of day {}, average temperature {} degrees, average solar {},' \
           'average wind speed {}, average wind gusts {}, average humidity {}, and average dew point {}'.format(
-          building, usagekW, query_res['DayOfMonth'], query_res['TimeOfDay'], round(query_res['AvgTemperature'], 1), 
-          round(query_res['AvgSolar'], 1), round(query_res['AvgWindSpeed'], 1), round(query_res['AvgGusts'], 1), 
-          round(query_res['AvgHumidity'], 1), round(query_res['AvgDewPoint'], 1))
+          building, usagekW, query_res['DayOfMonth'], query_res['TimeOfDay'], query_res['AvgTemperature'], 
+          query_res['AvgSolar'], query_res['AvgWindSpeed'], query_res['AvgGusts'], 
+          query_res['AvgHumidity'], query_res['AvgDewPoint'])
 
     return build_response(session_attributes, build_speechlet_response(
         card_title, speech_output, reprompt_text, should_end_session))
