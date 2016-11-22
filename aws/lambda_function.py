@@ -80,7 +80,8 @@ def on_launch(launch_request, session):
 def get_welcome_response():
     session_attributes = {}
     card_title = "Energy Advisor"
-    speech_output = "Welcome to the Alexa Energy Advisor skill."
+    speech_output = "Welcome to the Alexa Energy Advisor skill,"\
+                    "I might know a few things you would like to know"
 #                    "You can ask me to describe conditions when a specific building " \
 #                    "consumed a certain amount of energy, predict energy usage on a" \
 #                    "particular day or month, determine expected consumption based on" \
@@ -200,12 +201,11 @@ def eval_one_set_points_change(intent):
     #TODO: add handling for 1, 2, or 3 set points given    
     setpoint_type = intent["slots"]["SetPointTypeOne"]["value"]
     setpoint_val = intent["slots"]["SetPointValOne"]["value"]
-    start_time = intent["slots"]["StartTime"]["value"]
-    end_time = intent["slots"]["EndTime"]["value"]
+    # start_time = intent["slots"]["StartTime"]["value"]
+    # end_time = intent["slots"]["EndTime"]["value"]
 
     query_params = {"type": 4, "setpoint_type": setpoint_type,
-      "setpoint_val": setpoint_val, "start_time": start_time,
-      "end_time": end_time}
+      "setpoint_val": setpoint_val}
     query_str = json.dumps(query_params)
     query_res_str = client_tcp_session(ec2_addr, ec2_tcp_port, query_str)
     query_res = json.loads(query_res_str)
