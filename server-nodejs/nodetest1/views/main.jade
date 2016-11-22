@@ -2,27 +2,25 @@ extends layout
 
 block content
 
-    div.jumbotron(style = "background-color:#999; padding-top: 2px; padding-bottom:2px")
-        h1(style = "color:blue; font-size:50px; text-align:center") Hermione
-        p(style = "color:#333; font-size:30px; text-align:center") An Interactive Energy Management Dashboard System
+    div.jumbotron
+     h1(style = "text-align:center") Hermione
+     h2(style = "text-align:center") Interactive Energy Management
 
-    div.container(style = "padding-top : 20px; padding-bottom: 20px")
+    div 
+      h2(style="text-align: center") Characteristics for #{searchbin_data.building} when Power Consumption is #{searchbin_data.usagekW} kW
 
-        div(style = "background-color: black; color: white; padding: 6px 6px 6px 6px; font: bold 30px Arial; text-align: center") #{searchbin_data.building} - Usage for #{searchbin_data.usagekW}kW
-        
-        div.row
-            div.col-sm-3(style = "background-color: #00bfff; color: black; padding: 6px 6px 6px 6px; font: bold 20px Arial; text-align: center") Day - #{searchbin_data.DayOfMonth}
-            div.col-sm-3(style = "background-color: lightgreen; color: black; padding: 6px 6px 6px 6px; font: bold 20px Arial; text-align: center") Time - #{searchbin_data.TimeOfDay}
-            div.col-sm-3(style = "background-color: pink; color: black; padding: 6px 6px 6px 6px; font: bold 20px Arial; text-align: center") Temperature - #{searchbin_data.AvgTemperature}
-            div.col-sm-3(style = "background-color: orange; color: black; padding: 6px 6px 6px 6px; font: bold 20px Arial; text-align: center") Wind Speed - #{searchbin_data.AvgWindSpeed}
-        div.row
-            div.col-sm-3(style = "background-color: orange; color: black; padding: 6px 6px 6px 6px; font: bold 20px Arial; text-align: center") Humidity - #{searchbin_data.AvgHumidity}
-            div.col-sm-3(style = "background-color: pink; color: black; padding: 6px 6px 6px 6px; font: bold 20px Arial; text-align: center") Solar - #{searchbin_data.AvgSolar}
-            div.col-sm-3(style = "background-color: lightgreen; color: black; padding: 6px 6px 6px 6px; font: bold 20px Arial; text-align: center") Gust Speed - #{searchbin_data.AvgGusts}
-            div.col-sm-3(style = "background-color: #00bfff; color: black; padding: 6px 6px 6px 6px; font: bold 20px Arial; text-align: center") Dew Point - #{searchbin_data.AvgDewPoint}
+      div.row
+          div.col-sm-3(style = "font-family: Helvetica,sans-serif; background-color: #00bfff; color: black; padding: 6px 6px 6px 6px; text-align: center") Day of Month: #{searchbin_data.DayOfMonth}
+          div.col-sm-3(style = "font-family: Helvetica,sans-serif; background-color: #18BC9C; color: black; padding: 6px 6px 6px 6px; text-align: center") Hour in Day: #{searchbin_data.TimeOfDay}
+          div.col-sm-3(style = "font-family: Helvetica,sans-serif; background-color: #00bfff; color: black; padding: 6px 6px 6px 6px; text-align: center") Temperature: #{searchbin_data.AvgTemperature} F
+          div.col-sm-3(style = "font-family: Helvetica,sans-serif; background-color: #18BC9C; color: black; padding: 6px 6px 6px 6px; text-align: center") Wind Speed:  #{searchbin_data.AvgWindSpeed}
+      div.row
+          div.col-sm-3(style = "font-family: Helvetica,sans-serif; background-color: #18BC9C; color: black; padding: 6px 6px 6px 6px; text-align: center") Humidity: #{searchbin_data.AvgHumidity} %
+          div.col-sm-3(style = "font-family: Helvetica,sans-serif; background-color: #00bfff; color: black; padding: 6px 6px 6px 6px; text-align: center") Solar: #{searchbin_data.AvgSolar}
+          div.col-sm-3(style = "font-family: Helvetica,sans-serif; background-color: #18BC9C; color: black; padding: 6px 6px 6px 6px; text-align: center") Gust Speed: #{searchbin_data.AvgGusts}
+          div.col-sm-3(style = "font-family: Helvetica,sans-serif; background-color: #00bfff; color: black; padding: 6px 6px 6px 6px; text-align: center") Dew Point: #{searchbin_data.AvgDewPoint}
 
     div#lineContainer(style = "padding-top : 20px; padding-bottom: 20px")
-
     script.
       $(function () { 
                  var myChart = Highcharts.chart('lineContainer', {
@@ -30,10 +28,11 @@ block content
                    type: 'line'
                },
                title: {
-                   text: 'Energy Consumption'
+                   text: 'Energy Usage'
                },
                xAxis: {
-                   categories: [#{baseline_data.time}]
+                   categories: [#{baseline_data.time}],
+                   title : { text: 'Time' }
                },
                yAxis: {
                    title: {
