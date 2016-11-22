@@ -12,6 +12,7 @@ for yval in matlab_data['y_predict']:
 times = range(0, 5*len(matlab_data['time']), 5)
 db_data = {'y_predict': y_predict, 'time': times}
 db_data['_id'] = 1
+db_data['day_flag'] = True
 
 # write to db
 db_name = 'energydata'
@@ -19,5 +20,5 @@ coll_name = 'baseline_data'
 client = MongoClient('localhost:27017')
 db = client[db_name]
 coll = db[coll_name]
-result = coll.insert_one(db_data)
+result = coll.replace_one({'_id': 1}, db_data, upsert=True)
 print result

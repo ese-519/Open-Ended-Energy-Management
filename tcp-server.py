@@ -84,6 +84,10 @@ def call_baseline(query, dayQuery, matlab_engine=None):
   times = range(0, 5*len(response['time']), 5)
   db_data = {'y_predict': y_predict, 'time': times}
   db_data['_id'] = 1
+  if dayQuery:
+    db_data['day_flag'] = True
+  else:
+    db_data['day_flag'] = False
 
   # update DB with query result to update graphical output 
   db_name = 'energydata'
