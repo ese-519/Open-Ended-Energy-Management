@@ -7,18 +7,18 @@ block content
      h2(style = "text-align:center") Interactive Energy Management
 
     div 
-      h2(style="text-align: center") Characteristics for #{searchbin_data.building} when Power Consumption is #{searchbin_data.usagekW} kW
+      h2(style="text-align: center") Average Conditions when #{searchbin_data.building} is Consuming is #{searchbin_data.usagekW} kW
 
       div.row
-          div.col-sm-3(style = "font-family: Helvetica,sans-serif; background-color: #00bfff; color: black; padding: 6px 6px 6px 6px; text-align: center") Day of Month: #{searchbin_data.DayOfMonth}
-          div.col-sm-3(style = "font-family: Helvetica,sans-serif; background-color: #18BC9C; color: black; padding: 6px 6px 6px 6px; text-align: center") Hour in Day: #{searchbin_data.TimeOfDay}
-          div.col-sm-3(style = "font-family: Helvetica,sans-serif; background-color: #00bfff; color: black; padding: 6px 6px 6px 6px; text-align: center") Temperature: #{searchbin_data.AvgTemperature} F
-          div.col-sm-3(style = "font-family: Helvetica,sans-serif; background-color: #18BC9C; color: black; padding: 6px 6px 6px 6px; text-align: center") Wind Speed:  #{searchbin_data.AvgWindSpeed}
+          div.col-sm-3(style = "font-family: Helvetica,sans-serif; background-color: #90c3d4; color: black; padding: 6px 6px 6px 6px; text-align: center") Day of Month: #{searchbin_data.DayOfMonth}
+          div.col-sm-3(style = "font-family: Helvetica,sans-serif; background-color: #dbf786; color: black; padding: 6px 6px 6px 6px; text-align: center") Hour in Day: #{searchbin_data.TimeOfDay}
+          div.col-sm-3(style = "font-family: Helvetica,sans-serif; background-color: #90c3d4; color: black; padding: 6px 6px 6px 6px; text-align: center") Temperature: #{searchbin_data.AvgTemperature} F
+          div.col-sm-3(style = "font-family: Helvetica,sans-serif; background-color: #dbf786; color: black; padding: 6px 6px 6px 6px; text-align: center") Wind Speed:  #{searchbin_data.AvgWindSpeed}
       div.row
-          div.col-sm-3(style = "font-family: Helvetica,sans-serif; background-color: #18BC9C; color: black; padding: 6px 6px 6px 6px; text-align: center") Humidity: #{searchbin_data.AvgHumidity} %
-          div.col-sm-3(style = "font-family: Helvetica,sans-serif; background-color: #00bfff; color: black; padding: 6px 6px 6px 6px; text-align: center") Solar: #{searchbin_data.AvgSolar}
-          div.col-sm-3(style = "font-family: Helvetica,sans-serif; background-color: #18BC9C; color: black; padding: 6px 6px 6px 6px; text-align: center") Gust Speed: #{searchbin_data.AvgGusts}
-          div.col-sm-3(style = "font-family: Helvetica,sans-serif; background-color: #00bfff; color: black; padding: 6px 6px 6px 6px; text-align: center") Dew Point: #{searchbin_data.AvgDewPoint}
+          div.col-sm-3(style = "font-family: Helvetica,sans-serif; background-color: #dbf786; color: black; padding: 6px 6px 6px 6px; text-align: center") Humidity: #{searchbin_data.AvgHumidity} %
+          div.col-sm-3(style = "font-family: Helvetica,sans-serif; background-color: #90c3d4; color: black; padding: 6px 6px 6px 6px; text-align: center") Solar: #{searchbin_data.AvgSolar}
+          div.col-sm-3(style = "font-family: Helvetica,sans-serif; background-color: #dbf786; color: black; padding: 6px 6px 6px 6px; text-align: center") Gust Speed: #{searchbin_data.AvgGusts}
+          div.col-sm-3(style = "font-family: Helvetica,sans-serif; background-color: #90c3d4; color: black; padding: 6px 6px 6px 6px; text-align: center") Dew Point: #{searchbin_data.AvgDewPoint}
 
     div#lineContainer(style = "padding-top : 20px; padding-bottom: 20px")
     script.
