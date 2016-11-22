@@ -61,7 +61,7 @@ end
 
 %% The main simulation loop
 
-EPTimeStep = 5;
+EPTimeStep = 12;
 SimDays = 31;
 %deltaT = EPTimeStep*60;  % time step = 12 minutes
 deltaT = (60/EPTimeStep)*60;
