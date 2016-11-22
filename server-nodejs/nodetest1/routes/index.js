@@ -29,8 +29,13 @@ router.get('/', function(req, res) {
     });
 
     var baseline_collection = db.get('baseline_data');
-    baseline_collection.find( { "_id" : 1 },{},function(e,docs2){
+    baseline_collection.find({"$or": [{ "_id" : 1 }, { "_id": 2 }] },{},function(e,docs2){
            baseline_data = docs2[0];
+           if (docs2.length > 1) {
+              predicted_data = docs2[1];
+           } else {
+              predicted_data = [];
+           }
            console.log('baseline_data: ' + JSON.stringify(baseline_data))
            console.log('docs: ' + JSON.stringify(docs2[0]))
            doRender();
