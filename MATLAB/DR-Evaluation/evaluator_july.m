@@ -1,4 +1,4 @@
-function evaluator_ka
+function evaluator_july
 
 % This script simulates a supervisory controller for an HVAC system. The
 % controller computes the zone temperature set-point based on the current
@@ -62,7 +62,7 @@ end
 %% The main simulation loop
 
 EPTimeStep = 5;
-SimDays = 1;
+SimDays = 31;
 %deltaT = EPTimeStep*60;  % time step = 12 minutes
 deltaT = (60/EPTimeStep)*60;
 kStep = 1;  % current simulation step
@@ -103,7 +103,7 @@ while kStep <= MAXSTEPS
 
     % BEGIN Compute next set-points
     dayTime = mod(eptime, 86400);  % time in current day
-
+%     dayTime
     SP = [26.7 6.7 0.7];
 
     
@@ -144,9 +144,9 @@ while kStep <= MAXSTEPS
 %         newcw = 6.7;
 %         newlit = 0.9;
 %         SP = [newclg newcw newlit];
-%     end if(dayTime > input_evaluator.start*3600) && (dayTime <= input_evaluator.end*3600)
-        
-if(dayTime > input_evaluator.start*3600) && (dayTime <= input_evaluator.end*3600)
+%     end
+ 
+    if(dayTime > input_evaluator.start*3600) && (dayTime <= input_evaluator.end*3600)
         
 %        if (input_evaluator.start==14 && input_evaluator.end ==15)
            newclg = input_evaluator.clgsetp;
@@ -154,19 +154,7 @@ if(dayTime > input_evaluator.start*3600) && (dayTime <= input_evaluator.end*3600
            newlit = input_evaluator.lil;
        SP = [newclg newcw newlit]; 
 %        end
-end
-
-
- 
-%     if(dayTime > 14*3600) && (dayTime <= 15*3600)
-%         
-%        if (input_evaluator.start==14 && input_evaluator.end ==15)
-%            newclg = input_evaluator.clgsetp;
-%            newcw = input_evaluator.cwsetp;
-%            newlit = input_evaluator.lil;
-%        SP = [newclg newcw newlit]; 
-%        end
-%     end
+    end
 %     if(dayTime > 16*3600) && (dayTime <= 17*3600)
 %         
 %        if (input_evaluator.start==16 && input_evaluator.end ==17)
@@ -176,7 +164,7 @@ end
 %            SP = [newclg newcw newlit];
 %        end      
 %     end
-%        if(dayTime > 17*3600) && (dayTime <= 18*3600)
+% %        if(dayTime > 17*3600) && (dayTime <= 18*3600)
 %         
 %        if (input.start==17 && input.end ==18)
 %            newclg = input.clgsetp;
@@ -258,12 +246,12 @@ response =[];
 response.time = 1:MAXSTEPS;
 response.y_predict = logdata(:,1);
 savejson('',response,'response.json');
-%figure
-%plot(1:MAXSTEPS,yyclg);
-%figure
-%plot(1:MAXSTEPS,yycw);
-%figure
-%plot(1:MAXSTEPS,yylit);
-%figure
-%plot(1:MAXSTEPS,logdata(:,1));
+% figure
+% plot(1:MAXSTEPS,yyclg);
+% figure
+% plot(1:MAXSTEPS,yycw);
+% figure
+% plot(1:MAXSTEPS,yylit);
+% figure
+% plot(1:MAXSTEPS,logdata(:,1));
 end

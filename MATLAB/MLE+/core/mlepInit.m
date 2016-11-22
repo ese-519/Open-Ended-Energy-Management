@@ -17,8 +17,8 @@ indexHome = strfind(homePath, 'mlepInit');
 homePath = homePath(1:indexHome-1);
 bcvtbDir = [homePath '..' filesep 'bcvtb'];
 
-%load([homePath '..' filesep 'gui' filesep 'eplusPath.mat']);
-load('/home/ubuntu/matlab/MLE+/gui/eplusPath.mat')
+load([homePath '..' filesep 'gui' filesep 'eplusPath.mat']);
+% load('/home/ubuntu/matlab/MLE+/gui/eplusPath.mat')
 EplusDir = eplusPath;
 if ispc
     load([homePath '..' filesep 'gui' filesep 'javaPath.mat']);
