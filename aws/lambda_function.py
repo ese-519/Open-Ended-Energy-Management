@@ -208,7 +208,7 @@ def eval_one_set_points_change(intent):
     query_res = json.loads(query_res_str)
 
     # parse response from server and build speech_output
-    speech_output = "" #TODO: complete
+    speech_output = "Changing {} would reduce the energy usage by {} percent".format(setpoint_type, query_res['percentage']) #TODO: complete
     return build_response(session_attributes, build_speechlet_response(
         card_title, speech_output, reprompt_text, should_end_session))
 
