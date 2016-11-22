@@ -245,7 +245,7 @@ end
 response =[];
 response.time = 1:MAXSTEPS;
 response.y_predict = logdata(:,1);
-savejson('',response,'response.json');
+savejson('',response,'Filename',['response.json']);
 % figure
 % plot(1:MAXSTEPS,yyclg);
 % figure
