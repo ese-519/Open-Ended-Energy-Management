@@ -13,7 +13,8 @@ load largetreeCVJul.mat
 % 6pm: 57240
 % 7pm: 57252
 
-load YpredictCVJul.mat
+% load YpredictCVJul.mat
+load y_predict_july_baseline.mat
 load date12numJul.mat
 kf = 15
 % XtestPlc17 = Xtrain(56736:57023,:);
@@ -30,7 +31,7 @@ kf = 15
 % YpredictPlc17 = sum(YpredictCVkPlc17,2)/kf;
 
 response =[];
-response.y_predict = YpredictCVJul;
+response.y_predict = y_predict_july_baseline;
 response.time = date12numJul;
 savejson('',response,'Filename',['response.json']);
 % plot(response.time,response.y_predict)
