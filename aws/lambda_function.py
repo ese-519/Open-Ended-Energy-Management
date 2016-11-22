@@ -1,8 +1,8 @@
 import socket
 import json
-
+ec2_addr='158.130.168.41'
 #ec2_addr = '54.165.125.83'
-ec2_addr = '158.130.166.151' # bob's macbook
+#ec2_addr = '158.130.166.151' # bob's macbook
 ec2_tcp_port = 9000
 #message = 'This is the message.  It will be repeated.'
 

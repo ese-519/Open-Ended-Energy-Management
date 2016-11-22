@@ -296,7 +296,7 @@ plot(date12numJul,YpredictCVJul);
 datetick('x','dd');
 hold off;
 legend('Ground Truth','Single Tree','CV Tree');
-
+save date12numJul.mat date12numJul
 %%
 pause on
 disp('Press any key to continue to DR Policy Evaluation..');
@@ -323,6 +323,7 @@ date12numPlc17 = date12num(56736:57023);
 save XtestPlc17.mat XtestPlc17
 save YtestPlc17.mat YtestPlc17 
 save date12numPlc17.mat date12numPlc17
+save YpredictCVJul.mat YpredictCVJul
 % Now use the cross validated trees to make predictions on the 2013 testing
 % data
 
