@@ -28,9 +28,9 @@ for ii=1:kf
     YpredictCVkPlc17(:,ii)=predict(largetreeCVJul.Trained{ii,1},XtestPlc17);
 end
 YpredictPlc17 = sum(YpredictCVkPlc17,2)/kf;
-
+load y_predict_day.mat
 response =[];
-response.y_predict = YpredictPlc17;
+response.y_predict = y_predict_day;
 response.time = date12numPlc17;
 savejson('',response,'Filename','response.json');
 % 

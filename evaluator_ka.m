@@ -257,7 +257,8 @@ end
 response =[];
 response.time = 1:MAXSTEPS;
 response.y_predict = logdata(:,1);
-
+y_predict_day = logdata(:,1);
+% save y_predict_day.mat  y_predict_day
 savejson('',response,'Filename',['response.json']);
 %figure
 %plot(1:MAXSTEPS,yyclg);
