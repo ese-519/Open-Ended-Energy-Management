@@ -1,8 +1,8 @@
 import socket
 import json
-ec2_addr='158.130.168.41'
+ec2_addr='158.130.168.41' # karuna's machine 
 #ec2_addr = '54.165.125.83'
-#ec2_addr = '158.130.166.151' # bob's macbook
+#ec2_addr = '158.130.166.151' # bob's machine
 ec2_tcp_port = 9000
 #message = 'This is the message.  It will be repeated.'
 
@@ -167,7 +167,7 @@ def predict_day(intent):
     query_res = json.loads(query_res_str)
 
     # parse response from server and build speech_output
-    speech_output = "" #TODO: complete
+    speech_output = "On {}, the peak expected power is about {} megawatts".format(day, query_res['peak_kW'])
     return build_response(session_attributes, build_speechlet_response(
         card_title, speech_output, reprompt_text, should_end_session))
 
@@ -178,13 +178,13 @@ def predict_month(intent):
     should_end_session = False
     
     month = intent["slots"]["Month"]["value"]
-    query_params = {"type": 3, "month": day}
+    query_params = {"type": 3, "month": month}
     query_str = json.dumps(query_params)
     query_res_str = client_tcp_session(ec2_addr, ec2_tcp_port, query_str)
     query_res = json.loads(query_res_str)
 
     # parse response from server and build speech_output
-    speech_output = "" #TODO: complete
+    speech_output = "In {}, the peak expected power is about {} megawatts".format(month, query_res['peak_kW'])
     return build_response(session_attributes, build_speechlet_response(
         card_title, speech_output, reprompt_text, should_end_session))
 
