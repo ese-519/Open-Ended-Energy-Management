@@ -2,7 +2,7 @@ import socket
 import json
 
 #ec2_addr = '54.165.125.83'
-ec2_addr = '165.123.155.203' # bob's macbook
+ec2_addr = '158.130.166.151' # bob's macbook
 ec2_tcp_port = 9000
 #message = 'This is the message.  It will be repeated.'
 
@@ -139,12 +139,16 @@ def describe_conditions_for_usage(intent):
     if 'error_msg' in query_res.keys():
         speech_output = 'I am sorry, there was an error.' + query_res['error_msg']
     else:
-        speech_output = 'The building {} used {} kilowatts under the following average conditions.' \
-          'Day of month {}, time of day {}, average temperature {} degrees, average solar {},' \
-          'average wind speed {}, average wind gusts {}, average humidity {}, and average dew point {}'.format(
-          building, usagekW, query_res['DayOfMonth'], query_res['TimeOfDay'], query_res['AvgTemperature'], 
-          query_res['AvgSolar'], query_res['AvgWindSpeed'], query_res['AvgGusts'], 
-          query_res['AvgHumidity'], query_res['AvgDewPoint'])
+        time_int = int(query_res['TimeOfDay'])
+        if time_int <= 11:
+          time_str = str(time_int) + ' AM'
+        elif time_int == 12:
+          time_str = str(time_int) + ' PM'
+        else:
+          time_str = str(time_int - 12) + ' PM'
+        speech_output = 'The building {} used {} kilowatts on average around {}' \
+          'when the temperature is {} degrees celsius and humidity is {} percent'.format(
+          building, usagekW, time_str, query_res['AvgTemperature'], query_res['AvgHumidity'])
 
     return build_response(session_attributes, build_speechlet_response(
         card_title, speech_output, reprompt_text, should_end_session))
