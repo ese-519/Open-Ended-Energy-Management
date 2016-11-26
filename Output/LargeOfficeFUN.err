@@ -1,4 +1,4 @@
-Program Version,EnergyPlus-Linux-64 8.1.0.008, YMD=2016.11.22 17:02,IDD_Version 8.1.0.008
+Program Version,EnergyPlus-Linux-64 8.1.0.008, YMD=2016.11.22 18:53,IDD_Version 8.1.0.008
    ** Warning ** Sizing:Parameters: note Timesteps in Averaging Window entered value=[6] is less than 1 hour (i.e., 12 timesteps).
    ************* Beginning Zone Sizing Calculations
    ** Warning ** CheckUsedConstructions: There are 1 nominally unused constructions in input.
@@ -31,12 +31,12 @@ Program Version,EnergyPlus-Linux-64 8.1.0.008, YMD=2016.11.22 17:02,IDD_Version 
    ************* All Return Air Paths passed integrity testing
    ************* No node connection errors were found.
    ************* Beginning Simulation
-   ** Severe  ** ExternalInterface: Socket communication received error value " 1" at time = 24.00 hours.
-   **   ~~~   ** ExternalInterface: Flag from server " 1".
+   ** Severe  ** ExternalInterface: Socket communication received error value "-1" at time = 24.00 hours.
+   **   ~~~   ** ExternalInterface: Flag from server " 0".
    **  Fatal  ** Error in ExternalInterface: Check EnergyPlus *.err file.
    ...Summary of Errors that led to program termination:
    ..... Reference severe error count=1
-   ..... Last severe error=ExternalInterface: Socket communication received error value " 1" at time = 24.00 hours.
+   ..... Last severe error=ExternalInterface: Socket communication received error value "-1" at time = 24.00 hours.
    *************
    ************* ===== Final Error Summary =====
    ************* The following error categories occurred.  Consider correcting or noting.
@@ -47,4 +47,4 @@ Program Version,EnergyPlus-Linux-64 8.1.0.008, YMD=2016.11.22 17:02,IDD_Version 
    *************
    ************* EnergyPlus Warmup Error Summary. During Warmup: 0 Warning; 0 Severe Errors.
    ************* EnergyPlus Sizing Error Summary. During Sizing: 5 Warning; 0 Severe Errors.
-   ************* EnergyPlus Terminated--Fatal Error Detected. 8 Warning; 1 Severe Errors; Elapsed Time=00hr 00min  5.35sec
+   ************* EnergyPlus Terminated--Fatal Error Detected. 8 Warning; 1 Severe Errors; Elapsed Time=00hr 00min  5.17sec

@@ -7,10 +7,9 @@ Buffer        = 2 0 32 0 0 8.640000000000000e+04 6.117344551067697e+05 2.4000000
 
 Wrote 738 characters to socket.
 Reading from socket.
-In readbufferfromsocket: Read 4 chars, maximum is 142.
-Error while disassembling the header of the buffer.
-Disassembled buffer.
-Finished exchanging data with socket: simTimRea=8.610000e+04, flag=1.
+In readbufferfromsocket: Read 0 chars, maximum is 142.
+Error reading: Success
+Finished exchanging data with socket: simTimRea=8.610000e+04, flag=-1.
 Assembling buffer.
 Write to socket with fd = 17
 Buffer        = 2 -20 

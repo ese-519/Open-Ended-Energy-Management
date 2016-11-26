@@ -274,6 +274,10 @@ def call_searchbin(query, matlab_engine=None):
       val = round(val, 3)
       response_transformed[k] = round(response_transformed[k], 1)
     db_data[k] = val 
+
+  if 'huntsmanhall' in building:
+    building = 'Huntsman Hall'
+    
   db_data['building'] = building
   db_data['usagekW'] = usagekW
   db_data['_id'] = 1
