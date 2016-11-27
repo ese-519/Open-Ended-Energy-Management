@@ -107,15 +107,22 @@ def call_baseline(query, dayQuery, matlab_engine=None):
   else:
     db_data['day_flag'] = False
 
+  # calculate metrics
+  auc_baseline = calc_auc(y_predict, times)
+  max_kW = round(max_kW / 1000 , 1)
+  db_data['peak_power'] = max_kW
+  db_data['total_energy'] = auc_baseline
+  if dayQuery:
+    db_data['target_calendar'] = query['day']
+  else:
+    db_data['target_calendar'] = query['month']
+
   # update DB with query result to update graphical output 
   db_name = 'energydata'
   coll_name = 'baseline_data'
   inserted_obj_id = db_insert(db_name, coll_name, db_data)
   print 'inserted into:', db_name, coll_name, inserted_obj_id
 
-  # return content for vocal response
-#  max_kW = (max_kW // 100) * 100
-  max_kW = round(max_kW / 1000 , 1)
   res = {'peak_kW': max_kW}
   return res
 

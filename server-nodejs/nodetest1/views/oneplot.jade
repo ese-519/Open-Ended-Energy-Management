@@ -1,0 +1,41 @@
+extends layout
+
+block content
+
+    div 
+      h3 The predicted energy used for #{baseline_data.target_calendar} is #{baseline_data.total_energy} kWh, with peak power consumption of #{baseline_data.peak_power} kW.      
+
+    div#lineContainer(style = "padding-top : 20px; padding-bottom: 20px")
+    script.
+      $(function () { 
+                 var myChart = Highcharts.chart('lineContainer', {
+               chart: {
+                   type: 'line'
+               },
+               title: {
+                   text: 'Energy Usage'
+               },
+               xAxis: {
+                   categories: [#{baseline_data.time}],
+                   title : { text: 'Time' }
+               },
+               yAxis: {
+                   title: {
+                       text: 'Power (kW)'
+                   }
+               },
+               series: [
+                  {
+                    name: 'Baseline',
+                    data: [#{baseline_data.y_predict}]
+                  }
+                ]
+           });
+      });
+
+    div
+      p Predicted data assuming set point values:
+      ul
+        li lighting level: 
+        li chilled water temperature: 
+        li zone temperature: 
