@@ -1,0 +1,31 @@
+extends layout
+
+block content
+    div 
+      h2(style="text-align: center") Average Conditions when #{searchbin_data.building} is Consuming is #{searchbin_data.usagekW} kW
+    
+    div.row
+      div.col-sm-3
+        img(src="/images/DayOfMonth.png" style="max-width:80%;height:auto")
+        p Day of Month: 6
+      div.col-sm-3
+        img(src="/images/HourOfDay.png" style="max-width:80%;height:auto")
+        p Hour of Day: 3
+      div.col-sm-3
+        img(src="/images/Temperature.png" style="max-width:80%;height:auto")
+        p Temperature: 24 C
+      div.col-sm-3
+        img(src="/images/RelativeHumidity.png" style="max-width:80%;height:auto")
+        p Rel. Humidity: 80 %
+      div.col-sm-3
+        img(src="/images/IncidentSolarRadiation.png" style="max-width:80%;height:auto")
+        p Incident Solar Radiation: 23 W/(m^2)
+      div.col-sm-3
+        img(src="/images/DewPoint.png" style="max-width:80%;height:auto")
+        p Dew Point: 25 C
+      div.col-sm-3
+        img(src="/images/WindSpeed.png" style="max-width:80%;height:auto")
+        p Wind Speed: 12 knots
+      div.col-sm-3
+        img(src="/images/GustSpeed.png" style="max-width:80%;height:auto")
+        p Gust Speed: 22 knots
