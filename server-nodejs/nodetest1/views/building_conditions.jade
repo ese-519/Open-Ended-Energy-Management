@@ -3,7 +3,6 @@ extends layout
 block content
   meta(charset="utf-8")
   script(src="http://d3js.org/d3.v4.min.js")
-  //- - function arcfill(p, svgtag) {var tau = 2 * Math.PI; var arc = d3.arc().innerRadius(20).outerRadius(30).startAngle(-1*tau/4); var svg = d3.select(svgtag); var width = +svg.attr("width"); var height = +svg.attr("height"); var g = svg.append("g").attr("transform", "translate(" + width / 2 + "," + height / 2 + ")"); var background = g.append("path").datum({endAngle: tau / 4}).style("fill", "#ddd").attr("d", arc); var foreground = g.append("path").datum({endAngle: (-1*tau/4) + p * tau / 2}).attr("d", arc).style("fill", "blue"); };
 
   div 
     h1(style="text-align: center; padding-bottom:30px") Average Conditions when #{searchbin_data.building} is Consuming is #{searchbin_data.usagekW} kW
@@ -11,9 +10,8 @@ block content
   div.row
     div.col-sm-3(style="text-align:center")
       img(src="/images/DayOfMonth.png" style="max-width:50%; height:auto; margin:auto")
-      p(style="margin:auto") Day of Month: 6
+      p(style="margin:auto") Day of Month: #{searchbin_data.DayOfMonth}
       svg(id="DayOfMonthSvg" width="90" height="90" style="margin:auto")
-      - var p1 = 6 / (30 - 0)
       script.
         var tau = 2 * Math.PI; 
         var arc = d3.arc().innerRadius(25).outerRadius(40).startAngle(-1*tau/4); 
@@ -21,13 +19,13 @@ block content
         var width = +svg.attr("width"); 
         var height = +svg.attr("height"); 
         var g = svg.append("g").attr("transform", "translate(" + width / 2 + "," + height / 2 + ")"); 
+        var p = (#{searchbin_data.DayOfMonth} - 1) / (30 - 1);
         var background = g.append("path").datum({endAngle: tau / 4}).style("fill", "#ddd").attr("d", arc); 
-        var foreground = g.append("path").datum({endAngle: (-1*tau/4) + #{p1} * tau / 2}).attr("d", arc).style("fill", "blue");
+        var foreground = g.append("path").datum({endAngle: (-1*tau/4) + p * tau / 2}).attr("d", arc).style("fill", "blue");
     div.col-sm-3(style="text-align:center")
       img(src="/images/HourOfDay.png" style="max-width:50%; height:auto; margin:auto")
-      p(style="margin:auto") Hour of Day: 3
+      p(style="margin:auto") Hour of Day: #{searchbin_data.TimeOfDay}
       svg(id="HourOfDaySvg" width="90" height="90" style="margin:auto")
-      - var p2 = 3 / (24 - 0)
       script.
         var tau = 2 * Math.PI; 
         var arc = d3.arc().innerRadius(25).outerRadius(40).startAngle(-1*tau/4); 
@@ -35,13 +33,13 @@ block content
         var width = +svg.attr("width"); 
         var height = +svg.attr("height"); 
         var g = svg.append("g").attr("transform", "translate(" + width / 2 + "," + height / 2 + ")"); 
-        var background = g.append("path").datum({endAngle: tau / 4}).style("fill", "#ddd").attr("d", arc); 
-        var foreground = g.append("path").datum({endAngle: (-1*tau/4) + #{p2} * tau / 2}).attr("d", arc).style("fill", "blue");
+        var background = g.append("path").datum({endAngle: tau / 4}).style("fill", "#ddd").attr("d", arc);
+        var p = (#{searchbin_data.TimeOfDay} - 0) / (24 - 0); 
+        var foreground = g.append("path").datum({endAngle: (-1*tau/4) + p * tau / 2}).attr("d", arc).style("fill", "blue");
     div.col-sm-3(style="text-align:center")
       img(src="/images/Temperature.png" style="max-width:50%; height:auto; margin:auto")
-      p(style="margin:auto") Temperature: 24 C
+      p(style="margin:auto") Temperature: #{searchbin_data.AvgTemperature} C
       svg(id="TemperatureSvg" width="90" height="90" style="margin:auto")
-      - var p3 = 24 / (38 - -18)
       script.
         var tau = 2 * Math.PI; 
         var arc = d3.arc().innerRadius(25).outerRadius(40).startAngle(-1*tau/4); 
@@ -50,12 +48,12 @@ block content
         var height = +svg.attr("height"); 
         var g = svg.append("g").attr("transform", "translate(" + width / 2 + "," + height / 2 + ")"); 
         var background = g.append("path").datum({endAngle: tau / 4}).style("fill", "#ddd").attr("d", arc); 
-        var foreground = g.append("path").datum({endAngle: (-1*tau/4) + #{p3} * tau / 2}).attr("d", arc).style("fill", "blue");
+        var p = (#{searchbin_data.AvgTemperature} - -18) / (38 - -18);
+        var foreground = g.append("path").datum({endAngle: (-1*tau/4) + p * tau / 2}).attr("d", arc).style("fill", "blue");
     div.col-sm-3(style="text-align:center")
       img(src="/images/RelativeHumidity.png" style="max-width:50%; height:auto; margin:auto")
-      p(style="margin:auto") Rel. Humidity: 80 %
+      p(style="margin:auto") Rel. Humidity: #{searchbin_data.AvgHumidity} %
       svg(id="HumiditySvg" width="90" height="90" style="margin:auto")
-      - var p4 = 80 / (100 - 0)
       script.
         var tau = 2 * Math.PI; 
         var arc = d3.arc().innerRadius(25).outerRadius(40).startAngle(-1*tau/4); 
@@ -64,13 +62,13 @@ block content
         var height = +svg.attr("height"); 
         var g = svg.append("g").attr("transform", "translate(" + width / 2 + "," + height / 2 + ")"); 
         var background = g.append("path").datum({endAngle: tau / 4}).style("fill", "#ddd").attr("d", arc); 
-        var foreground = g.append("path").datum({endAngle: (-1*tau/4) + #{p4} * tau / 2}).attr("d", arc).style("fill", "blue");
+        var p = (#{searchbin_data.AvgHumidity} - 0) / (100 - 0);
+        var foreground = g.append("path").datum({endAngle: (-1*tau/4) + p * tau / 2}).attr("d", arc).style("fill", "blue");
   div.row
     div.col-sm-3(style="text-align:center")
       img(src="/images/IncidentSolarRadiation.png" style="max-width:50%; height:auto; margin:auto")
-      p(style="margin:auto") Incident Solar Radiation: 229 W/(m^2)
+      p(style="margin:auto") Incident Solar Radiation: #{searchbin_data.AvgSolar} W/(m^2)
       svg(id="SolarSvg" width="90" height="90" style="margin:auto")
-      - var p5 = 23 / (1000 - 0)
       script.
         var tau = 2 * Math.PI; 
         var arc = d3.arc().innerRadius(25).outerRadius(40).startAngle(-1*tau/4); 
@@ -78,13 +76,13 @@ block content
         var width = +svg.attr("width"); 
         var height = +svg.attr("height"); 
         var g = svg.append("g").attr("transform", "translate(" + width / 2 + "," + height / 2 + ")"); 
-        var background = g.append("path").datum({endAngle: tau / 4}).style("fill", "#ddd").attr("d", arc); 
-        var foreground = g.append("path").datum({endAngle: (-1*tau/4) + #{p5} * tau / 2}).attr("d", arc).style("fill", "blue");
+        var background = g.append("path").datum({endAngle: tau / 4}).style("fill", "#ddd").attr("d", arc);
+        var p = (#{searchbin_data.AvgSolar} - 0) / (1000 - 0); 
+        var foreground = g.append("path").datum({endAngle: (-1*tau/4) + p * tau / 2}).attr("d", arc).style("fill", "blue");
     div.col-sm-3(style="text-align:center")
       img(src="/images/DewPoint.png" style="max-width:50%; height:auto; margin:auto")
-      p(style="margin:auto") Dew Point: 25 C
+      p(style="margin:auto") Dew Point: #{searchbin_data.AvgDewPoint} C
       svg(id="DewPointSvg" width="90" height="90" style="margin:auto")
-      - var p6 = 25 / (38 - -18)
       script.
         var tau = 2 * Math.PI; 
         var arc = d3.arc().innerRadius(25).outerRadius(40).startAngle(-1*tau/4); 
@@ -92,13 +90,13 @@ block content
         var width = +svg.attr("width"); 
         var height = +svg.attr("height"); 
         var g = svg.append("g").attr("transform", "translate(" + width / 2 + "," + height / 2 + ")"); 
-        var background = g.append("path").datum({endAngle: tau / 4}).style("fill", "#ddd").attr("d", arc); 
-        var foreground = g.append("path").datum({endAngle: (-1*tau/4) + #{p6} * tau / 2}).attr("d", arc).style("fill", "blue");
+        var background = g.append("path").datum({endAngle: tau / 4}).style("fill", "#ddd").attr("d", arc);
+        var p = (#{searchbin_data.AvgDewPoint} - -18) / (38 - -18);
+        var foreground = g.append("path").datum({endAngle: (-1*tau/4) + p * tau / 2}).attr("d", arc).style("fill", "blue");
     div.col-sm-3(style="text-align:center")
       img(src="/images/WindSpeed.png" style="max-width:50%; height:auto; margin:auto")
-      p(style="margin:auto") Wind Speed: 12 knots
+      p(style="margin:auto") Wind Speed: #{searchbin_data.AvgWindSpeed} knots
       svg(id="WindSpeedSvg" width="90" height="90" style="margin:auto")
-      - var p7 = 12 / (70 - 0)
       script.
         var tau = 2 * Math.PI; 
         var arc = d3.arc().innerRadius(25).outerRadius(40).startAngle(-1*tau/4); 
@@ -107,12 +105,12 @@ block content
         var height = +svg.attr("height"); 
         var g = svg.append("g").attr("transform", "translate(" + width / 2 + "," + height / 2 + ")"); 
         var background = g.append("path").datum({endAngle: tau / 4}).style("fill", "#ddd").attr("d", arc); 
-        var foreground = g.append("path").datum({endAngle: (-1*tau/4) + #{p7} * tau / 2}).attr("d", arc).style("fill", "blue");
+        var p = (#{searchbin_data.AvgWindSpeed} - 0) / (70 - 0);
+        var foreground = g.append("path").datum({endAngle: (-1*tau/4) + p * tau / 2}).attr("d", arc).style("fill", "blue");
     div.col-sm-3(style="text-align:center")
       img(src="/images/GustSpeed.png" style="max-width:50%; height:auto; margin:auto")
-      p(style="margin:auto") Gust Speed: 22 knots
+      p(style="margin:auto") Gust Speed: #{searchbin_data.AvgGusts} knots
       svg(id="GustSpeedSvg" width="90" height="90" style="margin:auto")
-      - var p8 = 22 / (70 - 0)
       script.
         var tau = 2 * Math.PI; 
         var arc = d3.arc().innerRadius(25).outerRadius(40).startAngle(-1*tau/4); 
@@ -120,5 +118,6 @@ block content
         var width = +svg.attr("width"); 
         var height = +svg.attr("height"); 
         var g = svg.append("g").attr("transform", "translate(" + width / 2 + "," + height / 2 + ")"); 
-        var background = g.append("path").datum({endAngle: tau / 4}).style("fill", "#ddd").attr("d", arc); 
-        var foreground = g.append("path").datum({endAngle: (-1*tau/4) + #{p8} * tau / 2}).attr("d", arc).style("fill", "blue");
+        var background = g.append("path").datum({endAngle: tau / 4}).style("fill", "#ddd").attr("d", arc);
+        var p = (#{searchbin_data.AvgGusts} - 0) / (70 - 0) 
+        var foreground = g.append("path").datum({endAngle: (-1*tau/4) + p * tau / 2}).attr("d", arc).style("fill", "blue");
