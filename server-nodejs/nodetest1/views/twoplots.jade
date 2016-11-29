@@ -1,0 +1,45 @@
+extends layout
+
+block content
+
+    div 
+      h3 Changing the set point #{evaluator_data.set_point_type} to #{evaluator_data.set_point_value} #{evaluator_data.incr_decr} by #{evaluator_data.energy_change} percent.      
+
+    div#lineContainer(style = "padding-top : 20px; padding-bottom: 20px")
+    script.
+      $(function () { 
+                 var myChart = Highcharts.chart('lineContainer', {
+               chart: {
+                   type: 'line'
+               },
+               title: {
+                   text: 'Energy Usage'
+               },
+               xAxis: {
+                   categories: [#{baseline_data.time}],
+                   title : { text: 'Time' }
+               },
+               yAxis: {
+                   title: {
+                       text: 'Power (kW)'
+                   }
+               },
+               series: [
+                  {
+                    name: 'Baseline',
+                    data: [#{baseline_data.y_predict}]
+                  },
+                  {
+                    name: 'Predicted',
+                    data: [#{evaluator_data.y_predict}]
+                  }
+               ]
+           });
+      });
+
+    div
+      p Baseline data assuming set point values:
+      ul
+        li lighting level: 
+        li chilled water temperature: 
+        li zone temperature: 

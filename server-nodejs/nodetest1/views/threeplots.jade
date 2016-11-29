@@ -1,0 +1,64 @@
+extends layout
+
+block content
+
+    div 
+      h3 The most optimum strategy among the ones displayed below has lighting,
+      chilled water temperature and zone temperature set to
+      #{synthesizer_data[0].lighting}, #{synthesizer_data[0].cwt} and
+      #{synthesizer_data[0].zt} respectively.
+
+    div#lineContainer(style = "padding-top : 20px; padding-bottom: 20px")
+    script.
+      $(function () { 
+                 var myChart = Highcharts.chart('lineContainer', {
+               chart: {
+                   type: 'line'
+               },
+               title: {
+                   text: 'Energy Usage'
+               },
+               xAxis: {
+                   categories: [#{synthesizer_data[0].time}],
+                   title : { text: 'Time' }
+               },
+               yAxis: {
+                   title: {
+                       text: 'Power (kW)'
+                   }
+               },
+               series: [
+                  {
+                    name: 'Strategy 1',
+                    data: [#{synthesizer_data[0].y_predict}]
+                  },
+                  {
+                    name: 'Strategy 2',
+                    data: [#{synthesizer_data[1].y_predict}]
+                  },
+                  {
+                    name: 'Strategy 3',
+                    data: [#{synthesizer_data[2].y_predict}]
+                  }
+               ]
+           });
+      });
+
+    div
+      p Strategy 1 assuming set point values:
+      ul
+        li lighting level: 
+        li chilled water temperature: 
+        li zone temperature:
+
+      p Strategy 2 assuming set point values:
+      ul
+        li lighting level: 
+        li chilled water temperature: 
+        li zone temperature: 
+      
+      p Strategy 3 assuming set point values:
+      ul
+        li lighting level: 
+        li chilled water temperature: 
+        li zone temperature: 

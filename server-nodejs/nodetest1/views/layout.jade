@@ -13,4 +13,9 @@ html
     script(src='https://code.highcharts.com/modules/exporting.js')
     script (src='http://ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"')
   body(style = "background:#CCC")
-    block content
+    script.
+      setInterval(function() {
+      location.reload(true);
+      }, 5000)
+
+  block content
