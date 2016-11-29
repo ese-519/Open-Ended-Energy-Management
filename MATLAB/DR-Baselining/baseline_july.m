@@ -33,6 +33,8 @@ kf = 15
 response =[];
 response.y_predict = y_predict_july_baseline;
 response.time = date12numJul;
+baseline_july = response;
+save baseline_july.mat baseline_july;
 savejson('',response,'Filename',['response.json']);
 % plot(response.time,response.y_predict)
 % % 

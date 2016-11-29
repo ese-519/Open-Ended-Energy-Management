@@ -6,9 +6,9 @@ clear all
 input_evaluator = []
 input_evaluator.start =13
 input_evaluator.end= 20
-input_evaluator.clgsetp = 28
+input_evaluator.clgsetp = 24
 input_evaluator.cwsetp = 8
-input_evaluator.lil = 0.2
+input_evaluator.lil = 0.6
 % savejson('',input_evaluator,'input_evaluator.json')
 % Load the tree and the linear models
 load drtree12.mat
@@ -27,8 +27,8 @@ leafout = predict(drtree12,XDR);
 y_predict = baseline_july.y_predict;
 idx_dr=[];
 
-for day = 1:31
-idx_dr = horzcat(idx_dr, day*((input_evaluator.start*12): ((input_evaluator.end*12)-1)));   
+for day = 1:32
+idx_dr = [day(input_evaluator.start*12): (input_evaluator.end*12)-1];   
 end
 
 for i = 1: numel(idx_dr)
@@ -45,14 +45,11 @@ for i = 1: numel(idx_dr)
     y_predict(idx_dr(i))=predicted_av;
 end
 
-response =[];
-response.y_predict = y_predict;
-response.time = time;
-savejson('',response,'Filename',['response.json']);
-% figure(1)
-% plot(time,baseline_july.y_predict,'r');
-% hold on
-% plot(time,y_predict,'b');
+time = 1:size(baseline_july.y_predict(4319:4606),1);
+figure(1)
+plot(time,baseline_july.y_predict(4319:4606),'r');
+hold on
+plot(time,y_predict,'b');
 
 %%%%% plot%%%%%%%%%%
 

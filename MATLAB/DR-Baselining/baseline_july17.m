@@ -32,6 +32,9 @@ YpredictPlc17 = sum(YpredictCVkPlc17,2)/kf;
 response =[];
 response.y_predict = YpredictPlc17;
 response.time = date12numPlc17;
+
+baseline_july = response;
+save baseline_july.mat, baseline_july;
 savejson('',response,'Filename',['response.json']);
 % 
 % % RMSE

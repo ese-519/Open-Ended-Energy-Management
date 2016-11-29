@@ -116,6 +116,7 @@ Xtest = [basezat,boiler1,chws1,chws2,chwsetp,clgsetp,corebzat,coremzat...
     ,peritop3zat,peritop4zat,tod,topplenum,windir,winspeed];
 Xtest(1,:)=[];
 XtestJul = Xtest(julstart:julend,:);
+save XtestJul.mat XtestJul
 XtestJun = Xtest(junstart:junend,:);
 % Output vector
 Ytest = tpower;
