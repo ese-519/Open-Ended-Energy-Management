@@ -3,17 +3,17 @@ close all
 clear all
 % addpath(genpath('../MLE+'))
 % addpath(genpath('../matlab_json_iax'))
-input_evaluator = []
-input_evaluator.start =13
-input_evaluator.end= 20
-input_evaluator.clgsetp = 28
-input_evaluator.cwsetp = 8
-input_evaluator.lil = 0.2
+% input_evaluator = []
+% input_evaluator.start =13
+% input_evaluator.end= 20
+% input_evaluator.clgsetp = 28
+% input_evaluator.cwsetp = 8
+% input_evaluator.lil = 0.2
 % savejson('',input_evaluator,'input_evaluator.json')
 % Load the tree and the linear models
 load drtree12.mat
 load dr12control.mat
-% input_evaluator= loadjson('input_evaluator.json')
+input_evaluator= loadjson('input_evaluator.json')
 load './MATLAB/DR-Baselining/baseline_july.mat';
 load './MATLAB/DR-Evaluation/drtree12.mat';
 load './MATLAB/DR-Baselining/XDR.mat';
