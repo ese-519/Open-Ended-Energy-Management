@@ -309,7 +309,7 @@ def call_setp_options(query, matlab_engine=None):
   for x in range(1, 3):
       db_update(db_name, coll_name, x, energy_and_id)
 
-  res = {'peak_kW' : auc_evaluator}
+  res = {'peak_kW' : min_energy}
   # res = {'peak_kW': max_kW}
   return res
 
