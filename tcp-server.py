@@ -134,8 +134,8 @@ def call_evaluator(query, matlab_engine=None):
     pass
     # TODO: handle error, inform user if invalid setpoint type
   # write input json file needed by matlab function
-  input_data['start'] = int(query['start_time'][0:2])
-  input_data['end'] = int(query['end_time'][0:2]) 
+  # input_data['start'] = int(query['start_time'][0:2])
+  # input_data['end'] = int(query['end_time'][0:2]) 
   input_file = 'input_evaluator.json'
   print "input",input_data
   write_json(input_file, input_data)

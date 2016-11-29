@@ -17,6 +17,8 @@ def lambda_handler(event, context):
         return on_intent(event["request"], event["session"])
     elif event["request"]["type"] == "SessionEndedRequest":
         return on_session_ended(event["request"], event["session"])
+    else:
+        return on_session_ended(event["request"], event["session"])
 
 def client_tcp_session(server_addr, server_port, message):
     # Create a TCP/IP socket
@@ -69,7 +71,8 @@ def on_intent(intent_request, session):
     elif intent_name == "BestStrategy":
         return best_strategy(intent)
     else:
-        raise ValueError("Invalid intent")
+        return invalid_intent()
+#        raise ValueError("Invalid intent")
 
 def on_launch(launch_request, session):
     return get_welcome_response()
@@ -77,11 +80,12 @@ def on_launch(launch_request, session):
 def get_welcome_response():
     session_attributes = {}
     card_title = "Energy Advisor"
-    speech_output = "Welcome to the Alexa Energy Advisor skill. " \
-                    "You can ask me to describe conditions when a specific building " \
-                    "consumed a certain amount of energy, predict energy usage on a" \
-                    "particular day or month, determine expected consumption based on" \
-                    "set point values, or for a suggested energy reduction strategy"
+    speech_output = "Welcome to the Alexa Energy Advisor skill,"\
+                    "I might know a few things you would like to know"
+#                    "You can ask me to describe conditions when a specific building " \
+#                    "consumed a certain amount of energy, predict energy usage on a" \
+#                    "particular day or month, determine expected consumption based on" \
+#                    "set point values, or for a suggested energy reduction strategy"
     reprompt_text = speech_output
     should_end_session = False
     return build_response(session_attributes, build_speechlet_response(
@@ -197,12 +201,11 @@ def eval_one_set_points_change(intent):
     #TODO: add handling for 1, 2, or 3 set points given    
     setpoint_type = intent["slots"]["SetPointTypeOne"]["value"]
     setpoint_val = intent["slots"]["SetPointValOne"]["value"]
-    start_time = intent["slots"]["StartTime"]["value"]
-    end_time = intent["slots"]["EndTime"]["value"]
+    # start_time = intent["slots"]["StartTime"]["value"]
+    # end_time = intent["slots"]["EndTime"]["value"]
 
     query_params = {"type": 4, "setpoint_type": setpoint_type,
-      "setpoint_val": setpoint_val, "start_time": start_time,
-      "end_time": end_time}
+      "setpoint_val": setpoint_val}
     query_str = json.dumps(query_params)
     query_res_str = client_tcp_session(ec2_addr, ec2_tcp_port, query_str)
     query_res = json.loads(query_res_str)
@@ -216,4 +219,12 @@ def best_strategy(intent):
     #TODO: implement
     pass
 
-
+def invalid_intent():
+    session_attributes = {}
+    card_title = "Energy Advisor Evaluate Set Point Change"
+    reprompt_text = ""
+    should_end_session = False
+    speech_output = "I'm sorry, I don't recognize that request"
+    return build_response(session_attributes, build_speechlet_response(
+        card_title, speech_output, reprompt_text, should_end_session))
+  
