@@ -47,7 +47,7 @@ def db_update(db_name, collection_name, id_val, data):
   client = MongoClient('localhost:27017')
   db = client[db_name]
   coll = db[collection_name]
-  result = coll.UpdateOne({'_id': id_val}, data, upsert=False)
+  result = coll.update_one({'_id': id_val}, {"$set" : data}, upsert=False)
   return result # return ObjectId of item inserted 
 
 def calc_auc(y_predict, time):
@@ -249,10 +249,10 @@ def call_setp_options(query, matlab_engine=None):
   baseline_data = cursor[0]
   isDay = baseline_data['day_flag']  
  
-  min_energy = Integer.MAX_VALUE
+  min_energy = float("inf")
   id_val = 0
   
-  for i in range(1, 3):
+  for i in range(1, 4):
       # validate set point values, determine which is being set
       
       input_data = {'cwsetp': 6.7, 'clgsetp': 26.7, 'lil': 0.7, 'start': 0, 'end': 23}
@@ -318,7 +318,9 @@ def call_setp_options(query, matlab_engine=None):
 
       # update DB with query result to update graphical output 
       db_name = 'energydata'
-      coll_name = 'setp_options_data'
+      coll_name = 'synthesizer_data'
+
+      print 'Object ', db_data
       inserted_obj_id = db_insert(db_name, coll_name, db_data)
       print 'inserted into:', db_name, coll_name, inserted_obj_id
 
@@ -327,7 +329,7 @@ def call_setp_options(query, matlab_engine=None):
 
   energy_and_id = {'best_id' : id_val, 'best_energy' : min_energy}
   
-  for x in range(1, 3):
+  for x in range(1, 4):
       db_update(db_name, coll_name, x, energy_and_id)
 
   res = {'peak_kW' : min_energy}
@@ -473,6 +475,8 @@ def start_server(ipaddr, port):
         response = call_baseline(query, False, eng)
       elif query['type'] == 4:
         response = call_evaluator(query, eng)
+      elif query['type'] == 5:
+        response = call_setp_options(query, eng)
 
       response_str = json.dumps(response) + end_flag
       print "response", response_str

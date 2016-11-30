@@ -229,8 +229,7 @@ def suggest_good_strategy(intent):
     query_res = json.loads(query_res_str)
 
     # parse response from server and build speech_output
-    speech_output = "The most optimal strategy out of the suggested three
-    strategies will use {} kWh of energy".format(query_res['peak_kW']) #TODO: complete
+    speech_output = "The most optimal strategy out of the suggested three strategies will use {} kWh of energy".format(query_res['peak_kW']) #TODO: complete
     return build_response(session_attributes, build_speechlet_response(
         card_title, speech_output, reprompt_text, should_end_session))
 

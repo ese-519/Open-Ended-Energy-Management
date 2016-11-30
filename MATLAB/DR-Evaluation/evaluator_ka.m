@@ -27,7 +27,7 @@ leafout = predict(drtree12,XDR_july17);
 y_predict = baseline_july17.y_predict;
 idx_dr=[];
 
-idx_dr = [(input_evaluator.start*12): (input_evaluator.end*12)-1];   
+idx_dr = [(input_evaluator.start*12)+1: (input_evaluator.end*12)-1];   
 
 
 for i = 1: numel(idx_dr)
