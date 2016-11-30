@@ -68,6 +68,8 @@ def on_intent(intent_request, session):
         return predict_month(intent)
     elif intent_name == "EvalOneSetPointsChange":
         return eval_one_set_points_change(intent)
+    elif intent_name == "SuggestGoodStrategy":
+        return suggest_good_strategy(intent)
     elif intent_name == "BestStrategy":
         return best_strategy(intent)
     else:
@@ -212,6 +214,23 @@ def eval_one_set_points_change(intent):
 
     # parse response from server and build speech_output
     speech_output = "Changing {} would reduce the energy usage by {} percent".format(setpoint_type, query_res['percentage']) #TODO: complete
+    return build_response(session_attributes, build_speechlet_response(
+        card_title, speech_output, reprompt_text, should_end_session))
+
+def suggest_good_strategy(intent):
+    session_attributes = {}
+    card_title = "Energy Advisor Suggest a good strategy"
+    reprompt_text = ""
+    should_end_session = False
+
+    query_params = {"type": 5}
+    query_str = json.dumps(query_params)
+    query_res_str = client_tcp_session(ec2_addr, ec2_tcp_port, query_str)
+    query_res = json.loads(query_res_str)
+
+    # parse response from server and build speech_output
+    speech_output = "The most optimal strategy out of the suggested three
+    strategies will use {} kWh of energy".format(query_res['peak_kW']) #TODO: complete
     return build_response(session_attributes, build_speechlet_response(
         card_title, speech_output, reprompt_text, should_end_session))
 
