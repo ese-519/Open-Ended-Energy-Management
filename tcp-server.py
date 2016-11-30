@@ -47,7 +47,7 @@ def db_update(db_name, collection_name, id_val, data):
   client = MongoClient('localhost:27017')
   db = client[db_name]
   coll = db[collection_name]
-  result = coll.UpdateOne({'_id': id_val}, data, upsert=False) 
+  result = coll.UpdateOne({'_id': id_val}, data, upsert=False)
   return result # return ObjectId of item inserted 
 
 def calc_auc(y_predict, time):
@@ -303,7 +303,9 @@ def call_setp_options(query, matlab_engine=None):
       auc_evaluator= calc_auc(y_predict_evaluator,times_evaluator)
 
       print "auc_evaluator",auc_evaluator
-      db_data = {'y_predict': y_predict_evaluator, 'time': times_evaluator}
+      db_data = {'y_predict': y_predict_evaluator, 'time': times_evaluator,
+              'cwsetp' : input_data['cwsetp'], 'clgsetp' :
+              input_data['clgsetp'], 'lil' : input_data['lil'], }
       db_data['_id'] = i
       if isDay:
         db_data['day_flag'] = True

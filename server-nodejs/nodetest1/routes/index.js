@@ -16,7 +16,8 @@ router.get('/', function(req, res) {
          if(searchbin_data !== null && baseline_data !== null && pagename_data !== null && evaluator_data != null)
          { 
             res.render(pagename_data.name, {
-                 "searchbin_data" : searchbin_data, "baseline_data" : baseline_data, "evaluator_data" : evaluator_data
+                 "searchbin_data" : searchbin_data, "baseline_data" : baseline_data, "evaluator_data" : evaluator_data,
+                "synthesizer_data" : synthesizer_data
             });
          }
     }
@@ -38,6 +39,12 @@ router.get('/', function(req, res) {
     evaluator_collection.find({ "_id" : 1 },{},function(e,docs4){
          evaluator_data = docs4[0];
          doRender();
+    });
+
+    var synthesizer_collection = db.get('synthesizer_data');
+    synthesizer_collection.find({"$or" : [{"_id" : 1}, {"_id" : 2}, {"_id" : 3}]}, {}, function(e, docs5){
+        synthesizer_data = docs5;
+        doRender();
     });
 
     var pagename_collection = db.get("pagename");
