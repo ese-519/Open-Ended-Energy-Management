@@ -1,6 +1,6 @@
 import socket
 import json
-ec2_addr='158.130.168.41' # karuna's machine 
+ec2_addr='158.130.160.166' # karuna's machine 
 #ec2_addr = '54.165.125.83'
 #ec2_addr = '158.130.166.151' # bob's machine
 ec2_tcp_port = 9000
@@ -201,11 +201,11 @@ def eval_one_set_points_change(intent):
     #TODO: add handling for 1, 2, or 3 set points given    
     setpoint_type = intent["slots"]["SetPointTypeOne"]["value"]
     setpoint_val = intent["slots"]["SetPointValOne"]["value"]
-    # start_time = intent["slots"]["StartTime"]["value"]
-    # end_time = intent["slots"]["EndTime"]["value"]
+    start_time = intent["slots"]["StartTime"]["value"]
+    end_time = intent["slots"]["EndTime"]["value"]
 
     query_params = {"type": 4, "setpoint_type": setpoint_type,
-      "setpoint_val": setpoint_val}
+      "setpoint_val": setpoint_val, "start_time": start_time, "end_time": end_time}
     query_str = json.dumps(query_params)
     query_res_str = client_tcp_session(ec2_addr, ec2_tcp_port, query_str)
     query_res = json.loads(query_res_str)

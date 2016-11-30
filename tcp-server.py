@@ -130,6 +130,16 @@ def call_baseline(query, dayQuery, matlab_engine=None):
   inserted_obj_id = db_insert(db_name, coll_name, db_data)
   print 'inserted into:', db_name, coll_name, inserted_obj_id
 
+  ## update DB with baseline chart
+  db_name = 'energydata'
+  coll_name = 'pagename'
+  db_data_page = {}
+  db_data_page['_id'] =1
+  db_data_page['name'] = 'oneplot'
+  inserted_obj_id = db_insert(db_name, coll_name, db_data_page)
+  print 'inserted into:', db_name, coll_name, inserted_obj_id
+
+
   res = {'peak_kW': max_kW}
   return res
 
@@ -148,8 +158,8 @@ def call_evaluator(query, matlab_engine=None):
     pass
     # TODO: handle error, inform user if invalid setpoint type
   # write input json file needed by matlab function
-  # input_data['start'] = int(query['start_time'][0:2])
-  # input_data['end'] = int(query['end_time'][0:2]) 
+  input_data['start'] = int(query['start_time'][0:2])
+  input_data['end'] = int(query['end_time'][0:2]) 
   input_file = 'input_evaluator.json'
   print "input",input_data
   write_json(input_file, input_data)
@@ -201,7 +211,7 @@ def call_evaluator(query, matlab_engine=None):
 
   print "auc_evaluator",auc_evaluator
   db_data = {'y_predict': y_predict_evaluator, 'time': times_evaluator}
-  db_data['_id'] = 2
+  db_data['_id'] = 1
   if isDay:
     db_data['day_flag'] = True
   else:
@@ -209,7 +219,7 @@ def call_evaluator(query, matlab_engine=None):
   
   # update DB with query result to update graphical output 
   db_name = 'energydata'
-  coll_name = 'baseline_data'
+  coll_name = 'evaluator_data'
   inserted_obj_id = db_insert(db_name, coll_name, db_data)
   print 'inserted into:', db_name, coll_name, inserted_obj_id
 
@@ -217,6 +227,15 @@ def call_evaluator(query, matlab_engine=None):
   print "energy_saving", energy_saving
   # return content for vocal response
 #  max_kW = (max_kW // 100) * 100
+
+  ## update DB with baseline chart
+  db_name = 'energydata'
+  coll_name = 'pagename'
+  db_data_page = {}
+  db_data_page['_id'] =1
+  db_data_page['name'] = 'twoplots'
+  inserted_obj_id = db_insert(db_name, coll_name, db_data_page)
+  print "inserted_into:", db_name, coll_name, inserted_obj_id
   res = {'percentage' : energy_saving}
   # res = {'peak_kW': max_kW}
   return res
@@ -385,6 +404,14 @@ def call_searchbin(query, matlab_engine=None):
   db_data['_id'] = 1
   inserted_obj_id = db_insert(db_name, coll_name, db_data)
   print 'inserted into:', db_name, coll_name, inserted_obj_id
+
+  db_name = 'energydata'
+  coll_name = 'pagename'
+  db_data_page = {}
+  db_data_page['_id'] =1
+  db_data_page['name'] = 'building_conditions'
+  inserted_obj_id = db_insert(db_name, coll_name, db_data_page)
+  print "inserted_into:", db_name, coll_name, inserted_obj_id
 
   # return content for vocal response 
   return response_transformed

@@ -4,6 +4,7 @@ var router = express.Router();
 var searchbin_data = null;
 var baseline_data = null;
 var pagename_data = null;
+var evaluator_data = null;
 var db = null;
 
 
@@ -12,10 +13,10 @@ router.get('/', function(req, res) {
     
     function doRender()
     {
-         if(searchbin_data !== null && baseline_data !== null && pagename_data !== null)
+         if(searchbin_data !== null && baseline_data !== null && pagename_data !== null && evaluator_data != null)
          { 
             res.render(pagename_data.name, {
-                 "searchbin_data" : searchbin_data, "baseline_data" : baseline_data
+                 "searchbin_data" : searchbin_data, "baseline_data" : baseline_data, "evaluator_data" : evaluator_data
             });
          }
     }
@@ -28,13 +29,14 @@ router.get('/', function(req, res) {
     });
 
     var baseline_collection = db.get('baseline_data');
-    baseline_collection.find({"$or": [{ "_id" : 1 }, { "_id": 2 }] },{},function(e,docs2){
+    baseline_collection.find({ "_id" : 1 },{},function(e,docs2){
          baseline_data = docs2[0];
-         if (docs2.length > 1) {
-            predicted_data = docs2[1];
-         } else {
-            predicted_data = [];
-         }
+         doRender();
+    });
+
+    var evaluator_collection = db.get('evaluator_data');
+    evaluator_collection.find({ "_id" : 1 },{},function(e,docs4){
+         evaluator_data = docs4[0];
          doRender();
     });
 

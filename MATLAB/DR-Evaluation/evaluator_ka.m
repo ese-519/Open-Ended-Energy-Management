@@ -14,17 +14,17 @@ clear all
 load drtree12.mat
 load dr12control.mat
 input_evaluator= loadjson('input_evaluator.json')
-load './MATLAB/DR-Baselining/baseline_july.mat';
+load './baseline_july17.mat';
 load './MATLAB/DR-Evaluation/drtree12.mat';
 load './MATLAB/DR-Baselining/XDR.mat';
 load './MATLAB/DR-Evaluation/dr12.mat';
 XDR_july17 = XDR(4319:4606,:) ;
 % 4pm: 57216
 
-
+% (4319:4606)
 leafout = predict(drtree12,XDR_july17);
             % idx is the leaf index for the model.
-y_predict = baseline_july.y_predict(4319:4606);
+y_predict = baseline_july17.y_predict;
 idx_dr=[];
 
 idx_dr = [(input_evaluator.start*12): (input_evaluator.end*12)-1];   
@@ -44,11 +44,11 @@ for i = 1: numel(idx_dr)
     y_predict(idx_dr(i))=predicted_av;
 end
 
-time = 1:size(baseline_july.y_predict(4319:4606),1);
-% figure(1)
-% plot(time,baseline_july.y_predict(4319:4606),'r');
-% hold on
-% plot(time,y_predict,'b');
+time = 1:size(baseline_july17.y_predict,1);
+figure(1)
+plot(time,baseline_july17.y_predict,'r');
+hold on
+plot(time,y_predict,'b');
 response =[];
 response.y_predict = y_predict;
 response.time = time;

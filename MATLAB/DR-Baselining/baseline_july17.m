@@ -33,8 +33,8 @@ response =[];
 response.y_predict = YpredictPlc17;
 response.time = date12numPlc17;
 
-baseline_july = response;
-save baseline_july.mat, baseline_july;
+baseline_july17 = response;
+save baseline_july17.mat, baseline_july17;
 savejson('',response,'Filename',['response.json']);
 % 
 % % RMSE

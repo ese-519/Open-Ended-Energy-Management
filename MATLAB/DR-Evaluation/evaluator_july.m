@@ -14,7 +14,7 @@ clear all
 load drtree12.mat
 load dr12control.mat
 input_evaluator= loadjson('input_evaluator.json')
-load './MATLAB/DR-Baselining/baseline_july.mat';
+load './baseline_july.mat';
 load './MATLAB/DR-Evaluation/drtree12.mat';
 load './MATLAB/DR-Baselining/XDR.mat';
 load './MATLAB/DR-Evaluation/dr12.mat';
