@@ -97,12 +97,7 @@ def on_launch(launch_request, session):
 def get_welcome_response():
     session_attributes = {}
     card_title = "Energy Advisor"
-    speech_output = "Welcome to the Alexa Energy Advisor skill,"\
-                    "I might know a few things you would like to know"
-#                    "You can ask me to describe conditions when a specific building " \
-#                    "consumed a certain amount of energy, predict energy usage on a" \
-#                    "particular day or month, determine expected consumption based on" \
-#                    "set point values, or for a suggested energy reduction strategy"
+    speech_output = "Welcome to the Alexa Energy Advisor skill"
     reprompt_text = speech_output
     should_end_session = False
     return build_response(session_attributes, build_speechlet_response(
@@ -144,7 +139,7 @@ def handle_session_end_request():
 def describe_conditions_for_usage(intent):
     session_attributes = {}
     card_title = "Energy Advisor Building Conditions"
-    reprompt_text = ""
+    reprompt_text = "How can I help you"
     should_end_session = False
     
     building = intent["slots"]["Building"]["value"]
@@ -177,7 +172,7 @@ def describe_conditions_for_usage(intent):
 def describe_conditions_only_building(intent):
     session_attributes = {}
     card_title = "Energy Advisor Building Conditions Only Building Specified"
-    reprompt_text = ""
+    reprompt_text = "How can I help you"
     should_end_session = False
     
     global searchbin_building, searchbin_usage
@@ -250,6 +245,7 @@ def describe_conditions_only_building(intent):
         )
         speech_output = 'For {}, What is the wattage you are expecting'.format(
           searchbin_building)
+        reprompt_text = speech_output
         
         return build_response(session_attributes, build_speechlet_response(
             card_title, speech_output, reprompt_text, should_end_session))
@@ -258,7 +254,7 @@ def describe_conditions_only_building(intent):
 def describe_conditions_only_usage(intent):
     session_attributes = {}
     card_title = "Energy Advisor Building Conditions Only Usage Specified"
-    reprompt_text = ""
+    reprompt_text = "How can I help you"
     should_end_session = False
     
     global searchbin_building, searchbin_usage
@@ -325,6 +321,7 @@ def describe_conditions_only_usage(intent):
             ReturnValues="UPDATED_NEW"
         )
         speech_output = 'Which building do you want to evaluate?'
+        reprompt_text = speech_output
     
     return build_response(session_attributes, build_speechlet_response(
         card_title, speech_output, reprompt_text, should_end_session))
@@ -332,7 +329,7 @@ def describe_conditions_only_usage(intent):
 def predict_day(intent):
     session_attributes = {}
     card_title = "Energy Advisor Day Prediction"
-    reprompt_text = ""
+    reprompt_text = "How can I help you"
     should_end_session = False
     
     day = intent["slots"]["Day"]["value"]
@@ -349,7 +346,7 @@ def predict_day(intent):
 def predict_month(intent):
     session_attributes = {}
     card_title = "Energy Advisor Month Prediction"
-    reprompt_text = ""
+    reprompt_text = "How can I help you"
     should_end_session = False
     
     month = intent["slots"]["Month"]["value"]
@@ -366,7 +363,7 @@ def predict_month(intent):
 def eval_one_set_points_change(intent):
     session_attributes = {}
     card_title = "Energy Advisor Evaluate Set Point Change"
-    reprompt_text = ""
+    reprompt_text = "How can I help you"
     should_end_session = False
 
     setpoint_type = intent["slots"]["SetPointTypeOne"]["value"]
@@ -388,7 +385,7 @@ def eval_one_set_points_change(intent):
 def eval_two_set_points_change(intent):
     session_attributes = {}
     card_title = "Energy Advisor Evaluate Set Points Change"
-    reprompt_text = ""
+    reprompt_text = "How can I help you"
     should_end_session = False
 
     setpoint_type1 = intent["slots"]["SetPointTypeOne"]["value"]
@@ -413,7 +410,7 @@ def eval_two_set_points_change(intent):
 def eval_two_set_points_no_time(intent):
     session_attributes = {}
     card_title = "Energy Advisor Evaluate Set Points Change"
-    reprompt_text = ""
+    reprompt_text = "How can I help you"
     should_end_session = False
 
     setpoint_type1 = intent["slots"]["SetPointTypeOne"]["value"]
@@ -439,13 +436,14 @@ def eval_two_set_points_no_time(intent):
     )
 
     speech_output = "Between which start and end times would you like these changes evaluated"
+    reprompt_text = speech_output
     return build_response(session_attributes, build_speechlet_response(
         card_title, speech_output, reprompt_text, should_end_session))
 
 def eval_all_set_points_time(intent):
     session_attributes = {}
     card_title = "Energy Advisor Evaluate Set Points Change"
-    reprompt_text = ""
+    reprompt_text = "How can I help you"
     should_end_session = False
   
 
@@ -501,7 +499,7 @@ def eval_all_set_points_time(intent):
 def suggest_good_strategy(intent):
     session_attributes = {}
     card_title = "Energy Advisor Suggest a good strategy"
-    reprompt_text = ""
+    reprompt_text = "How can I help you"
     should_end_session = False
 
     query_params = {"type": 5}
@@ -521,7 +519,7 @@ def best_strategy(intent):
 def invalid_intent():
     session_attributes = {}
     card_title = "Energy Advisor Evaluate Set Point Change"
-    reprompt_text = ""
+    reprompt_text = "How can I help you"
     should_end_session = False
     speech_output = "I'm sorry, I don't recognize that request"
     return build_response(session_attributes, build_speechlet_response(
