@@ -383,7 +383,7 @@ def eval_one_set_points_change(intent):
     query_res = json.loads(query_res_str)
 
     # parse response from server and build speech_output
-    speech_output = "{} percent less energy would be used".format(setpoint_type, query_res['percentage'])
+    speech_output = "{} percent less energy would be used".format(query_res['percentage'])
     return build_response(session_attributes, build_speechlet_response(
         card_title, speech_output, reprompt_text, should_end_session))
 
@@ -393,10 +393,10 @@ def eval_two_set_points_change(intent):
     reprompt_text = ""
     should_end_session = False
 
-    setpoint1_type = intent["slots"]["SetPointTypeOne"]["value"]
-    setpoint1_val = intent["slots"]["SetPointValOne"]["value"]
-    setpoint2_type = intent["slots"]["SetPointTypeTwo"]["value"]
-    setpoint2_val = intent["slots"]["SetPointValTwo"]["value"]
+    setpoint_type1 = intent["slots"]["SetPointTypeOne"]["value"]
+    setpoint_val1 = intent["slots"]["SetPointValOne"]["value"]
+    setpoint_type2 = intent["slots"]["SetPointTypeTwo"]["value"]
+    setpoint_val2 = intent["slots"]["SetPointValTwo"]["value"]
     start_time = intent["slots"]["StartTime"]["value"]
     end_time = intent["slots"]["EndTime"]["value"]
 
@@ -408,7 +408,7 @@ def eval_two_set_points_change(intent):
     query_res = json.loads(query_res_str)
 
     # parse response from server and build speech_output
-    speech_output = "{} percent less energy would be used".format(setpoint_type, query_res['percentage'])
+    speech_output = "{} percent less energy would be used".format(query_res['percentage'])
     return build_response(session_attributes, build_speechlet_response(
         card_title, speech_output, reprompt_text, should_end_session))
 

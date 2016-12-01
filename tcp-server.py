@@ -220,18 +220,21 @@ def call_evaluator(query, matlab_engine=None):
 
   # transform response data into name-value pairs 
   y_predict_evaluator,times_evaluator,max_kW_evaluator = transform_time_series(response['y_predict'],response['time'])
-  # calculate auc for baseline
-
+  # calculate auc for evaluator output
   print "evalutator after transform", y_predict_evaluator
   auc_evaluator= calc_auc(y_predict_evaluator,times_evaluator)
-
   print "auc_evaluator",auc_evaluator
+
+  energy_saving = abs(round(((auc_baseline- auc_evaluator)/auc_baseline)*100,1))
+  print "energy_saving", energy_saving
+
   db_data = {'y_predict': y_predict_evaluator, 'time': times_evaluator}
   db_data['_id'] = 1
   if isDay:
     db_data['day_flag'] = True
   else:
     db_data['day_flag'] = False
+  db_data['energy_saving'] = energy_saving
   
   # update DB with query result to update graphical output 
   db_name = 'energydata'
@@ -239,9 +242,6 @@ def call_evaluator(query, matlab_engine=None):
   inserted_obj_id = db_insert(db_name, coll_name, db_data)
   print 'inserted into:', db_name, coll_name, inserted_obj_id
 
-  energy_saving = round(((auc_baseline- auc_evaluator)/auc_baseline)*100,1)
-  print "energy_saving", energy_saving
-  # return content for vocal response
 
   ## update DB with baseline chart
   db_name = 'energydata'
@@ -251,6 +251,8 @@ def call_evaluator(query, matlab_engine=None):
   db_data_page['name'] = 'twoplots'
   inserted_obj_id = db_insert(db_name, coll_name, db_data_page)
   print "inserted_into:", db_name, coll_name, inserted_obj_id
+
+  # return content for vocal response
   res = {'percentage' : energy_saving}
   # res = {'peak_kW': max_kW}
   return res
