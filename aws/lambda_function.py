@@ -8,8 +8,6 @@ ec2_addr='158.130.160.166' # karuna's machine
 #ec2_addr = '158.130.166.151' # bob's machine
 ec2_tcp_port = 9000
 #message = 'This is the message.  It will be repeated.'
-dynamodb = boto3.resource('dynamodb')
-table = dynamodb.Table('searchbin')
 searchbin_usage = 'Null'
 searchbin_building = 'Null'
 
@@ -19,10 +17,6 @@ def lambda_handler(event, context):
         raise ValueError("Invalid Application ID")
     
     if event["request"]["type"] == "LaunchRequest":
-#        response = table.query(KeyConditionExpression=Key('id').eq(1))
-#        print(table.item_count)
-#        for i in response['Items']:
-#            print(i['building'], ",", i['usage'])
         return on_launch(event["request"], event["session"])
     elif event["request"]["type"] == "IntentRequest":
         return on_intent(event["request"], event["session"])
@@ -90,9 +84,9 @@ def on_intent(intent_request, session):
     elif intent_name == "DescribeConditionsOnlyUsage":
         return describe_conditions_only_usage(intent)
     elif intent_name == "EvalTwoSetPointsNoTime":
-        pass #TODO: implement
+        return eval_two_set_points_no_time(intent)
     elif intent_name == "EvalAllSetPointsTime":
-        pass#TODO: implement
+        return eval_all_set_points_time(intent)
     else:
         return invalid_intent()
 #        raise ValueError("Invalid intent")
@@ -187,6 +181,8 @@ def describe_conditions_only_building(intent):
     should_end_session = False
     
     global searchbin_building, searchbin_usage
+    dynamodb = boto3.resource('dynamodb')
+    table = dynamodb.Table('searchbin')
 
     searchbin_building = intent["slots"]["Building"]["value"]
 
@@ -267,6 +263,8 @@ def describe_conditions_only_usage(intent):
     
     global searchbin_building, searchbin_usage
     searchbin_usage = intent["slots"]["UsagekW"]["value"]
+    dynamodb = boto3.resource('dynamodb')
+    table = dynamodb.Table('searchbin')
 
     try:
         response = table.get_item(
@@ -406,6 +404,94 @@ def eval_two_set_points_change(intent):
     query_str = json.dumps(query_params)
     query_res_str = client_tcp_session(ec2_addr, ec2_tcp_port, query_str)
     query_res = json.loads(query_res_str)
+
+    # parse response from server and build speech_output
+    speech_output = "{} percent less energy would be used".format(query_res['percentage'])
+    return build_response(session_attributes, build_speechlet_response(
+        card_title, speech_output, reprompt_text, should_end_session))
+
+def eval_two_set_points_no_time(intent):
+    session_attributes = {}
+    card_title = "Energy Advisor Evaluate Set Points Change"
+    reprompt_text = ""
+    should_end_session = False
+
+    setpoint_type1 = intent["slots"]["SetPointTypeOne"]["value"]
+    setpoint_val1 = intent["slots"]["SetPointValOne"]["value"]
+    setpoint_type2 = intent["slots"]["SetPointTypeTwo"]["value"]
+    setpoint_val2 = intent["slots"]["SetPointValTwo"]["value"]
+
+    # write received data into dynamodb
+    dynamodb = boto3.resource('dynamodb')
+    table = dynamodb.Table('evaluator_two_setpoints')
+    response = table.update_item(
+        Key={
+            'id': '1'
+        },
+        UpdateExpression="SET setpoint_type1= :r, setpoint_val1= :s, setpoint_type2= :t, setpoint_val2= :u",
+        ExpressionAttributeValues={
+            ':r': setpoint_type1,
+            ':s': setpoint_val1,
+            ':t': setpoint_type2,
+            ':u': setpoint_val2
+        },
+        ReturnValues="UPDATED_NEW"
+    )
+
+    speech_output = "Between which start and end times would you like these changes evaluated"
+    return build_response(session_attributes, build_speechlet_response(
+        card_title, speech_output, reprompt_text, should_end_session))
+
+def eval_all_set_points_time(intent):
+    session_attributes = {}
+    card_title = "Energy Advisor Evaluate Set Points Change"
+    reprompt_text = ""
+    should_end_session = False
+  
+
+
+    dynamodb = boto3.resource('dynamodb')
+    table = dynamodb.Table('evaluator_two_setpoints')
+
+    try:
+        response = table.get_item(
+            Key={
+                'id' : '1'
+            }
+        )
+    except ClientError as e:
+        print(e.response['Error']['Message'])
+    else:
+        response = response['Item']
+        setpoint_type1 = response['setpoint_type1']
+        setpoint_val1 = int(response['setpoint_val1'])
+        setpoint_type2 = response['setpoint_type2']
+        setpoint_val2 = int(response['setpoint_val2'])
+
+    start_time = intent["slots"]["StartTime"]["value"]
+    end_time = intent["slots"]["EndTime"]["value"]
+
+    query_params = {"type": 6, "setpoint_type1": setpoint_type1,
+      "setpoint_val1": setpoint_val1, "start_time": start_time, "end_time": end_time,
+      "setpoint_type2": setpoint_type2, "setpoint_val2": setpoint_val2}
+    query_str = json.dumps(query_params)
+    query_res_str = client_tcp_session(ec2_addr, ec2_tcp_port, query_str)
+    query_res = json.loads(query_res_str)
+
+    # clear out dynamodb table
+    response = table.update_item(
+        Key={
+            'id': '1'
+        },
+        UpdateExpression="SET setpoint_type1= :r, setpoint_val1= :s, setpoint_type2= :t, setpoint_val2= :u",
+        ExpressionAttributeValues={
+            ':r': "Null", 
+            ':s': "Null",
+            ':t': "Null",
+            ':u': "Null"
+        },
+        ReturnValues="UPDATED_NEW"
+    )
 
     # parse response from server and build speech_output
     speech_output = "{} percent less energy would be used".format(query_res['percentage'])

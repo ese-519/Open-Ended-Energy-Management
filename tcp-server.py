@@ -235,6 +235,11 @@ def call_evaluator(query, matlab_engine=None):
   else:
     db_data['day_flag'] = False
   db_data['energy_saving'] = energy_saving
+  db_data['cwsetp'] = input_data['cwsetp']
+  db_data['clgsetp'] = input_data['clgsetp']
+  db_data['lil'] = input_data['lil']
+  db_data['start_time'] = input_data['start']
+  db_data['end_time'] = input_data['end']
   
   # update DB with query result to update graphical output 
   db_name = 'energydata'
