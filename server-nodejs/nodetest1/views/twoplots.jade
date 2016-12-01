@@ -3,7 +3,53 @@ extends layout
 block content
 
     div 
-      h3 Changing the set point #{evaluator_data.set_point_type} to #{evaluator_data.set_point_value} #{evaluator_data.incr_decr} by #{evaluator_data.energy_change} percent.      
+      h3 Changing the set point #{evaluator_data.set_point_type} to #{evaluator_data.set_point_value} #{evaluator_data.incr_decr} by #{evaluator_data.energy_change} percent.
+
+      div
+      p Predicted data assuming set point values:
+      div.row 
+        div.col-sm-4(style="text-align:center")
+          img(src="/images/ChilledWaterTemp.png" style="max-width:25%; height:auto; margin:auto")
+          p(style="margin:auto") Chilled Water Temperature: #{evaluator_data.cwsetp} C 
+          svg(id="ChilledWaterTempSvg" width="90" height="90" style="margin:auto")
+          script.
+            var tau = 2 * Math.PI; 
+            var arc = d3.arc().innerRadius(25).outerRadius(40).startAngle(-1*tau/4); 
+            var svg = d3.select("#ChilledWaterTempSvg"); 
+            var width = +svg.attr("width"); 
+            var height = +svg.attr("height"); 
+            var g = svg.append("g").attr("transform", "translate(" + width / 2 + "," + height / 2 + ")"); 
+            var p = (#{evaluator_data.cwsetp} - 6.0) / (8.0 - 0.0);
+            var background = g.append("path").datum({endAngle: tau / 4}).style("fill", "#ddd").attr("d", arc); 
+            var foreground = g.append("path").datum({endAngle: (-1*tau/4) + p * tau / 2}).attr("d", arc).style("fill", "#63caf9");
+        div.col-sm-4(style="text-align:center")
+          img(src="/images/LightingLevel.png" style="max-width:25%; height:auto; margin:auto")
+          p(style="margin:auto") Lighting Level: #{evaluator_data.lil} % 
+          svg(id="LightingLevelSvg" width="90" height="90" style="margin:auto")
+          script.
+            var tau = 2 * Math.PI; 
+            var arc = d3.arc().innerRadius(25).outerRadius(40).startAngle(-1*tau/4); 
+            var svg = d3.select("#LightingLevelSvg"); 
+            var width = +svg.attr("width"); 
+            var height = +svg.attr("height"); 
+            var g = svg.append("g").attr("transform", "translate(" + width / 2 + "," + height / 2 + ")"); 
+            var p = (#{evaluator_data.lil} - 0) / (100 - 0);
+            var background = g.append("path").datum({endAngle: tau / 4}).style("fill", "#ddd").attr("d", arc); 
+            var foreground = g.append("path").datum({endAngle: (-1*tau/4) + p * tau / 2}).attr("d", arc).style("fill", "#f7ef62");
+        div.col-sm-4(style="text-align:center")
+          img(src="/images/ZoneTemp.png" style="max-width:25%; height:auto; margin:auto")
+          p(style="margin:auto") Zone Temperature: #{evaluator_data.clgsetp} C 
+          svg(id="ZoneTempSvg" width="90" height="90" style="margin:auto")
+          script.
+            var tau = 2 * Math.PI; 
+            var arc = d3.arc().innerRadius(25).outerRadius(40).startAngle(-1*tau/4); 
+            var svg = d3.select("#ZoneTempSvg"); 
+            var width = +svg.attr("width"); 
+            var height = +svg.attr("height"); 
+            var g = svg.append("g").attr("transform", "translate(" + width / 2 + "," + height / 2 + ")"); 
+            var p = (#{evaluator_data.clgsetp} - 24.0) / (28.0 - 24.0);
+            var background = g.append("path").datum({endAngle: tau / 4}).style("fill", "#ddd").attr("d", arc); 
+            var foreground = g.append("path").datum({endAngle: (-1*tau/4) + p * tau / 2}).attr("d", arc).style("fill", "#ce5a40");      
 
     div#lineContainer(style = "padding-top : 20px; padding-bottom: 20px")
     script.
@@ -36,10 +82,3 @@ block content
                ]
            });
       });
-
-    div
-      p Baseline data assuming set point values:
-      ul
-        li lighting level: 
-        li chilled water temperature: 
-        li zone temperature: 

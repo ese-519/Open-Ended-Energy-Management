@@ -118,7 +118,7 @@ def call_baseline(query, dayQuery, matlab_engine=None):
   auc_baseline = calc_auc(y_predict, times)
   max_kW = round(max_kW / 1000 , 1)
   db_data['peak_power'] = max_kW
-  db_data['total_energy'] = auc_baseline
+  db_data['total_energy'] = round(auc_baseline, 1)
   if dayQuery:
     db_data['target_calendar'] = query['day']
   else:
@@ -234,10 +234,12 @@ def call_evaluator(query, matlab_engine=None):
     db_data['day_flag'] = True
   else:
     db_data['day_flag'] = False
+
   db_data['energy_saving'] = energy_saving
+  # add set points info to db
   db_data['cwsetp'] = input_data['cwsetp']
   db_data['clgsetp'] = input_data['clgsetp']
-  db_data['lil'] = input_data['lil']
+  db_data['lil'] = int(100 * input_data['lil'])
   db_data['start_time'] = input_data['start']
   db_data['end_time'] = input_data['end']
   
