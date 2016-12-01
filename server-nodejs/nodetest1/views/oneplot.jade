@@ -3,8 +3,56 @@ extends layout
 block content
 
     div 
-      h3 The predicted energy used for #{baseline_data.target_calendar} is #{baseline_data.total_energy} kWh, with peak power consumption of #{baseline_data.peak_power} kW.      
+      h3 On #{baseline_data.target_calendar}, the predicted:
+      ul
+        li Energy used is #{baseline_data.total_energy} kWh
+        li Peak power consumption is #{baseline_data.peak_power} kW    
 
+      div
+      p Predicted data assuming set point values:
+      div.row
+        div.col-sm-4(style="text-align:center")
+          img(src="/images/LightingLevel.png" style="max-width:50%; height:auto; margin:auto")
+          p(style="margin:auto") Lighting Level: 70 % 
+          svg(id="LightingLevelSvg" width="90" height="90" style="margin:auto")
+          script.
+            var tau = 2 * Math.PI; 
+            var arc = d3.arc().innerRadius(25).outerRadius(40).startAngle(-1*tau/4); 
+            var svg = d3.select("#LightingLevelSvg"); 
+            var width = +svg.attr("width"); 
+            var height = +svg.attr("height"); 
+            var g = svg.append("g").attr("transform", "translate(" + width / 2 + "," + height / 2 + ")"); 
+            var p = (70 - 0) / (100 - 0);
+            var background = g.append("path").datum({endAngle: tau / 4}).style("fill", "#ddd").attr("d", arc); 
+            var foreground = g.append("path").datum({endAngle: (-1*tau/4) + p * tau / 2}).attr("d", arc).style("fill", "yellow");
+          div.col-sm-4(style="text-align:center")
+            img(src="/images/ChilledWaterTemp.png" style="max-width:50%; height:auto; margin:auto")
+            p(style="margin:auto") Chilled Water Temperature: 6.7 C 
+            svg(id="ChilledWaterTempSvg" width="90" height="90" style="margin:auto")
+            script.
+              var tau = 2 * Math.PI; 
+              var arc = d3.arc().innerRadius(25).outerRadius(40).startAngle(-1*tau/4); 
+              var svg = d3.select("#ChilledWaterTempSvg"); 
+              var width = +svg.attr("width"); 
+              var height = +svg.attr("height"); 
+              var g = svg.append("g").attr("transform", "translate(" + width / 2 + "," + height / 2 + ")"); 
+              var p = (6.7 - 6.0) / (8.0 - 0.0);
+              var background = g.append("path").datum({endAngle: tau / 4}).style("fill", "#ddd").attr("d", arc); 
+              var foreground = g.append("path").datum({endAngle: (-1*tau/4) + p * tau / 2}).attr("d", arc).style("fill", "blue");
+          div.col-sm-4(style="text-align:center")
+            img(src="/images/ZoneTemp.png" style="max-width:50%; height:auto; margin:auto")
+            p(style="margin:auto") Zone Temperature: 26.0 C 
+            svg(id="ZoneTempSvg" width="90" height="90" style="margin:auto")
+            script.
+              var tau = 2 * Math.PI; 
+              var arc = d3.arc().innerRadius(25).outerRadius(40).startAngle(-1*tau/4); 
+              var svg = d3.select("#ZoneTempSvg"); 
+              var width = +svg.attr("width"); 
+              var height = +svg.attr("height"); 
+              var g = svg.append("g").attr("transform", "translate(" + width / 2 + "," + height / 2 + ")"); 
+              var p = (26.0 - 24.0) / (28.0 - 24.0);
+              var background = g.append("path").datum({endAngle: tau / 4}).style("fill", "#ddd").attr("d", arc); 
+              var foreground = g.append("path").datum({endAngle: (-1*tau/4) + p * tau / 2}).attr("d", arc).style("fill", "red");
     div#lineContainer(style = "padding-top : 20px; padding-bottom: 20px")
     script.
       $(function () { 
@@ -33,9 +81,4 @@ block content
            });
       });
 
-    div
-      p Predicted data assuming set point values:
-      ul
-        li lighting level: 
-        li chilled water temperature: 
-        li zone temperature: 
+     
