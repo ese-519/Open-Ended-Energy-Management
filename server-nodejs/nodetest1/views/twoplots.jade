@@ -12,6 +12,7 @@ block content
         div.col-sm-3(style="text-align:center")
           img(src="/images/ChilledWaterTemp.png" style="max-width:25%; height:auto; margin:auto")
           p(style="margin:auto") Chilled Water Temperature: #{evaluator_data.cwsetp} C 
+          p(style="margin:auto") default: 6.7 C
           svg(id="ChilledWaterTempSvg" width="90" height="90" style="margin:auto")
           script.
             var tau = 2 * Math.PI; 
@@ -26,6 +27,7 @@ block content
         div.col-sm-3(style="text-align:center")
           img(src="/images/LightingLevel.png" style="max-width:25%; height:auto; margin:auto")
           p(style="margin:auto") Lighting Level: #{evaluator_data.lil} % 
+          p(style="margin:auto") default: 70%
           svg(id="LightingLevelSvg" width="90" height="90" style="margin:auto")
           script.
             var tau = 2 * Math.PI; 
@@ -40,6 +42,7 @@ block content
         div.col-sm-3(style="text-align:center")
           img(src="/images/ZoneTemp.png" style="max-width:25%; height:auto; margin:auto")
           p(style="margin:auto") Zone Temperature: #{evaluator_data.clgsetp} C 
+          p(style="margin:auto") default: 26.7 C
           svg(id="ZoneTempSvg" width="90" height="90" style="margin:auto")
           script.
             var tau = 2 * Math.PI; 
@@ -78,19 +81,24 @@ block content
       $(function () { 
                  var myChart = Highcharts.chart('lineContainer', {
                chart: {
-                   type: 'line'
+                   type: 'area'
                },
                title: {
                    text: 'Energy Usage'
                },
                xAxis: {
                    categories: [#{baseline_data.time}],
-                   title : { text: 'Time' }
+                   title : { text: 'Time (min)' }
                },
                yAxis: {
                    title: {
                        text: 'Power (kW)'
                    }
+               },
+               plotOptions: {
+                 series: {
+                   fillOpacity: 0.3
+                 }
                },
                series: [
                   {
