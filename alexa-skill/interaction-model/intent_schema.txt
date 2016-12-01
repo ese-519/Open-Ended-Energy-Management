@@ -1,134 +1,142 @@
 {
-  "intents": [
-    {
-      "intent": "DescribeConditionsForUsage",
-      "slots" : [
-        {
-          "name": "Building",
-          "type": "LIST_OF_BUILDINGS"
-        },
-        {
-          "name": "UsagekW",
-          "type": "AMAZON.NUMBER"
-        }
-      ]
-    },
-    {
-      "intent": "PredictDay",
-      "slots" : [
-        {
-          "name": "Day",
-          "type": "AMAZON.DATE"
-        }
-      ]
-    },
-    {
-      "intent": "PredictMonth",
-      "slots": [
-        {
-          "name": "Month",
-          "type": "MONTH_NAME"
-        }
-      ]
-    },
-    {
-      "intent": "EvalOneSetPointsChange",
-      "slots": [
-        {
-          "name": "SetPointTypeOne",
-          "type": "SET_POINT_TYPE"
-        },
-        {
-          "name": "SetPointValOne",
-          "type": "AMAZON.NUMBER"
-        },
-        {
-          "name": "StartTime",
-          "type": "AMAZON.TIME"
-        },
-        {
-          "name": "EndTime",
-          "type": "AMAZON.TIME"
-        }
-      ]
-    },
-    {
-      "intent": "EvalTwoSetPointsChange",
-      "slots": [
-        {
-          "name": "SetPointTypeOne",
-          "type": "SET_POINT_TYPE"
-        },
-        {
-          "name": "SetPointValOne",
-          "type": "AMAZON.NUMBER"
-        },
-        {
-          "name": "SetPointTypeTwo",
-          "type": "SET_POINT_TYPE"
-        },
-        {
-          "name": "SetPointValTwo",
-          "type": "AMAZON.NUMBER"
-        },
-        {
-          "name": "StartTime",
-          "type": "AMAZON.TIME"
-        },
-        {
-          "name": "EndTime",
-          "type": "AMAZON.TIME"
-        }
-      ]
-    },
-    {
-      "intent": "EvalThreeSetPointsChange",
-      "slots": [
-        {
-          "name": "SetPointTypeOne",
-          "type": "SET_POINT_TYPE"
-        },
-        {
-          "name": "SetPointValOne",
-          "type": "AMAZON.NUMBER"
-        },
-        {
-          "name": "SetPointTypeTwo",
-          "type": "SET_POINT_TYPE"
-        },
-        {
-          "name": "SetPointValTwo",
-          "type": "AMAZON.NUMBER"
-        },
-        {
-          "name": "SetPointTypeThree",
-          "type": "SET_POINT_TYPE"
-        },
-        {
-          "name": "SetPointValThree",
-          "type": "AMAZON.NUMBER"
-        },
-        {
-          "name": "StartTime",
-          "type": "AMAZON.TIME"
-        },
-        {
-          "name": "EndTime",
-          "type": "AMAZON.TIME"
-        }
-      ]
-    },
-    {
-      "intent": "BestStrategy"
-    },
-    {
-      "intent": "AMAZON.HelpIntent"
-    },
-    {
-      "intent": "AMAZON.StopIntent"
-    },
-    {
-      "intent": "AMAZON.CancelIntent"
-    }
-  ]
+  "intents": [{
+    "intent": "DescribeConditionsForUsage",
+    "slots": [{
+      "name": "Building",
+      "type": "LIST_OF_BUILDINGS"
+    }, {
+      "name": "UsagekW",
+      "type": "AMAZON.NUMBER"
+    }]
+  }, {
+    "intent": "PredictDay",
+    "slots": [{
+      "name": "Day",
+      "type": "AMAZON.DATE"
+    }]
+  }, {
+    "intent": "PredictMonth",
+    "slots": [{
+      "name": "Month",
+      "type": "MONTH_NAME"
+    }]
+  }, {
+    "intent": "EvalOneSetPointsChange",
+    "slots": [{
+      "name": "SetPointTypeOne",
+      "type": "SET_POINT_TYPE"
+    }, {
+      "name": "SetPointValOne",
+      "type": "AMAZON.NUMBER"
+    }, {
+      "name": "StartTime",
+      "type": "AMAZON.TIME"
+    }, {
+      "name": "EndTime",
+      "type": "AMAZON.TIME"
+    }]
+  }, {
+    "intent": "EvalOneSetPointsNoTime",
+    "slots": [{
+      "name": "SetPointTypeOne",
+      "type": "SET_POINT_TYPE"
+    }, {
+      "name": "SetPointValOne",
+      "type": "AMAZON.NUMBER"
+    }]
+  }, {
+    "intent": "EvalAllSetPointsTime",
+    "slots": [{
+      "name": "StartTime",
+      "type": "AMAZON.TIME"
+    }, {
+      "name": "EndTime",
+      "type": "AMAZON.TIME"
+    }]
+  }, {
+    "intent": "EvalTwoSetPointsChange",
+    "slots": [{
+      "name": "SetPointTypeOne",
+      "type": "SET_POINT_TYPE"
+    }, {
+      "name": "SetPointValOne",
+      "type": "AMAZON.NUMBER"
+    }, {
+      "name": "SetPointTypeTwo",
+      "type": "SET_POINT_TYPE"
+    }, {
+      "name": "SetPointValTwo",
+      "type": "AMAZON.NUMBER"
+    }, {
+      "name": "StartTime",
+      "type": "AMAZON.TIME"
+    }, {
+      "name": "EndTime",
+      "type": "AMAZON.TIME"
+    }]
+  }, {
+    "intent": "EvalTwoSetPointsNoTime",
+    "slots": [{
+      "name": "SetPointTypeOne",
+      "type": "SET_POINT_TYPE"
+    }, {
+      "name": "SetPointValOne",
+      "type": "AMAZON.NUMBER"
+    }, {
+      "name": "SetPointTypeTwo",
+      "type": "SET_POINT_TYPE"
+    }, {
+      "name": "SetPointValTwo",
+      "type": "AMAZON.NUMBER"
+    }]
+  }, {
+    "intent": "EvalThreeSetPointsChange",
+    "slots": [{
+      "name": "SetPointTypeOne",
+      "type": "SET_POINT_TYPE"
+    }, {
+      "name": "SetPointValOne",
+      "type": "AMAZON.NUMBER"
+    }, {
+      "name": "SetPointTypeTwo",
+      "type": "SET_POINT_TYPE"
+    }, {
+      "name": "SetPointValTwo",
+      "type": "AMAZON.NUMBER"
+    }, {
+      "name": "SetPointTypeThree",
+      "type": "SET_POINT_TYPE"
+    }, {
+      "name": "SetPointValThree",
+      "type": "AMAZON.NUMBER"
+    }, {
+      "name": "StartTime",
+      "type": "AMAZON.TIME"
+    }, {
+      "name": "EndTime",
+      "type": "AMAZON.TIME"
+    }]
+  }, {
+    "intent": "DescribeConditionsOnlyUsage",
+    "slots": [{
+      "name": "UsagekW",
+      "type": "AMAZON.NUMBER"
+    }]
+  }, {
+    "intent": "DescribeConditionsOnlyBuilding",
+    "slots": [{
+      "name": "Building",
+      "type": "LIST_OF_BUILDINGS"
+    }]
+  }, {
+    "intent": "SuggestGoodStrategy"
+  }, {
+    "intent": "BestStrategy"
+  }, {
+    "intent": "AMAZON.HelpIntent"
+  }, {
+    "intent": "AMAZON.StopIntent"
+  }, {
+    "intent": "AMAZON.CancelIntent"
+  }]
 }

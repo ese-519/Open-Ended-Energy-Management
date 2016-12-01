@@ -1,7 +1,62 @@
 DescribeConditionsForUsage Describe the conditions for {Building} when energy usage is {UsagekW}
 DescribeConditionsForUsage Describe the conditions for {Building} when energy usage is {UsagekW} kilowatts
+DescribeConditionsForUsage When does  {Building} consume {UsagekW} kilowatts
+DescribeConditionsForUsage When does  {Building} consume {UsagekW} 
+
+
+DescribeConditionsOnlyUsage {UsagekW}
+DescribeConditionsOnlyUsage{UsagekW} kilowatts
+
+DescribeConditionsOnlyBuilding Describe the conditions for {Building} 
+
 PredictDay What is the predicted energy consumption for {Day}
+PredictDay How much is the energy consumption predicted for {Day}
+PredictDay Show the predicted consumption for {Day}
+PredictDay For {Day} what is the predicted energy consumption
+
 PredictMonth What is the predicted energy consumption for {Month}
 PredictMonth What is the predicted energy consumption for the month of {Month}
+PredictMonth How much is energy consumption predicted for the month of {Month}
+PredictMonth Show the predicted consumption for {Month}
+
+
+EvalOneSetPointsChange What if I change {SetPointTypeOne} to {SetPointValOne} between time {StartTime} and {EndTime}
 EvalOneSetPointsChange What is the expected consumption if I change {SetPointTypeOne} to {SetPointValOne} from time {StartTime} to {EndTime}
+EvalOneSetPointsChange Set {SetPointTypeOne} to {SetPointValOne} from time {StartTime} to {EndTime}
+EvalOneSetPointsChange Change {SetPointTypeOne} to {SetPointValOne} from time {StartTime} to {EndTime}
+EvalOneSetPointsChange What if I change {SetPointTypeOne} to {SetPointValOne} from time {StartTime} to {EndTime}
+EvalOneSetPointsChange What will happen if I change {SetPointTypeOne} to {SetPointValOne} from time {StartTime} to {EndTime}
+
+//intent when you miss start time and end time
+EvalOneSetPointsNoTime What will happen if I change {SetPointTypeOne} to {SetPointValOne} 
+EvalOneSetPointsNoTime What if I change {SetPointTypeOne} to {SetPointValOne}
+
+
+EvalAllSetPointsTime from time {StartTime}  to {EndTime}
+EvalAllSetPointsTime between time {StartTime} and {EndTime}
+EvalAllSetPointsTime no just between {StartTime}  and {EndTime}
+
+
+EvalTwoSetPointsChange What will happen if I change {SetPointTypeOne} to {SetPointValOne} percent and {SetPointTypeTwo} to {SetPointValTwo} degrees between time {StartTime} and {EndTime}
+EvalTwoSetPointsChange What will happen if I change {SetPointTypeOne} to {SetPointValOne} and {SetPointTypeTwo} to {SetPointValTwo} between time {StartTime} and {EndTime}
+EvalTwoSetPointsChange What if I change {SetPointTypeOne} to {SetPointValOne} and {SetPointTypeTwo} to {SetPointValTwo} between time {StartTime} and {EndTime}
+EvalTwoSetPointsChange What if I change {SetPointTypeOne} to {SetPointValOne}  percent and {SetPointTypeTwo} to {SetPointValTwo} degrees between time {StartTime} and {EndTime}
+EvalTwoSetPointsChange What if I change {SetPointTypeOne} to {SetPointValOne}  degrees and {SetPointTypeTwo} to {SetPointValTwo} percent between time {StartTime} and {EndTime}
+
+EvalTwoSetPointsNoTime What will happen if I change {SetPointTypeOne} to {SetPointValOne} percent and {SetPointTypeTwo} to {SetPointValTwo} degrees
+EvalTwoSetPointsNoTime What will happen if I change {SetPointTypeOne} to {SetPointValOne} and {SetPointTypeTwo} to {SetPointValTwo}
+EvalTwoSetPointsNoTime What if I change {SetPointTypeOne} to {SetPointValOne} and {SetPointTypeTwo} to {SetPointValTwo} 
+EvalTwoSetPointsNoTime What if I change {SetPointTypeOne} to {SetPointValOne}  percent and {SetPointTypeTwo} to {SetPointValTwo} degrees 
+EvalTwoSetPointsNoTime What if I change {SetPointTypeOne} to {SetPointValOne}  degrees and {SetPointTypeTwo} to {SetPointValTwo} percent
+
+
+
+
+EvalThreeSetPointsChange What will happen if I change {SetPointTypeOne} to {SetPointValOne} and {SetPointTypeTwo} to {SetPointValTwo} and {SetPointTypeThree} to {SetPointValThree}
+
+SuggestGoodStrategy Give me some options to choose from
+SuggestGoodStrategy Give me some strategies to choose from
+SuggestGoodStrategy What could be some setpoints I can pick
+
+
 BestStrategy What should my set points be for the best strategy
