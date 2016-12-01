@@ -79,7 +79,8 @@ block content
     div#lineContainer(style = "padding-top : 20px; padding-bottom: 20px")
     script.
       $(function () { 
-                 var myChart = Highcharts.chart('lineContainer', {
+               var hourInDataPoints = 12;
+               var myChart = Highcharts.chart('lineContainer', {
                chart: {
                    type: 'area'
                },
@@ -88,7 +89,18 @@ block content
                },
                xAxis: {
                    categories: [#{baseline_data.time}],
-                   title : { text: 'Time (min)' }
+                   title : { text: 'Time (min)' },
+                   plotLines: [
+                    {
+                      color: '#FF0000', // Red
+                      width: 2,
+                      value: hourInDataPoints * #{evaluator_data.start_time} // Position, you'll have to translate this to the values on your x axis
+                    },
+                    {
+                      color: '#FF0000', // Red
+                      width: 2,
+                      value: hourInDataPoints * #{evaluator_data.end_time} // Position, you'll have to translate this to the values on your x axis
+                    }]
                },
                yAxis: {
                    title: {
