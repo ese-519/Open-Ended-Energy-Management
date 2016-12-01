@@ -219,7 +219,7 @@ def call_evaluator(query, matlab_engine=None):
   # add set points info to db
   db_data['cwsetp'] = input_data['cwsetp']
   db_data['clgsetp'] = input_data['clgsetp']
-  db_data['lil'] = int(100 * input_data['lil'], 0)
+  db_data['lil'] = int(100 * input_data['lil'])
   db_data['start_time'] = input_data['start']
   db_data['end_time'] = input_data['end']
   
