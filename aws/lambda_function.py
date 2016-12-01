@@ -1,10 +1,15 @@
 import socket
 import json
+import boto3
+from boto3.dynamodb.conditions import Key, Attr
 ec2_addr='158.130.160.166' # karuna's machine 
 #ec2_addr = '54.165.125.83'
 #ec2_addr = '158.130.166.151' # bob's machine
 ec2_tcp_port = 9000
 #message = 'This is the message.  It will be repeated.'
+table = dynamodb.Table('searchbin')
+searchbin_usage = None
+searchbin_building = None
 
 def lambda_handler(event, context):
     if (event['session']['application']['applicationId'] !=
@@ -12,6 +17,10 @@ def lambda_handler(event, context):
         raise ValueError("Invalid Application ID")
     
     if event["request"]["type"] == "LaunchRequest":
+        response = table.query(KeyConditionExpression=Key('id').eq(1))
+        print(table.item_count)
+        for i in response['Items']:
+            print(i['building'], ",", i['usage'])
         return on_launch(event["request"], event["session"])
     elif event["request"]["type"] == "IntentRequest":
         return on_intent(event["request"], event["session"])
@@ -72,6 +81,10 @@ def on_intent(intent_request, session):
         return suggest_good_strategy(intent)
     elif intent_name == "BestStrategy":
         return best_strategy(intent)
+    elif intent_name == "DescribeConditionsOnlyBuilding":
+        return describe_conditions_only_building(intent)
+    elif intent_name == "DescribeConditionsOnlyUsage":
+        return describe_conditions_only_usage(intent)
     else:
         return invalid_intent()
 #        raise ValueError("Invalid intent")
@@ -159,6 +172,149 @@ def describe_conditions_for_usage(intent):
     return build_response(session_attributes, build_speechlet_response(
         card_title, speech_output, reprompt_text, should_end_session))
 
+def describe_conditions_only_building(intent):
+    session_attributes = {}
+    card_title = "Energy Advisor Building Conditions Only Building Specified"
+    reprompt_text = ""
+    should_end_session = False
+    
+    searchbin_building = intent["slots"]["Building"]["value"]
+
+    response = table.get_item(
+        Key={
+            'id' : 1
+        }
+    )
+    except ClientError as e:
+        print(e.response['Error']['Message'])
+    else:
+        searchbin_usage = response['usage']
+
+    if searchbin_building != None && searchbin_usage != None:
+        # build query, send to ec2, get response
+        query_params = {'type': 1, 'building': searchbin_building, 'usagekW' :
+                searchbin_usage}
+        query_str = json.dumps(query_params)
+        query_res_str = client_tcp_session(ec2_addr, ec2_tcp_port, query_str)
+        query_res = json.loads(query_res_str)
+
+        # parse response from server and build speech_output
+        if 'error_msg' in query_res.keys():
+            speech_output = 'I am sorry, there was an error.' + query_res['error_msg']
+        else:
+            time_int = int(query_res['TimeOfDay'])
+            if time_int <= 11:
+              time_str = str(time_int) + ' AM'
+            elif time_int == 12:
+              time_str = str(time_int) + ' PM'
+            else:
+              time_str = str(time_int - 12) + ' PM'
+
+        speech_output = 'The building {} used {} kilowatts on average around {}' \
+          'when the temperature is {} degrees celsius and humidity is {} percent'.format(
+          searchbin_building, searchbin_usage, time_str, query_res['AvgTemperature'], query_res['AvgHumidity'])
+
+        response = table.update_item(
+            Key={
+                'id': 1,
+            },
+            UpdateExpression="set building = :r, usage = :s",
+            ExpressionAttributeValues={
+                ':r': None
+                ':s': None
+            },
+            ReturnValues="UPDATED_NEW"
+        )
+
+        return build_response(session_attributes, build_speechlet_response(
+            card_title, speech_output, reprompt_text, should_end_session))
+
+    else:
+        response = table.update_item(
+            Key={
+                'id': 1,
+            },
+            UpdateExpression="set building = :r",
+            ExpressionAttributeValues={
+                ':r': searchbin_building
+            },
+            ReturnValues="UPDATED_NEW"
+        )
+        speech_output = 'For {}, What is the wattage you are expecting'.format(
+          searchbin_building)
+        
+        return build_response(session_attributes, build_speechlet_response(
+            card_title, speech_output, reprompt_text, should_end_session))
+        
+
+def describe_conditions_only_usage(intent):
+    session_attributes = {}
+    card_title = "Energy Advisor Building Conditions Only Usage Specified"
+    reprompt_text = ""
+    should_end_session = False
+    
+    searchbin_usage = intent["slots"]["UsagekW"]["value"]
+
+    response = table.get_item(
+        Key={
+            'id' : 1
+        }
+    )
+    except ClientError as e:
+        print(e.response['Error']['Message'])
+    else:
+        searchbin_building = response['building']
+
+    if searchbin_building != None && searchbin_usage != None:
+        # build query, send to ec2, get response
+        query_params = {'type': 1, 'building': searchbin_building, 'usagekW' :
+                searchbin_usage}
+        query_str = json.dumps(query_params)
+        query_res_str = client_tcp_session(ec2_addr, ec2_tcp_port, query_str)
+        query_res = json.loads(query_res_str)
+
+        # parse response from server and build speech_output
+        if 'error_msg' in query_res.keys():
+            speech_output = 'I am sorry, there was an error.' + query_res['error_msg']
+        else:
+            time_int = int(query_res['TimeOfDay'])
+            if time_int <= 11:
+              time_str = str(time_int) + ' AM'
+            elif time_int == 12:
+              time_str = str(time_int) + ' PM'
+            else:
+              time_str = str(time_int - 12) + ' PM'
+
+        speech_output = 'The building {} used {} kilowatts on average around {}' \
+          'when the temperature is {} degrees celsius and humidity is {} percent'.format(
+          searchbin_building, searchbin_usage, time_str, query_res['AvgTemperature'], query_res['AvgHumidity'])
+
+        response = table.update_item(
+            Key={
+                'id': 1,
+            },
+            UpdateExpression="set building = :r, usage = :s",
+            ExpressionAttributeValues={
+                ':r': None
+                ':s': None
+            },
+            ReturnValues="UPDATED_NEW"
+        )
+    else:
+        response = table.update_item(
+            Key={
+                'id': 1,
+            },
+            UpdateExpression="set usage = :r",
+            ExpressionAttributeValues={
+                ':r': searchbin_usage
+            },
+            ReturnValues="UPDATED_NEW"
+        )
+        speech_output = 'Which building do you want to evaluate?'
+        
+    return build_response(session_attributes, build_speechlet_response(
+        card_title, speech_output, reprompt_text, should_end_session))
 
 def predict_day(intent):
     session_attributes = {}
