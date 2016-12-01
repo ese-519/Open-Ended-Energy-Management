@@ -146,17 +146,33 @@ def call_baseline(query, dayQuery, matlab_engine=None):
 def call_evaluator(query, matlab_engine=None):
   # validate set point values, determine which is being set
   input_data = {'cwsetp': 6.7, 'clgsetp': 26.7, 'lil': 0.7, 'start': 0, 'end': 23}
-  setpoint_type = query['setpoint_type'].lower()
-  setpoint_val = float(query['setpoint_val'])
-  if setpoint_type in ('chilled water', 'chilled water temperature', 'cold water temperature'):
-    input_data['cwsetp'] = setpoint_val
-  elif setpoint_type in ('lighting level', 'lighting'):
-    input_data['lil'] = float(setpoint_val)/100 
-  elif setpoint_type in ('room temperature', 'zone temperature'):
-    input_data['clgsetp'] = setpoint_val
-  else:
-    pass
-    # TODO: handle error, inform user if invalid setpoint type
+
+  setpoints = []
+  # one set point change
+  if query['type'] == 4:
+    setpoint_type = query['setpoint_type'].lower()
+    setpoint_val = float(query['setpoint_val'])
+    setpoints.append((setpoint_type, setpoint_val))
+  # two set points change
+  elif query['type'] == 6:
+    setpoint_type1 = query['setpoint_type1'].lower()
+    setpoint_val1 = float(query['setpoint_val1'])
+    setpoint_type2 = query['setpoint_type2'].lower()
+    setpoint_val2 = float(query['setpoint_val2'])
+    setpoints.append((setpoint_type1, setpoint_val1))
+    setpoints.append((setpoint_type2, setpoint_val2))
+
+  for setpoint_type, setpoint_val in setpoints:
+    if setpoint_type in ('chilled water', 'chilled water temperature', 'cold water temperature'):
+      input_data['cwsetp'] = setpoint_val
+    elif setpoint_type in ('lighting level', 'lighting'):
+      input_data['lil'] = float(setpoint_val)/100 
+    elif setpoint_type in ('room temperature', 'zone temperature'):
+      input_data['clgsetp'] = setpoint_val
+    else:
+      # TODO: handle error, inform user if invalid setpoint type
+      pass
+
   # write input json file needed by matlab function
   input_data['start'] = int(query['start_time'][0:2])
   input_data['end'] = int(query['end_time'][0:2]) 
@@ -226,7 +242,6 @@ def call_evaluator(query, matlab_engine=None):
   energy_saving = round(((auc_baseline- auc_evaluator)/auc_baseline)*100,1)
   print "energy_saving", energy_saving
   # return content for vocal response
-#  max_kW = (max_kW // 100) * 100
 
   ## update DB with baseline chart
   db_name = 'energydata'
@@ -261,7 +276,6 @@ def call_setp_options(query, matlab_engine=None):
       elif i == 3:
           input_data['lil'] = 0.6
 
-      # TODO: handle error, inform user if invalid setpoint type
       # write input json file needed by matlab function
       # input_data['start'] = int(query['start_time'][0:2])
       # input_data['end'] = int(query['end_time'][0:2]) 
@@ -373,7 +387,6 @@ def call_searchbin(query, matlab_engine=None):
   else:
     func_name = ''.join(['searchbin_',building])
     if building == 'huntsmanhall':
-      #TODO: need to hard-code for each supported building
       matlab_engine.searchbin_HuntsmanHall(str(binNum))
 
   # wait for query to complete and output file to be created/modified
@@ -384,7 +397,6 @@ def call_searchbin(query, matlab_engine=None):
 
   # read query output file
   response = read_json(target_path)
-#  print 'read data from response file {}: {}'.format(target_path, response)
 
   # transform response data into name-value pairs
   response_transformed = {}
@@ -477,6 +489,8 @@ def start_server(ipaddr, port):
         response = call_evaluator(query, eng)
       elif query['type'] == 5:
         response = call_setp_options(query, eng)
+      elif query['type'] == 6:
+        response = call_evaluator(query, eng)
 
       response_str = json.dumps(response) + end_flag
       print "response", response_str

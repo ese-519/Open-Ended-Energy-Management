@@ -19,10 +19,10 @@ def lambda_handler(event, context):
         raise ValueError("Invalid Application ID")
     
     if event["request"]["type"] == "LaunchRequest":
-        response = table.query(KeyConditionExpression=Key('id').eq(1))
-        print(table.item_count)
-        for i in response['Items']:
-            print(i['building'], ",", i['usage'])
+#        response = table.query(KeyConditionExpression=Key('id').eq(1))
+#        print(table.item_count)
+#        for i in response['Items']:
+#            print(i['building'], ",", i['usage'])
         return on_launch(event["request"], event["session"])
     elif event["request"]["type"] == "IntentRequest":
         return on_intent(event["request"], event["session"])
@@ -79,6 +79,8 @@ def on_intent(intent_request, session):
         return predict_month(intent)
     elif intent_name == "EvalOneSetPointsChange":
         return eval_one_set_points_change(intent)
+    elif intent_name == "EvalTwoSetPointsChange":
+        return eval_two_set_points_change(intent)
     elif intent_name == "SuggestGoodStrategy":
         return suggest_good_strategy(intent)
     elif intent_name == "BestStrategy":
@@ -87,6 +89,10 @@ def on_intent(intent_request, session):
         return describe_conditions_only_building(intent)
     elif intent_name == "DescribeConditionsOnlyUsage":
         return describe_conditions_only_usage(intent)
+    elif intent_name == "EvalTwoSetPointsNoTime":
+        pass #TODO: implement
+    elif intent_name == "EvalAllSetPointsTime":
+        pass#TODO: implement
     else:
         return invalid_intent()
 #        raise ValueError("Invalid intent")
@@ -365,7 +371,6 @@ def eval_one_set_points_change(intent):
     reprompt_text = ""
     should_end_session = False
 
-    #TODO: add handling for 1, 2, or 3 set points given    
     setpoint_type = intent["slots"]["SetPointTypeOne"]["value"]
     setpoint_val = intent["slots"]["SetPointValOne"]["value"]
     start_time = intent["slots"]["StartTime"]["value"]
@@ -378,7 +383,32 @@ def eval_one_set_points_change(intent):
     query_res = json.loads(query_res_str)
 
     # parse response from server and build speech_output
-    speech_output = "Changing {} would reduce the energy usage by {} percent".format(setpoint_type, query_res['percentage']) #TODO: complete
+    speech_output = "{} percent less energy would be used".format(setpoint_type, query_res['percentage'])
+    return build_response(session_attributes, build_speechlet_response(
+        card_title, speech_output, reprompt_text, should_end_session))
+
+def eval_two_set_points_change(intent):
+    session_attributes = {}
+    card_title = "Energy Advisor Evaluate Set Points Change"
+    reprompt_text = ""
+    should_end_session = False
+
+    setpoint1_type = intent["slots"]["SetPointTypeOne"]["value"]
+    setpoint1_val = intent["slots"]["SetPointValOne"]["value"]
+    setpoint2_type = intent["slots"]["SetPointTypeTwo"]["value"]
+    setpoint2_val = intent["slots"]["SetPointValTwo"]["value"]
+    start_time = intent["slots"]["StartTime"]["value"]
+    end_time = intent["slots"]["EndTime"]["value"]
+
+    query_params = {"type": 6, "setpoint_type1": setpoint_type1,
+      "setpoint_val1": setpoint_val1, "start_time": start_time, "end_time": end_time,
+      "setpoint_type2": setpoint_type2, "setpoint_val2": setpoint_val2}
+    query_str = json.dumps(query_params)
+    query_res_str = client_tcp_session(ec2_addr, ec2_tcp_port, query_str)
+    query_res = json.loads(query_res_str)
+
+    # parse response from server and build speech_output
+    speech_output = "{} percent less energy would be used".format(setpoint_type, query_res['percentage'])
     return build_response(session_attributes, build_speechlet_response(
         card_title, speech_output, reprompt_text, should_end_session))
 
