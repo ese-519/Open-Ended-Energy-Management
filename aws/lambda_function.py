@@ -1,15 +1,17 @@
 import socket
 import json
 import boto3
+import botocore
 from boto3.dynamodb.conditions import Key, Attr
 ec2_addr='158.130.160.166' # karuna's machine 
 #ec2_addr = '54.165.125.83'
 #ec2_addr = '158.130.166.151' # bob's machine
 ec2_tcp_port = 9000
 #message = 'This is the message.  It will be repeated.'
+dynamodb = boto3.resource('dynamodb')
 table = dynamodb.Table('searchbin')
-searchbin_usage = None
-searchbin_building = None
+searchbin_usage = 'Null'
+searchbin_building = 'Null'
 
 def lambda_handler(event, context):
     if (event['session']['application']['applicationId'] !=
@@ -178,22 +180,26 @@ def describe_conditions_only_building(intent):
     reprompt_text = ""
     should_end_session = False
     
+    global searchbin_building, searchbin_usage
+
     searchbin_building = intent["slots"]["Building"]["value"]
 
-    response = table.get_item(
-        Key={
-            'id' : 1
-        }
-    )
-    except ClientError as e:
+    try:
+        response = table.get_item(
+            Key={
+                'id' : '1'
+            }
+        )
+    except botocore.exceptions.ClientError as e:
         print(e.response['Error']['Message'])
     else:
-        searchbin_usage = response['usage']
+        response = response['Item']
+        searchbin_usage = response['wattage']
 
-    if searchbin_building != None && searchbin_usage != None:
+    if searchbin_building != 'Null' and searchbin_usage != 'Null':
         # build query, send to ec2, get response
         query_params = {'type': 1, 'building': searchbin_building, 'usagekW' :
-                searchbin_usage}
+                int(searchbin_usage)}
         query_str = json.dumps(query_params)
         query_res_str = client_tcp_session(ec2_addr, ec2_tcp_port, query_str)
         query_res = json.loads(query_res_str)
@@ -212,16 +218,16 @@ def describe_conditions_only_building(intent):
 
         speech_output = 'The building {} used {} kilowatts on average around {}' \
           'when the temperature is {} degrees celsius and humidity is {} percent'.format(
-          searchbin_building, searchbin_usage, time_str, query_res['AvgTemperature'], query_res['AvgHumidity'])
+          searchbin_building, int(searchbin_usage), time_str, query_res['AvgTemperature'], query_res['AvgHumidity'])
 
         response = table.update_item(
             Key={
-                'id': 1,
+                'id': '1'
             },
-            UpdateExpression="set building = :r, usage = :s",
+            UpdateExpression="SET building = :r, wattage = :s",
             ExpressionAttributeValues={
-                ':r': None
-                ':s': None
+                ':r': 'Null',
+                ':s': 'Null'
             },
             ReturnValues="UPDATED_NEW"
         )
@@ -232,9 +238,9 @@ def describe_conditions_only_building(intent):
     else:
         response = table.update_item(
             Key={
-                'id': 1,
+                'id': '1'
             },
-            UpdateExpression="set building = :r",
+            UpdateExpression="SET building=:r",
             ExpressionAttributeValues={
                 ':r': searchbin_building
             },
@@ -253,22 +259,25 @@ def describe_conditions_only_usage(intent):
     reprompt_text = ""
     should_end_session = False
     
+    global searchbin_building, searchbin_usage
     searchbin_usage = intent["slots"]["UsagekW"]["value"]
 
-    response = table.get_item(
-        Key={
-            'id' : 1
-        }
-    )
+    try:
+        response = table.get_item(
+            Key={
+                'id' : '1'
+            }
+        )
     except ClientError as e:
         print(e.response['Error']['Message'])
     else:
+        response = response['Item']
         searchbin_building = response['building']
 
-    if searchbin_building != None && searchbin_usage != None:
+    if searchbin_building != 'Null' and searchbin_usage != 'Null':
         # build query, send to ec2, get response
         query_params = {'type': 1, 'building': searchbin_building, 'usagekW' :
-                searchbin_usage}
+                int(searchbin_usage)}
         query_str = json.dumps(query_params)
         query_res_str = client_tcp_session(ec2_addr, ec2_tcp_port, query_str)
         query_res = json.loads(query_res_str)
@@ -287,32 +296,32 @@ def describe_conditions_only_usage(intent):
 
         speech_output = 'The building {} used {} kilowatts on average around {}' \
           'when the temperature is {} degrees celsius and humidity is {} percent'.format(
-          searchbin_building, searchbin_usage, time_str, query_res['AvgTemperature'], query_res['AvgHumidity'])
+          searchbin_building, int(searchbin_usage), time_str, query_res['AvgTemperature'], query_res['AvgHumidity'])
 
         response = table.update_item(
             Key={
-                'id': 1,
+                'id': '1'
             },
-            UpdateExpression="set building = :r, usage = :s",
+            UpdateExpression="SET building = :r, wattage = :s",
             ExpressionAttributeValues={
-                ':r': None
-                ':s': None
+                ':r': 'Null',
+                ':s': 'Null'
             },
             ReturnValues="UPDATED_NEW"
         )
     else:
         response = table.update_item(
             Key={
-                'id': 1,
+                'id': '1',
             },
-            UpdateExpression="set usage = :r",
+            UpdateExpression="SET wattage = :r",
             ExpressionAttributeValues={
                 ':r': searchbin_usage
             },
             ReturnValues="UPDATED_NEW"
         )
         speech_output = 'Which building do you want to evaluate?'
-        
+    
     return build_response(session_attributes, build_speechlet_response(
         card_title, speech_output, reprompt_text, should_end_session))
 
