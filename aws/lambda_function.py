@@ -3,9 +3,9 @@ import json
 import boto3
 import botocore
 from boto3.dynamodb.conditions import Key, Attr
-ec2_addr='158.130.160.166' # karuna's machine 
+#ec2_addr='158.130.160.166' # karuna's machine 
 #ec2_addr = '54.165.125.83'
-#ec2_addr = '158.130.166.151' # bob's machine
+ec2_addr = '158.130.166.151' # bob's machine
 ec2_tcp_port = 9000
 #message = 'This is the message.  It will be repeated.'
 searchbin_usage = 'Null'
@@ -654,7 +654,8 @@ def suggest_good_strategy(intent):
     query_res = json.loads(query_res_str)
 
     # parse response from server and build speech_output
-    speech_output = "The most optimal strategy out of the suggested three strategies will use {} kWh of energy".format(query_res['peak_kW']) 
+#    speech_output = "The most optimal strategy out of the suggested three strategies will use {} kWh of energy".format(query_res['peak_kW']) 
+    speech_output = "Using suggested strategy number {}, {} megawatts would be used for the day".format(query_res['best_id'], query_res['best_energy'])
     return build_response(session_attributes, build_speechlet_response(
         card_title, speech_output, reprompt_text, should_end_session))
 
@@ -670,7 +671,7 @@ def best_strategy(intent):
     query_res = json.loads(query_res_str)
 
     # parse response from server and build speech_output
-    speech_output = "The optimal settings are lighting at {} percent, chilled water at {} degrees celsius, and zone temperature at {} degrees celsius, from {} to {}".format(query_res['optimal_lit'], query_res['optimal_cw', query_res['optimal_clg'], query_res['start_time'], query_res['end_time'])
+    speech_output = "The optimal settings are lighting at {} percent, chilled water at {} degrees celsius, and zone temperature at {} degrees celsius, from {} to {}".format(query_res['optimal_lit'], query_res['optimal_cw'], query_res['optimal_clg'], query_res['start_time'], query_res['end_time'])
     return build_response(session_attributes, build_speechlet_response(
         card_title, speech_output, reprompt_text, should_end_session))
 

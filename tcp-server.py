@@ -359,7 +359,7 @@ def call_setp_options(query, matlab_engine=None):
   for x in range(1, 4):
       db_update(db_name, coll_name, x, energy_and_id)
 
-  res = {'peak_kW' : min_energy}
+  res = {'best_id': id_val, 'best_energy': round(min_energy/1000,1), 'peak_kW' : min_energy}
 
   db_name = 'energydata'
   coll_name = 'pagename'
