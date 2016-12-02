@@ -282,12 +282,16 @@ def call_setp_options(query, matlab_engine=None):
   
   for i in range(1, 4):
       # validate set point values, determine which is being set
-      
-      input_data = {'cwsetp': 6.7, 'clgsetp': 26.7, 'lil': 0.7, 'start': 0, 'end': 23}
-      if i == 2:
-          input_data['cwsetp'] = 25
+
+      if i == 1:
+          input_data = {'cwsetp': 8, 'clgsetp': 26, 'lil': 0.3, 'start': 15,
+                  'end': 17}
+      elif i == 2:
+          input_data = {'cwsetp': 8, 'clgsetp': 28, 'lil': 0.6, 'start': 15,
+                  'end': 17}
       elif i == 3:
-          input_data['lil'] = 0.6
+          input_data = {'cwsetp': 7, 'clgsetp': 28, 'lil': 0.5, 'start': 15,
+                  'end': 17}
 
       # write input json file needed by matlab function
       # input_data['start'] = int(query['start_time'][0:2])
