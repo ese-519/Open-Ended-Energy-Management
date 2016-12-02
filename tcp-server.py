@@ -311,7 +311,7 @@ def call_setp_options(query, matlab_engine=None):
       print "auc_evaluator",auc_evaluator
       db_data = {'y_predict': y_predict_evaluator, 'time': times_evaluator,
               'cwsetp' : input_data['cwsetp'], 'clgsetp' :
-              input_data['clgsetp'], 'lil' : input_data['lil'], }
+              input_data['clgsetp'], 'lil' : int(100*input_data['lil']), }
       db_data['_id'] = i
       if isDay:
         db_data['day_flag'] = True
@@ -333,13 +333,22 @@ def call_setp_options(query, matlab_engine=None):
   # insert new fields best_id and best_energy which contain the curve number
   # and the corresponding energy respectively
 
-  energy_and_id = {'best_id' : id_val, 'best_energy' : min_energy}
+  energy_and_id = {'best_id' : id_val, 'best_energy' : round(min_energy/1000,1)}
   
   for x in range(1, 4):
       db_update(db_name, coll_name, x, energy_and_id)
 
   res = {'peak_kW' : min_energy}
   # res = {'peak_kW': max_kW}
+
+  db_name = 'energydata'
+  coll_name = 'pagename'
+  db_data_page = {}
+  db_data_page['_id'] =1
+  db_data_page['name'] = 'threeplots'
+  inserted_obj_id = db_insert(db_name, coll_name, db_data_page)
+  print "inserted_into:", db_name, coll_name, inserted_obj_id
+
   return res
 
 def call_searchbin(query, matlab_engine=None):

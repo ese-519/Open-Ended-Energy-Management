@@ -5,35 +5,35 @@ block content
     script(type="text/javascript").
         $(document).ready(function() {
              var idBody = #{synthesizer_data[0].best_id} + 3
-             document.getElementById("#{synthesizer_data[0].best_id}").style.backgroundColor="#0E8F17"
+             document.getElementById("#{synthesizer_data[0].best_id}").style.backgroundColor="#44A64B"
              document.getElementById(idBody).style.backgroundColor="#A2DDA6"
         });
 
     div(style="text-align:center")
-      h3(style="padding-bottom:30px") Strategy #{synthesizer_data[0].best_id} is optimal, consuming #{synthesizer_data[0].best_energy} kWh
+      h3(style="padding-bottom:30px") Strategy #{synthesizer_data[0].best_id} is optimal, consuming #{synthesizer_data[0].best_energy} MWh
         
     div.row(style="margin:auto")
       div.col-sm-4(style="text-align:center")
         div(class="panel panel-default")
           div#1(class="panel-heading") Strategy 1
           div#4(class="panel-body", style="text-align:left; padding-left:30%")
-            p lighting level: #{synthesizer_data[0].lil}
-            p chilled water temperature: #{synthesizer_data[0].cwsetp}
-            p zone temperature: #{synthesizer_data[0].clgsetp}
+            p Lighting Level: #{synthesizer_data[0].lil} %
+            p Chilled Water Temperature: #{synthesizer_data[0].cwsetp} C
+            p Zone Temperature: #{synthesizer_data[0].clgsetp} C
       div.col-sm-4(style="text-align:center")
         div(class="panel panel-default")
           div#2(class="panel-heading") Strategy 2
           div#5(class="panel-body", style="text-align:left; padding-left:30%")
-            p lighting level: #{synthesizer_data[1].lil}
-            p chilled water temperature: #{synthesizer_data[1].cwsetp}
-            p zone temperature: #{synthesizer_data[1].clgsetp}
+            p Lighting Level: #{synthesizer_data[1].lil} %
+            p Chilled Water Temperature: #{synthesizer_data[1].cwsetp} C
+            p Zone Temperature: #{synthesizer_data[1].clgsetp} C
       div.col-sm-4(style="text-align:center")
         div(class="panel panel-default")
           div#3(class="panel-heading") Strategy 3
           div#6(class="panel-body", style="text-align:left; padding-left:30%")
-            p lighting level: #{synthesizer_data[2].lil}
-            p chilled water temperature: #{synthesizer_data[2].cwsetp}
-            p zone temperature: #{synthesizer_data[2].clgsetp}
+            p Lighting Level: #{synthesizer_data[2].lil} %
+            p Chilled Water Temperature: #{synthesizer_data[2].cwsetp} C
+            p Zone Temperature: #{synthesizer_data[2].clgsetp} C
 
     div#lineContainer(style = "padding-top : 20px; padding-bottom: 20px")
     script.
@@ -68,12 +68,12 @@ block content
                   {
                     name: 'Strategy 2',
                     data: [#{synthesizer_data[1].y_predict}],
-                    color: 'Grey'
+                    color: 'LightBlue'
                   },
                   {
                     name: 'Strategy 3',
                     data: [#{synthesizer_data[2].y_predict}],
-                    color: 'SlateGrey'
+                    color: 'LightSalmon'
                   }
                ]
            });
