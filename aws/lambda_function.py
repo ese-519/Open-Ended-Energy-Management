@@ -61,9 +61,9 @@ def on_intent(intent_request, session):
     intent = intent_request["intent"]
     intent_name = intent_request["intent"]["name"]
 
-    if intent_name == "AMAZON.HelpIntent":
+    if intent_name == "AMAZON.HelpIntent" or intent_name == "AMAZON.CancelIntent":
         return get_welcome_response()
-    elif intent_name == "AMAZON.CancelIntent" or intent_name == "AMAZON.StopIntent":
+    elif intent_name == "AMAZON.StopIntent":
         return handle_session_end_request()
     elif intent_name == "DescribeConditionsForUsage":
         return describe_conditions_for_usage(intent)

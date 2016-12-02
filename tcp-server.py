@@ -532,6 +532,15 @@ def start_server(ipaddr, port):
   eng.addpath('./MATLAB')
   eng.addpath_all(nargout=0)
 
+  # update DB to show landing page
+  db_name = 'energydata'
+  coll_name = 'pagename'
+  db_data_page = {}
+  db_data_page['_id'] =1
+  db_data_page['name'] = 'landing'
+  inserted_obj_id = db_insert(db_name, coll_name, db_data_page)
+  print 'inserted into:', db_name, coll_name, inserted_obj_id
+
   # Create a TCP/IP socket
   sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
   sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
