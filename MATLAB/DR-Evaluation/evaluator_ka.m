@@ -9,11 +9,11 @@ clear all
 % input_evaluator.clgsetp = 28
 % input_evaluator.cwsetp = 7
 % input_evaluator.lil = 0.5
-savejson('',input_evaluator,'input_evaluator.json')
+% savejson('',input_evaluator,'input_evaluator.json')
 % Load the tree and the linear models
 load drtree12.mat
 load dr12control.mat
-% input_evaluator= loadjson('input_evaluator.json')
+input_evaluator= loadjson('input_evaluator.json')
 load ('./baseline_july17_val.mat');
 load './MATLAB/DR-Evaluation/drtree12.mat';
 load './MATLAB/DR-Baselining/XDR.mat';
