@@ -441,7 +441,7 @@ def call_synthesizer(query, matlab_engine=None):
   # return content for vocal response
   res = {'optimal_clg' :
           response['optimal_clg'], 'optimal_cw' : response['optimal_cw'],
-          'optimal_lit' : response['optimal_lit'] }
+          'optimal_lit' : int(response['optimal_lit'] * 100) }
   return res
 
 def call_searchbin(query, matlab_engine=None):
