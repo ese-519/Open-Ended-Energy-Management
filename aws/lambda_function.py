@@ -3,9 +3,9 @@ import json
 import boto3
 import botocore
 from boto3.dynamodb.conditions import Key, Attr
-#ec2_addr='158.130.160.166' # karuna's machine 
+ec2_addr='158.130.160.166' # karuna's machine 
 #ec2_addr = '54.165.125.83'
-ec2_addr = '158.130.166.151' # bob's machine
+# ec2_addr = '158.130.166.151' # bob's machine
 ec2_tcp_port = 9000
 searchbin_usage = 'Null'
 searchbin_building = 'Null'
