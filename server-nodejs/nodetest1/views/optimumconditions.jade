@@ -1,0 +1,48 @@
+extends layout
+
+block content
+
+    div(style="padding-bottom:40px")
+      h3(style="text-align:center") The optimal set points are: 
+
+    div#lineContainer(style = "padding-top : 20px; padding-bottom: 20px; padding-left:20px; padding-right:20px")
+    script.
+      $(function () { 
+                 var myChart = Highcharts.chart('lineContainer', {
+               chart: {
+                   zoomType: 'xy'
+               },
+               title: {
+                   text: 'Optimal Set Point Values'
+               },
+               xAxis: {
+                  categories: [#{dr_synthesizer_data.time}],
+                   title : { text: 'Time' }
+               },
+              yAxis: [
+                {
+                  title: {text: 'Temperature (C)'}
+                },
+                {
+                  title: {text: 'Percentage (%)'}
+                }],
+               series: [
+                  {
+                    name: 'Lighting Level',
+                    type: 'line',
+                    data: [#{dr_synthesize_data.lighting}],
+                    yAxis: 1
+                  },
+                  {
+                    name: 'Chilled Water Temperature',
+                    type: 'line',
+                    data: [#{dr_synthesize_data.cw}]
+                  },
+                  {
+                    name: 'Zone Temperature',
+                    type: 'line',
+                    data: [#{dr_synthesize_data.clg}]
+                  }
+                ]
+           });
+      });
