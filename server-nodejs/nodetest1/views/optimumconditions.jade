@@ -113,6 +113,7 @@ block content
                     name: 'Lighting Level',
                     type: 'line',
                     data: [#{dr_synthesize_data.lighting}],
+                    color: '#f7ef62',
                     yAxis: 1,
                     pointStart: Date.UTC(2017,7,17,12,25),
                     pointInterval: 8 *60 * 60 *1000 /97,
@@ -122,6 +123,7 @@ block content
                     name: 'Chilled Water Temperature',
                     type: 'line',
                     data: [#{dr_synthesize_data.cw}],
+                    color: '#63caf9',
                     pointStart: Date.UTC(2017,7,17,12,25),
                     pointInterval: 8 *60 * 60 *1000 /97,
                     tooltip: {valueSuffix: ' C'}
@@ -130,6 +132,7 @@ block content
                     name: 'Zone Temperature',
                     type: 'line',
                     data: [#{dr_synthesize_data.clg}],
+                    color: '#ce5a40',
                     pointStart: Date.UTC(2017,7,17,12,25),
                     pointInterval: 8 *60 * 60 *1000 /97,
                     tooltip: {valueSuffix: ' C'}
