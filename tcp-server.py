@@ -339,6 +339,14 @@ def call_setp_options(query, matlab_engine=None):
       db_update(db_name, coll_name, x, energy_and_id)
 
   res = {'peak_kW' : min_energy}
+
+  db_name = 'energydata'
+  coll_name = 'pagename'
+  db_data_page = {}
+  db_data_page['_id'] =1
+  db_data_page['name'] = 'threeplots'
+  inserted_obj_id = db_insert(db_name, coll_name, db_data_page)
+  print "inserted_into:", db_name, coll_name, inserted_obj_id
   # res = {'peak_kW': max_kW}
   return res
 
