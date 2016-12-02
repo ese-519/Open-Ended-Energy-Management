@@ -234,7 +234,7 @@ response.yycw = yycw(plotdur);
 response.yylit = yylit(plotdur);
 response.optimal_clg = 28;
 response.optimal_cw = 10;
-response.optimal_lil = 0.8;
+response.optimal_lit = 0.8;
 response.time = plotdur;
 savejson('',response,'Filename',['response.json']);
 plotdur = 193:206;
