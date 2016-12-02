@@ -386,10 +386,10 @@ def call_searchbin(query, matlab_engine=None):
     script_path = '/'.join(['.', 'MATLAB', 'Penn-Analytics', script_name])
     call(['sudo', script_path, str(binNum)])
   else:
-    func_name = ''.join(['searchbin_',building])
     if building == 'huntsmanhall':
-      #TODO: need to hard-code for each supported building
+      # need to hard-code for each supported building
       matlab_engine.searchbin_HuntsmanHall(str(binNum))
+      building = "Huntsman Hall"
 
   # wait for query to complete and output file to be created/modified
   while handler.process_done == False:

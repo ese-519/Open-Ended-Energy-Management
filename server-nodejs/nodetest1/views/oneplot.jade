@@ -3,15 +3,14 @@ extends layout
 block content
 
     div 
-      script(src="http://d3js.org/d3.v4.min.js")
-      h3 On #{baseline_data.target_calendar}, the predicted peak power is #{baseline_data.peak_power} kW and total energy used is #{baseline_data.total_energy] kW
+      h3(style="text-align:center") On #{baseline_data.target_calendar}, the predicted peak power is #{baseline_data.peak_power} kW and total energy used is #{baseline_data.total_energy] kW
 
-      div
-      p Predicted data assuming set point values:
+    div
+      p(style="padding-left:20px") Predicted data assuming set point values:
       div.row 
         div.col-sm-4(style="text-align:center")
           img(src="/images/ChilledWaterTemp.png" style="max-width:25%; height:auto; margin:auto")
-          p(style="margin:auto") Chilled Water Temperature: 6.7 C 
+          p(style="margin:auto; font-size:20px") Chilled Water Temperature: 6.7 C
           svg(id="ChilledWaterTempSvg" width="90" height="90" style="margin:auto")
           script.
             var tau = 2 * Math.PI; 
@@ -21,11 +20,11 @@ block content
             var height = +svg.attr("height"); 
             var g = svg.append("g").attr("transform", "translate(" + width / 2 + "," + height / 2 + ")"); 
             var p = (6.7 - 6.0) / (8.0 - 0.0);
-            var background = g.append("path").datum({endAngle: tau / 4}).style("fill", "#ddd").attr("d", arc); 
+            var background = g.append("path").datum({endAngle: tau / 4}).style("fill", "E8E8E8").attr("d", arc); 
             var foreground = g.append("path").datum({endAngle: (-1*tau/4) + p * tau / 2}).attr("d", arc).style("fill", "#63caf9");
         div.col-sm-4(style="text-align:center")
           img(src="/images/LightingLevel.png" style="max-width:25%; height:auto; margin:auto")
-          p(style="margin:auto") Lighting Level: 70 % 
+          p(style="margin:auto; font-size:20px") Lighting Level: 70 % 
           svg(id="LightingLevelSvg" width="90" height="90" style="margin:auto")
           script.
             var tau = 2 * Math.PI; 
@@ -35,11 +34,11 @@ block content
             var height = +svg.attr("height"); 
             var g = svg.append("g").attr("transform", "translate(" + width / 2 + "," + height / 2 + ")"); 
             var p = (70 - 0) / (100 - 0);
-            var background = g.append("path").datum({endAngle: tau / 4}).style("fill", "#ddd").attr("d", arc); 
+            var background = g.append("path").datum({endAngle: tau / 4}).style("fill", "#E8E8E8").attr("d", arc); 
             var foreground = g.append("path").datum({endAngle: (-1*tau/4) + p * tau / 2}).attr("d", arc).style("fill", "#f7ef62");
         div.col-sm-4(style="text-align:center")
           img(src="/images/ZoneTemp.png" style="max-width:25%; height:auto; margin:auto")
-          p(style="margin:auto") Zone Temperature: 26.7 C 
+          p(style="margin:auto; font-size:20px") Zone Temperature: 26.7 C 
           svg(id="ZoneTempSvg" width="90" height="90" style="margin:auto")
           script.
             var tau = 2 * Math.PI; 
@@ -49,7 +48,7 @@ block content
             var height = +svg.attr("height"); 
             var g = svg.append("g").attr("transform", "translate(" + width / 2 + "," + height / 2 + ")"); 
             var p = (26.7 - 24.0) / (28.0 - 24.0);
-            var background = g.append("path").datum({endAngle: tau / 4}).style("fill", "#ddd").attr("d", arc); 
+            var background = g.append("path").datum({endAngle: tau / 4}).style("fill", "#E8E8E8").attr("d", arc); 
             var foreground = g.append("path").datum({endAngle: (-1*tau/4) + p * tau / 2}).attr("d", arc).style("fill", "#ce5a40");
     div#lineContainer(style = "padding-top : 20px; padding-bottom: 20px")
     script.
