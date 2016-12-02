@@ -441,7 +441,7 @@ def call_synthesizer(query, matlab_engine=None):
   # return content for vocal response
   res = {'optimal_clg' :
           response['optimal_clg'], 'optimal_cw' : response['optimal_cw'],
-          'optimal_lit' : int(response['optimal_lit'] * 100) }
+          'optimal_lit' : int(response['optimal_lit'] * 100), 'start_time': 'four pm', 'end_time': 'six pm' }
   return res
 
 def call_searchbin(query, matlab_engine=None):
@@ -554,7 +554,7 @@ def start_server(ipaddr, port):
     try:
       print >>sys.stderr, 'connection from', client_address
 
-      # Receive the data in small chunks and retransmit it
+      # Receive the data in small chunks 
       query_parts= []
       while True:
         data = connection.recv(16)

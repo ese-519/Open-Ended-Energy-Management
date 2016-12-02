@@ -654,7 +654,7 @@ def suggest_good_strategy(intent):
     query_res = json.loads(query_res_str)
 
     # parse response from server and build speech_output
-    speech_output = "The most optimal strategy out of the suggested three strategies will use {} kWh of energy".format(query_res['peak_kW']) #TODO: complete
+    speech_output = "The most optimal strategy out of the suggested three strategies will use {} kWh of energy".format(query_res['peak_kW']) 
     return build_response(session_attributes, build_speechlet_response(
         card_title, speech_output, reprompt_text, should_end_session))
 
@@ -670,8 +670,7 @@ def best_strategy(intent):
     query_res = json.loads(query_res_str)
 
     # parse response from server and build speech_output
-    speech_output = "Lighting, cold water and zone temperatures are set to {} percent, {} degree celcius, {} degree celcius respectively in the synthesized strategy".format(query_res['optimal_lit'], query_res['optimal_cw'],
-            query_res['optimal_clg']) #TODO: complete
+    speech_output = "The optimal settings are lighting at {} percent, chilled water at {} degrees celsius, and zone temperature at {} degrees celsius, from {} to {}".format(query_res['optimal_lit'], query_res['optimal_cw', query_res['optimal_clg'], query_res['start_time'], query_res['end_time'])
     return build_response(session_attributes, build_speechlet_response(
         card_title, speech_output, reprompt_text, should_end_session))
 
