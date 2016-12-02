@@ -89,11 +89,11 @@ def on_intent(intent_request, session):
         dynamodb = boto3.resource('dynamodb')
         table = dynamodb.Table('prev_num_setp')
         try:
-        response = table.get_item(
-            Key={
-                'id' : 1
-            }
-        )
+            response = table.get_item(
+                Key={
+                    'id' : 1
+                }
+            )
         except botocore.exceptions.ClientError as e:
             print(e.response['Error']['Message'])
         else:
@@ -587,7 +587,7 @@ def eval_one_set_point_with_time(intent):
     should_end_session = False
 
     dynamodb = boto3.resource('dynamodb')
-    table = dynamodb.Table('evaluator_two_setpoints')
+    table = dynamodb.Table('evaluator_one_setpoint')
 
     try:
         response = table.get_item(
