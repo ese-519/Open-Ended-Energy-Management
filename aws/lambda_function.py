@@ -659,8 +659,23 @@ def suggest_good_strategy(intent):
         card_title, speech_output, reprompt_text, should_end_session))
 
 def best_strategy(intent):
-    #TODO: implement
-    pass
+    session_attributes = {}
+    card_title = "Energy Advisor Synthesize a Strategy"
+    reprompt_text = "How can I help you"
+    should_end_session = False
+
+    query_params = {"type": 7}
+    query_str = json.dumps(query_params)
+    query_res_str = client_tcp_session(ec2_addr, ec2_tcp_port, query_str)
+    query_res = json.loads(query_res_str)
+
+    # parse response from server and build speech_output
+    speech_output = "Lighting, cold water and zone temperatures are
+    set to {} percent, {} degree celcius, {} degree
+    celcius respectively in the synthesized strategy".format(query_res['optimal_lighting'], query_res['optimal_cw'],
+            query_res['optimal_clg']) #TODO: complete
+    return build_response(session_attributes, build_speechlet_response(
+        card_title, speech_output, reprompt_text, should_end_session))
 
 def invalid_intent():
     session_attributes = {}
