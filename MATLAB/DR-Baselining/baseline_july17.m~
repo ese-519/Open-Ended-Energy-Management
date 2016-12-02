@@ -4,7 +4,8 @@ function baseline_ka
 % disp('Evaluating how well could we predict the baseline consumption');
 
 %close all tree trained on Jul 2012 data
-% load 
+load load drtree12.mat
+
 load largetreeCVJul.mat
 % PLC day from 2013
 % July 17th datemin[56736:57023] 
@@ -32,11 +33,11 @@ for ii=1:kf
     YpredictCVkPlc17(:,ii)=predict(largetreeCVJul.Trained{ii,1},XtestPlc17);
 end
 YpredictPlc17 = sum(YpredictCVkPlc17,2)/kf;
-
+leafout = predict(drtree12,XDR_july17);
 response =[];
 response.y_predict = YpredictPlc17;
-% response.time = datestr(timevec);
-response.time = 1:numel(YpredictPlc17);
+response.time = datestr(timevec);
+% response.time = 1:numel(YpredictPlc17);
 baseline_july17_val = response;
 save 'baseline_july17_val.mat',baseline_july17_val;
 savejson('',response,'Filename',['response.json']);

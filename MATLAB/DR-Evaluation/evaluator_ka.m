@@ -28,7 +28,7 @@ y_predict =baseline_july17_val.y_predict;
 y_predict_old = y_predict;
 idx_dr=[];
 
-idx_dr = [(input_evaluator.start*12)+1: (input_evaluator.end*12)-1];   
+idx_dr = [(input_evaluator.start*12)+1: (input_evaluator.end*12)];   
 
 
 for i = 1: numel(idx_dr)
@@ -46,9 +46,10 @@ for i = 1: numel(idx_dr)
 end
 time = [1:numel(y_predict)];
 figure(1)
-plot(time,y_predict_old,'r');
 hold on
 plot(time,y_predict,'b');
+hold on 
+plot(time,y_predict_old,'g');
 response =[];
 response.y_predict = y_predict;
 response.time = time;

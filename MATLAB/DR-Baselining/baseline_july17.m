@@ -4,7 +4,9 @@ function baseline_ka
 % disp('Evaluating how well could we predict the baseline consumption');
 
 %close all tree trained on Jul 2012 data
-% load 
+
+load './MATLAB/DR-Evaluation/drtree12.mat';
+load './MATLAB/DR-Baselining/XDR.mat';
 load largetreeCVJul.mat
 % PLC day from 2013
 % July 17th datemin[56736:57023] 
@@ -19,7 +21,7 @@ kf = 15
 t1 = datetime('17-Jul-2017 00:00');
 t2 = datetime('17-Jul-2017 23:55');
 timevec = t1:minutes(5):t2;
-
+XDR_july17 = XDR(4319:4606,:) ;
 % XtestPlc17 = Xtrain(56736:57023,:);
 % YtestPlc17 = Ytest(56736:57023);
 % date12numPlc17 = date12num(56736:57023);
@@ -32,9 +34,10 @@ for ii=1:kf
     YpredictCVkPlc17(:,ii)=predict(largetreeCVJul.Trained{ii,1},XtestPlc17);
 end
 YpredictPlc17 = sum(YpredictCVkPlc17,2)/kf;
-
+leafout = predict(drtree12,XDR_july17);
 response =[];
-response.y_predict = YpredictPlc17;
+% response.y_predict = YpredictPlc17;
+response.y_predict = leafout;
 response.time = datestr(timevec);
 % response.time = 1:numel(YpredictPlc17);
 baseline_july17_val = response;
