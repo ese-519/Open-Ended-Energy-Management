@@ -2,13 +2,19 @@ extends layout
 
 block content
 
+    script(type="text/javascript").
+        $(document).ready(function() {
+             document.getElementById("#{synthesizer_data[0].best_id}").style.backgroundColor=#32cd32"
+        });
+
     div(style="text-align:center")
-      h3(style="padding-bottom:30px") Strategy #{synthesizer_data.best_id} is optimal, consuming #{synthesizer_data.best_energy} kWh
+      h3(style="padding-bottom:30px") Strategy #{synthesizer_data[0].best_id}
+      is optimal, consuming #{synthesizer_data[0].best_energy} kWh
         
     div.row(style="margin:auto")
       div.col-sm-4(style="text-align:center")
         div(class="panel panel-default")
-          div(class="panel-heading", style="background-color:#32cd32") Strategy 1
+          div(class="panel-heading") Strategy 1
           div(class="panel-body", style="text-align:left; padding-left:30%")
             p lighting level: #{synthesizer_data[0].lil}
             p chilled water temperature: #{synthesizer_data[0].cwsetp}
