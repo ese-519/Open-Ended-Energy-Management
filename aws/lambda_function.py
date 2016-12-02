@@ -7,7 +7,6 @@ from boto3.dynamodb.conditions import Key, Attr
 #ec2_addr = '54.165.125.83'
 ec2_addr = '158.130.166.151' # bob's machine
 ec2_tcp_port = 9000
-#message = 'This is the message.  It will be repeated.'
 searchbin_usage = 'Null'
 searchbin_building = 'Null'
 
@@ -23,7 +22,8 @@ def lambda_handler(event, context):
     elif event["request"]["type"] == "SessionEndedRequest":
         return on_session_ended(event["request"], event["session"])
     else:
-        return on_session_ended(event["request"], event["session"])
+        return invalid_intent()
+#        return on_session_ended(event["request"], event["session"])
 
 def client_tcp_session(server_addr, server_port, message):
     # Create a TCP/IP socket
