@@ -18,7 +18,7 @@ block content
             var width = +svg.attr("width"); 
             var height = +svg.attr("height"); 
             var g = svg.append("g").attr("transform", "translate(" + width / 2 + "," + height / 2 + ")"); 
-            var p = (6.7 - 6.0) / (8.0 - 0.0);
+            var p = (6.7 - 0.0) / (10.0 - 0.0);
             var background = g.append("path").datum({endAngle: tau / 4}).style("fill", "E8E8E8").attr("d", arc); 
             var foreground = g.append("path").datum({endAngle: (-1*tau/4) + p * tau / 2}).attr("d", arc).style("fill", "#63caf9");
         div.col-sm-4(style="text-align:center")

@@ -45,11 +45,11 @@ for i = 1: numel(idx_dr)
     y_predict(idx_dr(i))=predicted_av;
 end
 time = [1:numel(y_predict)];
-figure,
-plot(time,y_predict,'b');
-hold on 
-plot(time,y_predict_old,'g');
-hold off
+% figure,
+% plot(time,y_predict,'b');
+% hold on 
+% plot(time,y_predict_old,'g');
+% hold off
 response =[];
 response.y_predict = y_predict;
 response.time = time;
