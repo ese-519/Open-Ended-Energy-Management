@@ -121,7 +121,7 @@ def call_baseline(query, dayQuery, matlab_engine=None):
   auc_baseline = calc_auc(y_predict, times)
   max_kW = round(max_kW / 1000 , 1)
   db_data['peak_power'] = max_kW
-  db_data['total_energy'] = round(auc_baseline, 1)
+  db_data['total_energy'] = round(auc_baseline / 1000, 1)
   if dayQuery:
     db_data['target_calendar'] = query['day']
   else:

@@ -2,11 +2,10 @@ extends layout
 
 block content
 
-    div 
-      h3(style="text-align:center") On #{baseline_data.target_calendar}, the predicted peak power is #{baseline_data.peak_power} kW and total energy used is #{baseline_data.total_energy] kW
+    div(style="padding-bottom:40px")
+      h3(style="text-align:center") On #{baseline_data.target_calendar}, the predicted peak power is #{baseline_data.peak_power} kW and total energy used is #{baseline_data.total_energy] MWh
 
     div
-      p(style="padding-left:20px") Predicted data assuming set point values:
       div.row 
         div.col-sm-4(style="text-align:center")
           img(src="/images/ChilledWaterTemp.png" style="max-width:25%; height:auto; margin:auto")
@@ -50,7 +49,7 @@ block content
             var p = (26.7 - 24.0) / (28.0 - 24.0);
             var background = g.append("path").datum({endAngle: tau / 4}).style("fill", "#E8E8E8").attr("d", arc); 
             var foreground = g.append("path").datum({endAngle: (-1*tau/4) + p * tau / 2}).attr("d", arc).style("fill", "#ce5a40");
-    div#lineContainer(style = "padding-top : 20px; padding-bottom: 20px")
+    div#lineContainer(style = "padding-top : 20px; padding-bottom: 20px; padding-left:20px; padding-right:20px")
     script.
       $(function () { 
                  var myChart = Highcharts.chart('lineContainer', {

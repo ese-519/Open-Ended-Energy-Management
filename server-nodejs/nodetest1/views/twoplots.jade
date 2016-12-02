@@ -7,7 +7,6 @@ block content
         span(style="color:#3c8442") #{evaluator_data.energy_saving}%.
 
     div
-      p(style="padding-left:20px") Predicted data assuming set point values:
       div.row 
         div.col-sm-3(style="text-align:center")
           img(src="/images/ChilledWaterTemp.png" style="max-width:25%; height:auto; margin:auto")
@@ -76,7 +75,7 @@ block content
                    .style("stroke","black")
                    .style("fill","url(#grad)");
 
-    div#lineContainer(style = "padding-top : 20px; padding-bottom: 20px")
+    div#lineContainer(style = "padding-top : 20px; padding-bottom: 20px; padding-left:20px; padding-right:20px")
     script.
       $(function () { 
                var hourInDataPoints = 12;
@@ -90,21 +89,21 @@ block content
                xAxis: {
                    tickInterval: 5 * 60 * 1000,
                    type: 'datetime',
-                    dateTimeLabelFormats: {
-                    day: '%H:%M'
-                 },
-                   title : { text: 'Time' }
+                   dateTimeLabelFormats: {
+                   day: '%H:%M'
+                   },
+                   title : { text: 'Time' },
                    plotLines: [
-                    {
-                      color: '#FF0000', // Red
-                      width: 2,
-                      value: hourInDataPoints * #{evaluator_data.start_time} // Position, you'll have to translate this to the values on your x axis
-                    },
-                    {
-                      color: '#FF0000', // Red
-                      width: 2,
-                      value: hourInDataPoints * #{evaluator_data.end_time} // Position, you'll have to translate this to the values on your x axis
-                    }]
+                   {
+                     color: '#FF0000', // Red
+                     width: 2,
+                     value: Date.UTC(2017,7,17,#{evaluator_data.start_time},0) // Position, you'll have to translate this to the values on your x axis
+                   },
+                   {
+                     color: '#FF0000', // Red
+                     width: 2,
+                     value: Date.UTC(2017,7,17,#{evaluator_data.end_time},0) // Position, you'll have to translate this to the values on your x axis
+                   }]
                },
                yAxis: {
                    title: {
@@ -120,12 +119,14 @@ block content
                   {
                     name: 'Baseline',
                     data: [#{baseline_data.y_predict}],
-                    pointInterval: 24 *60 * 60 *1000 /288
+                    pointInterval: 24 *60 * 60 *1000 /288,
+                    pointStart: Date.UTC(2017,7,17,0,0)
                   },
                   {
                     name: 'Predicted',
                     data: [#{evaluator_data.y_predict}],
-                    pointInterval: 24 *60 * 60 *1000 /288
+                    pointInterval: 24 *60 * 60 *1000 /288,
+                    pointStart: Date.UTC(2017,7,17,0,0)
                   }
                ]
            });
