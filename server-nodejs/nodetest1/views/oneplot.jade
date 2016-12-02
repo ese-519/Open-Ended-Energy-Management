@@ -62,10 +62,17 @@ block content
                    text: 'Energy Usage'
                },
                xAxis: {
-                   categories: [#{baseline_data.time}],
+                  tickInterval: 5 * 60 * 1000,
+                   type: 'datetime',
+                  dateTimeLabelFormats: {
+                   day: '%H:%M'
+                 },
+                  //min: Date.UTC(2013,4,22,0,0),
+                  //max: Date.UTC(2013,4,22,23,55),
+
                    title : { text: 'Time' }
                },
-               yAxis: {
+              yAxis: {
                    title: {
                        text: 'Power (kW)'
                    }
@@ -73,10 +80,9 @@ block content
                series: [
                   {
                     name: 'Baseline',
-                    data: [#{baseline_data.y_predict}]
+                    data: [#{baseline_data.y_predict}],
+                    pointInterval: 24 *60 * 60 *1000 /288
                   }
                 ]
            });
       });
-
-     
