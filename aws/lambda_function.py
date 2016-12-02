@@ -86,7 +86,25 @@ def on_intent(intent_request, session):
     elif intent_name == "EvalTwoSetPointsNoTime":
         return eval_two_set_points_no_time(intent)
     elif intent_name == "EvalAllSetPointsTime":
-        return eval_all_set_points_time(intent)
+        dynamodb = boto3.resource('dynamodb')
+        table = dynamodb.Table('prev_num_setp')
+        try:
+            response = table.get_item(
+                Key={
+                    'id' : 1
+                }
+            )
+        except botocore.exceptions.ClientError as e:
+            print(e.response['Error']['Message'])
+        else:
+            response = response['Item']
+            num_setp = response['num_setp']
+        if num_setp == 1:
+            return eval_one_set_point_with_time(intent)
+        else:
+            return eval_all_set_points_time(intent)
+    elif intent_name == "EvalOneSetPointsNoTime":
+        return eval_one_set_point_no_time(intent)
     else:
         return invalid_intent()
 #        raise ValueError("Invalid intent")
@@ -435,6 +453,19 @@ def eval_two_set_points_no_time(intent):
         ReturnValues="UPDATED_NEW"
     )
 
+    # write num_setp into dynamodb
+    table = dynamodb.Table('prev_num_setp')
+    response = table.update_item(
+        Key={
+            'id': 1
+        },
+        UpdateExpression="SET num_setp= :r",
+        ExpressionAttributeValues={
+            ':r': 2
+        },
+        ReturnValues="UPDATED_NEW"
+    )
+
     speech_output = "Between which start and end times would you like these changes evaluated"
     reprompt_text = speech_output
     return build_response(session_attributes, build_speechlet_response(
@@ -445,8 +476,6 @@ def eval_all_set_points_time(intent):
     card_title = "Energy Advisor Evaluate Set Points Change"
     reprompt_text = "How can I help you"
     should_end_session = False
-  
-
 
     dynamodb = boto3.resource('dynamodb')
     table = dynamodb.Table('evaluator_two_setpoints')
@@ -487,6 +516,123 @@ def eval_all_set_points_time(intent):
             ':s': "Null",
             ':t': "Null",
             ':u': "Null"
+        },
+        ReturnValues="UPDATED_NEW"
+    )
+
+    # clear out num_setp in dynamodb
+    table = dynamodb.Table('prev_num_setp')
+    response = table.update_item(
+        Key={
+            'id': 1
+        },
+        UpdateExpression="SET num_setp= :r",
+        ExpressionAttributeValues={
+            ':r': 0
+        },
+        ReturnValues="UPDATED_NEW"
+    )
+
+    # parse response from server and build speech_output
+    speech_output = "{} percent less energy would be used".format(query_res['percentage'])
+    return build_response(session_attributes, build_speechlet_response(
+        card_title, speech_output, reprompt_text, should_end_session))
+
+def eval_one_set_point_no_time(intent):
+    session_attributes = {}
+    card_title = "Energy Advisor Evaluate One Set Point Change"
+    reprompt_text = "How can I help you"
+    should_end_session = False
+
+    setpoint_type = intent["slots"]["SetPointTypeOne"]["value"]
+    setpoint_val = intent["slots"]["SetPointValOne"]["value"]
+
+    # write received data into dynamodb
+    dynamodb = boto3.resource('dynamodb')
+    table = dynamodb.Table('evaluator_one_setpoint')
+    response = table.update_item(
+        Key={
+            'id': '1'
+        },
+        UpdateExpression="SET setpoint_type= :r, setpoint_val= :s",
+        ExpressionAttributeValues={
+            ':r': setpoint_type,
+            ':s': setpoint_val
+        },
+        ReturnValues="UPDATED_NEW"
+    )
+
+    # write num_setp into dynamodb
+    table = dynamodb.Table('prev_num_setp')
+    response = table.update_item(
+        Key={
+            'id': 1
+        },
+        UpdateExpression="SET num_setp= :r",
+        ExpressionAttributeValues={
+            ':r': 1
+        },
+        ReturnValues="UPDATED_NEW"
+    )
+
+    speech_output = "Between which start and end times would you like these changes evaluated"
+    reprompt_text = speech_output
+    return build_response(session_attributes, build_speechlet_response(
+        card_title, speech_output, reprompt_text, should_end_session))
+
+def eval_one_set_point_with_time(intent):
+    session_attributes = {}
+    card_title = "Energy Advisor Evaluate One Set Point Change with Time"
+    reprompt_text = "How can I help you"
+    should_end_session = False
+
+    dynamodb = boto3.resource('dynamodb')
+    table = dynamodb.Table('evaluator_one_setpoint')
+
+    try:
+        response = table.get_item(
+            Key={
+                'id' : '1'
+            }
+        )
+    except ClientError as e:
+        print(e.response['Error']['Message'])
+    else:
+        response = response['Item']
+        setpoint_type = response['setpoint_type']
+        setpoint_val = int(response['setpoint_val'])
+
+    start_time = intent["slots"]["StartTime"]["value"]
+    end_time = intent["slots"]["EndTime"]["value"]
+
+    query_params = {"type": 4, "setpoint_type": setpoint_type,
+      "setpoint_val": setpoint_val, "start_time": start_time, "end_time": end_time}
+    query_str = json.dumps(query_params)
+    query_res_str = client_tcp_session(ec2_addr, ec2_tcp_port, query_str)
+    query_res = json.loads(query_res_str)
+
+    # clear out dynamodb table
+    response = table.update_item(
+        Key={
+            'id': '1'
+        },
+        UpdateExpression="SET setpoint_type= :r, setpoint_val= :s",
+        ExpressionAttributeValues={
+            ':r': "Null", 
+            ':s': "Null"
+        },
+        ReturnValues="UPDATED_NEW"
+    )
+
+    # clear out num_setp in dynamodb
+    table = dynamodb.Table('prev_num_setp')
+    response = table.update_item(
+        Key={
+            'id': 1
+        },
+        UpdateExpression="SET num_setp= :r",
+        ExpressionAttributeValues={
+            ':r': 0
         },
         ReturnValues="UPDATED_NEW"
     )
