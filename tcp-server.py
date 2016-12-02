@@ -416,13 +416,13 @@ def call_synthesizer(query, matlab_engine=None):
   cw_synthesizer = [round(x, 2) for x in cw_synthesizer]
   clg_synthesizer = [round(x, 2) for x in clg_synthesizer]
   
-  times_synthesizer = response['time']
+  times_synthesizer = range(0, 5*len(response['time']), 5)
   db_data = {'lighting': lighting_synthesizer, 'cw': cw_synthesizer, 'clg' :
           clg_synthesizer, 'time': times_synthesizer, 'optimal_clg' :
           response['optimal_clg'], 'optimal_cw' : response['optimal_cw'],
           'optimal_lit' : int(response['optimal_lit'] * 100)}
   db_data['_id'] = 1
-
+  print "synth time", times_synthesizer
   # update DB with query result to update graphical output 
   db_name = 'energydata'
   coll_name = 'dr_synthesize_data'

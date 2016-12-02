@@ -17,6 +17,7 @@ router.get('/', function(req, res) {
     {
          if(searchbin_data !== null && baseline_data !== null && pagename_data !== null && evaluator_data != null && synthesizer_data != null && dr_synthesize_data != null)
          { 
+            console.log(JSON.stringify(dr_synthesize_data));
             res.render(pagename_data.name, {
                  "searchbin_data" : searchbin_data, "baseline_data" : baseline_data, "evaluator_data" : evaluator_data,
                 "synthesizer_data" : synthesizer_data, "dr_synthesize_data": dr_synthesize_data
@@ -50,8 +51,8 @@ router.get('/', function(req, res) {
     });
 
     var dr_synthesize_collection = db.get('dr_synthesize_data');
-    synthesizer_collection.find({"_id" : 1}, {}, function(e, docs6){
-        dr_synthesize_data = docs6;
+    dr_synthesize_collection.find({"_id" : 1}, {}, function(e, docs6){
+        dr_synthesize_data = docs6[0];
         doRender();
     });
 

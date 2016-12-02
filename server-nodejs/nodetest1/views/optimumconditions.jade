@@ -3,7 +3,7 @@ extends layout
 block content
 
     div(style="padding-bottom:40px")
-      h3(style="text-align:center") The optimal set points are: 
+      h3(style="text-align:center") The optimal set points are: #{dr_synthesize_data.optimal_lit}
 
     div#lineContainer(style = "padding-top : 20px; padding-bottom: 20px; padding-left:20px; padding-right:20px")
     script.
@@ -16,11 +16,32 @@ block content
                    text: 'Optimal Set Point Values'
                },
                xAxis: {
-                  categories: [#{dr_synthesizer_data.time}],
-                   title : { text: 'Time' }
+                  
+                   title : { text: 'Time' },
+                   tickInterval: 5 * 60 * 1000,
+                   type: 'datetime',
+                   dateTimeLabelFormats: {
+                    day: '%H:%M'
+                   },
+                   plotLines: [
+                   {
+                     color: '#FF0000', // Red
+                     width: 2,
+                     value: Date.UTC(2017,7,17,16,0) // Position, you'll have to translate this to the values on your x axis
+                   },
+                   {
+                     color: '#FF0000', // Red
+                     width: 2,
+                     value: Date.UTC(2017,7,17,17,0) // Position, you'll have to translate this to the values on your x axis
+                   },
+                   {
+                     color: '#0000FF', // blue
+                     width: 2,
+                     value: Date.UTC(2017,7,17,18,0) // Position, you'll have to translate this to the values on your x axis
+                   }]
                },
-              yAxis: [
-                {
+              yAxis: 
+                [{
                   title: {text: 'Temperature (C)'}
                 },
                 {
@@ -31,17 +52,23 @@ block content
                     name: 'Lighting Level',
                     type: 'line',
                     data: [#{dr_synthesize_data.lighting}],
-                    yAxis: 1
+                    yAxis: 1,
+                    pointStart: Date.UTC(2017,7,17,12,25),
+                    pointInterval: 8 *60 * 60 *1000 /97
                   },
                   {
                     name: 'Chilled Water Temperature',
                     type: 'line',
-                    data: [#{dr_synthesize_data.cw}]
+                    data: [#{dr_synthesize_data.cw}],
+                    pointStart: Date.UTC(2017,7,17,12,25),
+                    pointInterval: 8 *60 * 60 *1000 /97
                   },
                   {
                     name: 'Zone Temperature',
                     type: 'line',
-                    data: [#{dr_synthesize_data.clg}]
+                    data: [#{dr_synthesize_data.clg}],
+                    pointStart: Date.UTC(2017,7,17,12,25),
+                    pointInterval: 8 *60 * 60 *1000 /97
                   }
                 ]
            });

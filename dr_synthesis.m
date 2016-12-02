@@ -197,7 +197,7 @@ if kStep < MAXSTEPS
     logdata((kStep+1):end,:) = [];
 end
 
-plotdur = 150:250;
+plotdur = 150:246;
 ptimevec = timevec(plotdur);
 
 figure(1);
