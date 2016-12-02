@@ -106,8 +106,10 @@ def call_baseline(query, dayQuery, matlab_engine=None):
     if val > max_kW:
       max_kW = val
     y_predict.append(val)
-  times = range(0, 5*len(response['time']), 5)
-  # times = map(response['time'])
+  # times = range(0, 5*len(response['time']), 5)
+  times = map(str,response['time'])
+  print "time_lengths", len(times)
+  print "y_lengths", len(y_predict)
   db_data = {'y_predict': y_predict, 'time': times}
   db_data['_id'] = 1
   if dayQuery:

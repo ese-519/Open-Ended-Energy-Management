@@ -35,8 +35,8 @@ YpredictPlc17 = sum(YpredictCVkPlc17,2)/kf;
 
 response =[];
 response.y_predict = YpredictPlc17;
-% response.time = datestr(timevec);
-response.time = 1:numel(YpredictPlc17);
+response.time = datestr(timevec);
+% response.time = 1:numel(YpredictPlc17);
 baseline_july17_val = response;
 save 'baseline_july17_val.mat',baseline_july17_val;
 savejson('',response,'Filename',['response.json']);
