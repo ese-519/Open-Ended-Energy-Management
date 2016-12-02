@@ -180,7 +180,7 @@ def describe_conditions_for_usage(intent):
           time_str = str(time_int) + ' PM'
         else:
           time_str = str(time_int - 12) + ' PM'
-        speech_output = 'The building {} used {} kilowatts on average around {}' \
+        speech_output = 'The building {} used {} kilowatts on average around {} pm' \
           'when the temperature is {} degrees celsius and humidity is {} percent'.format(
           building, usagekW, time_str, query_res['AvgTemperature'], query_res['AvgHumidity'])
 
@@ -655,7 +655,7 @@ def suggest_good_strategy(intent):
 
     # parse response from server and build speech_output
 #    speech_output = "The most optimal strategy out of the suggested three strategies will use {} kWh of energy".format(query_res['peak_kW']) 
-    speech_output = "Using suggested strategy number {}, {} megawatts would be used for the day".format(query_res['best_id'], query_res['best_energy'])
+    speech_output = "Using suggested strategy number {}, {} megawatt hours would be used for the day".format(query_res['best_id'], query_res['best_energy'])
     return build_response(session_attributes, build_speechlet_response(
         card_title, speech_output, reprompt_text, should_end_session))
 
