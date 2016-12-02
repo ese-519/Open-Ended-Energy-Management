@@ -3,14 +3,16 @@ extends layout
 block content
 
     div 
-      h3 Changing the set point #{evaluator_data.set_point_type} to #{evaluator_data.set_point_value} #{evaluator_data.incr_decr} by #{evaluator_data.energy_change} percent.
+      h3(style="text-align:center") The new set point values reduce energy usage by 
+        span(style="color:#3c8442") #{evaluator_data.energy_saving}%.
 
-      div
-      p Predicted data assuming set point values:
+    div
+      p(style="padding-left:20px") Predicted data assuming set point values:
       div.row 
-        div.col-sm-4(style="text-align:center")
+        div.col-sm-3(style="text-align:center")
           img(src="/images/ChilledWaterTemp.png" style="max-width:25%; height:auto; margin:auto")
-          p(style="margin:auto") Chilled Water Temperature: #{evaluator_data.cwsetp} C 
+          p(style="margin:auto; font-size:20px") Chilled Water Temperature: #{evaluator_data.cwsetp} C 
+          p(style="margin:auto") default: 6.7 C
           svg(id="ChilledWaterTempSvg" width="90" height="90" style="margin:auto")
           script.
             var tau = 2 * Math.PI; 
@@ -20,11 +22,12 @@ block content
             var height = +svg.attr("height"); 
             var g = svg.append("g").attr("transform", "translate(" + width / 2 + "," + height / 2 + ")"); 
             var p = (#{evaluator_data.cwsetp} - 6.0) / (8.0 - 0.0);
-            var background = g.append("path").datum({endAngle: tau / 4}).style("fill", "#ddd").attr("d", arc); 
+            var background = g.append("path").datum({endAngle: tau / 4}).style("fill", "#e8e8e8").attr("d", arc); 
             var foreground = g.append("path").datum({endAngle: (-1*tau/4) + p * tau / 2}).attr("d", arc).style("fill", "#63caf9");
-        div.col-sm-4(style="text-align:center")
+        div.col-sm-3(style="text-align:center")
           img(src="/images/LightingLevel.png" style="max-width:25%; height:auto; margin:auto")
-          p(style="margin:auto") Lighting Level: #{evaluator_data.lil} % 
+          p(style="margin:auto; font-size:20px") Lighting Level: #{evaluator_data.lil} % 
+          p(style="margin:auto") default: 70%
           svg(id="LightingLevelSvg" width="90" height="90" style="margin:auto")
           script.
             var tau = 2 * Math.PI; 
@@ -34,11 +37,12 @@ block content
             var height = +svg.attr("height"); 
             var g = svg.append("g").attr("transform", "translate(" + width / 2 + "," + height / 2 + ")"); 
             var p = (#{evaluator_data.lil} - 0) / (100 - 0);
-            var background = g.append("path").datum({endAngle: tau / 4}).style("fill", "#ddd").attr("d", arc); 
+            var background = g.append("path").datum({endAngle: tau / 4}).style("fill", "#e8e8e8").attr("d", arc); 
             var foreground = g.append("path").datum({endAngle: (-1*tau/4) + p * tau / 2}).attr("d", arc).style("fill", "#f7ef62");
-        div.col-sm-4(style="text-align:center")
+        div.col-sm-3(style="text-align:center")
           img(src="/images/ZoneTemp.png" style="max-width:25%; height:auto; margin:auto")
-          p(style="margin:auto") Zone Temperature: #{evaluator_data.clgsetp} C 
+          p(style="margin:auto; font-size:20px") Zone Temperature: #{evaluator_data.clgsetp} C 
+          p(style="margin:auto") default: 26.7 C
           svg(id="ZoneTempSvg" width="90" height="90" style="margin:auto")
           script.
             var tau = 2 * Math.PI; 
@@ -48,15 +52,37 @@ block content
             var height = +svg.attr("height"); 
             var g = svg.append("g").attr("transform", "translate(" + width / 2 + "," + height / 2 + ")"); 
             var p = (#{evaluator_data.clgsetp} - 24.0) / (28.0 - 24.0);
-            var background = g.append("path").datum({endAngle: tau / 4}).style("fill", "#ddd").attr("d", arc); 
+            var background = g.append("path").datum({endAngle: tau / 4}).style("fill", "#e8e8e8").attr("d", arc); 
             var foreground = g.append("path").datum({endAngle: (-1*tau/4) + p * tau / 2}).attr("d", arc).style("fill", "#ce5a40");      
+        div.col-sm-3(style="text-align:center")
+            svg(id="FillCircleSvg" width="110" height="110" style="margin:auto")
+            p(style="text-align:center") Energy savings: #{evaluator_data.energy_saving}%
+            script.
+                var svg = d3.select("#FillCircleSvg")
+
+                var grad = svg.append("defs")
+                  .append("linearGradient").attr("id", "grad")
+                  .attr("x1", "0%").attr("x2", "0%").attr("y1", "100%").attr("y2", "0%");
+                var empty_prct = #{evaluator_data.energy_saving}
+                var fill_prct = 100 - empty_prct
+                
+                grad.append("stop").attr("offset", fill_prct.toString() + "%").style("stop-color", "lightblue");
+                grad.append("stop").attr("offset", empty_prct.toString() + "%").style("stop-color", "white");
+
+                svg.append("circle")
+                   .attr("r",50)
+                   .attr("cx",60)
+                   .attr("cy",60)
+                   .style("stroke","black")
+                   .style("fill","url(#grad)");
 
     div#lineContainer(style = "padding-top : 20px; padding-bottom: 20px")
     script.
       $(function () { 
-                 var myChart = Highcharts.chart('lineContainer', {
+               var hourInDataPoints = 12;
+               var myChart = Highcharts.chart('lineContainer', {
                chart: {
-                   type: 'line'
+                   type: 'area'
                },
                title: {
                    text: 'Energy Usage'
@@ -68,11 +94,27 @@ block content
                     day: '%H:%M'
                  },
                    title : { text: 'Time' }
+                   plotLines: [
+                    {
+                      color: '#FF0000', // Red
+                      width: 2,
+                      value: hourInDataPoints * #{evaluator_data.start_time} // Position, you'll have to translate this to the values on your x axis
+                    },
+                    {
+                      color: '#FF0000', // Red
+                      width: 2,
+                      value: hourInDataPoints * #{evaluator_data.end_time} // Position, you'll have to translate this to the values on your x axis
+                    }]
                },
                yAxis: {
                    title: {
                        text: 'Power (kW)'
                    }
+               },
+               plotOptions: {
+                 series: {
+                   fillOpacity: 0.3
+                 }
                },
                series: [
                   {

@@ -2,9 +2,41 @@ extends layout
 
 block content
 
-    div 
-      h3.
-        The most optimum strategy is strategy #{synthesizer_data.best_id} with a power consumption of #{synthesizer_data.best_energy} kWh.
+    script(type="text/javascript").
+        $(document).ready(function() {
+             var idBody = #{synthesizer_data[0].best_id} + 3
+             document.getElementById("#{synthesizer_data[0].best_id}").style.backgroundColor="#44A64B"
+             document.getElementById(idBody).style.backgroundColor="#A2DDA6"
+        });
+
+    div(style="text-align:center")
+      h3(style="padding-bottom:30px") Strategy #{synthesizer_data[0].best_id} is optimal, consuming #{synthesizer_data[0].best_energy} MWh
+        
+    div.row(style="margin:auto")
+      div.col-sm-4(style="text-align:center")
+        div(class="panel panel-default")
+          div#1(class="panel-heading" style="font-size:18px") 
+            strong Strategy 1
+          div#4(class="panel-body", style="text-align:left; padding-left:30%")
+            p(style="font-size:16px") Lighting Level: #{synthesizer_data[0].lil} %
+            p(style="font-size:16px") Chilled Water Temperature: #{synthesizer_data[0].cwsetp} C
+            p(style="font-size:16px") Zone Temperature: #{synthesizer_data[0].clgsetp} C
+      div.col-sm-4(style="text-align:center")
+        div(class="panel panel-default")
+          div#2(class="panel-heading" style="font-size:18px") 
+            strong Strategy 2
+          div#5(class="panel-body", style="text-align:left; padding-left:30%")
+            p(style="font-size:16px") Lighting Level: #{synthesizer_data[1].lil} %
+            p(style="font-size:16px") Chilled Water Temperature: #{synthesizer_data[1].cwsetp} C
+            p(style="font-size:16px") Zone Temperature: #{synthesizer_data[1].clgsetp} C
+      div.col-sm-4(style="text-align:center")
+        div(class="panel panel-default")
+          div#3(class="panel-heading" style="font-size:18px") 
+            strong Strategy 3
+          div#6(class="panel-body", style="text-align:left; padding-left:30%")
+            p(style="font-size:16px") Lighting Level: #{synthesizer_data[2].lil} %
+            p(style="font-size:16px") Chilled Water Temperature: #{synthesizer_data[2].cwsetp} C
+            p(style="font-size:16px") Zone Temperature: #{synthesizer_data[2].clgsetp} C
 
     div#lineContainer(style = "padding-top : 20px; padding-bottom: 20px")
     script.
@@ -29,41 +61,28 @@ block content
                        text: 'Power (kW)'
                    }
                },
+               plotOptions: {
+                 series: {
+                   fillOpacity: 0.3
+                 }
+               },
                series: [
                   {
-                    name: 'Strategy 0',
-                    data: [#{synthesizer_data[0].y_predict}],
-                    pointInterval: 24 *60 * 60 *1000 /288
-                  },
-                  {
                     name: 'Strategy 1',
-                    data: [#{synthesizer_data[1].y_predict}],
-                    pointInterval: 24 *60 * 60 *1000 /288
+                    data: [#{synthesizer_data[0].y_predict}],
+                    color: 'Black'
                   },
                   {
                     name: 'Strategy 2',
+                    data: [#{synthesizer_data[1].y_predict}],
+                    color: 'LightBlue'
+                  },
+                  {
+                    name: 'Strategy 3',
                     data: [#{synthesizer_data[2].y_predict}],
-                    pointInterval: 24 *60 * 60 *1000 /288
+                    color: 'LightSalmon'
                   }
                ]
            });
       });
 
-    div
-      p Strategy 0 assuming set point values:
-      ul
-        li lighting level: #{synthesizer_data[0].lil}
-        li chilled water temperature: #{synthesizer_data[0].cwsetp}
-        li zone temperature: #{synthesizer_data[0].clgsetp}
-
-      p Strategy 1 assuming set point values:
-      ul
-        li lighting level: #{synthesizer_data[1].lil}
-        li chilled water temperature: #{synthesizer_data[1].cwsetp}
-        li zone temperature: #{synthesizer_data[1].clgsetp}
-      
-      p Strategy 2 assuming set point values:
-      ul
-        li lighting level: #{synthesizer_data[2].lil}
-        li chilled water temperature: #{synthesizer_data[2].cwsetp}
-        li zone temperature: #{synthesizer_data[2].clgsetp}
