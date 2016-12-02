@@ -17,6 +17,14 @@ load largetreeCVJul.mat
 load y_predict_july_baseline.mat
 load date12numJul.mat
 kf = 15
+t1 = datetime('01-Jul-2017 00:00');
+t2 = datetime('31-Jul-2017 23:55');
+timevec = t1:minutes(5):t2;
+
+
+
+
+
 % XtestPlc17 = Xtrain(56736:57023,:);
 % YtestPlc17 = Ytest(56736:57023);
 % date12numPlc17 = date12num(56736:57023);
@@ -32,11 +40,12 @@ kf = 15
 
 response =[];
 response.y_predict = y_predict_july_baseline;
-response.time = date12numJul;
+response.time = datestr(timevec);
 baseline_july = response;
 save baseline_july.mat baseline_july;
 savejson('',response,'Filename',['response.json']);
 % plot(response.time,response.y_predict)
+
 % % 
 % % RMSE
 % [a,b]=rsquare(YtestPlc17,YpredictPlc17);

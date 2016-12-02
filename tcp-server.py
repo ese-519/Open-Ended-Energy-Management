@@ -107,6 +107,7 @@ def call_baseline(query, dayQuery, matlab_engine=None):
       max_kW = val
     y_predict.append(val)
   times = range(0, 5*len(response['time']), 5)
+  # times = map(response['time'])
   db_data = {'y_predict': y_predict, 'time': times}
   db_data['_id'] = 1
   if dayQuery:
@@ -127,6 +128,7 @@ def call_baseline(query, dayQuery, matlab_engine=None):
   # update DB with query result to update graphical output 
   db_name = 'energydata'
   coll_name = 'baseline_data'
+  print "db_date new time", db_data
   inserted_obj_id = db_insert(db_name, coll_name, db_data)
   print 'inserted into:', db_name, coll_name, inserted_obj_id
 
