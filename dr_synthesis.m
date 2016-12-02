@@ -200,33 +200,33 @@ end
 plotdur = 150:246;
 ptimevec = timevec(plotdur);
 
-figure(1);
-plot(ptimevec,logdata(plotdur,1)/1e6);
-hold on
-ylim([0 0.85])
-vline(datetime(ptimevec(44)),'-r','Start');
-vline(datetime(ptimevec(56)),'-r','End');
-vline(datetime(ptimevec(68)),'-b','Recovery');
-datetick('x','HH:MM');
-hold off
-grid on;
-
-figure(2);
-plot(ptimevec,yyclg(plotdur));
-hold on
-[AX,H1,H2] = plotyy(ptimevec,yycw(plotdur),ptimevec,yylit(plotdur));
-set(AX(1),'YLim',[0 30])
-set(AX(2),'YLim',[0 1.2])
-ylabel('Temperature')
-set(get(AX(2),'Ylabel'),'string','Light Level (ratio)')
-%plot(ptimevec,yylit(plotdur));
-vline(datetime(ptimevec(44)),'-r','Start');
-vline(datetime(ptimevec(56)),'-r','End');
-vline(datetime(ptimevec(68)),'-b','Recovery');
-legend('CLGSETP','CWSETP','LIGHT');
-datetick('x','HH:MM');
-grid on;
-hold off
+% figure(1);
+% plot(ptimevec,logdata(plotdur,1)/1e6);
+% hold on
+% ylim([0 0.85])
+% vline(datetime(ptimevec(44)),'-r','Start');
+% vline(datetime(ptimevec(56)),'-r','End');
+% vline(datetime(ptimevec(68)),'-b','Recovery');
+% datetick('x','HH:MM');
+% hold off
+% grid on;
+% 
+% figure(2);
+% plot(ptimevec,yyclg(plotdur));
+% hold on
+% [AX,H1,H2] = plotyy(ptimevec,yycw(plotdur),ptimevec,yylit(plotdur));
+% set(AX(1),'YLim',[0 30])
+% set(AX(2),'YLim',[0 1.2])
+% ylabel('Temperature')
+% set(get(AX(2),'Ylabel'),'string','Light Level (ratio)')
+% %plot(ptimevec,yylit(plotdur));
+% vline(datetime(ptimevec(44)),'-r','Start');
+% vline(datetime(ptimevec(56)),'-r','End');
+% vline(datetime(ptimevec(68)),'-b','Recovery');
+% legend('CLGSETP','CWSETP','LIGHT');
+% datetick('x','HH:MM');
+% grid on;
+% hold off
 
 response=[];
 response.yyclg = yyclg(plotdur);
@@ -240,11 +240,11 @@ savejson('',response,'Filename',['response.json']);
 plotdur = 193:206;
 ptimevec = timevec(plotdur);
 
-figure(3);
-plot(ptimevec,logdata(plotdur,1)/1e6);
-ylim([0 0.85])
-vline(datetime(ptimevec(1)),'-r','Start');
-vline(datetime(ptimevec(13)),'-r','End');
-datetick('x','HH:MM');
-grid on;
+% figure(3);
+% plot(ptimevec,logdata(plotdur,1)/1e6);
+% ylim([0 0.85])
+% vline(datetime(ptimevec(1)),'-r','Start');
+% vline(datetime(ptimevec(13)),'-r','End');
+% datetick('x','HH:MM');
+% grid on;
 end

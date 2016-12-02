@@ -1,19 +1,19 @@
 function evaluator_ka
-close all
+% close all
 clear all
 % addpath(genpath('../MLE+'))
 % addpath(genpath('../matlab_json_iax'))
 % input_evaluator = []
-% input_evaluator.start =13
-% input_evaluator.end= 20
-% input_evaluator.clgsetp = 24
-% input_evaluator.cwsetp = 8
-% input_evaluator.lil = 0.6
-% savejson('',input_evaluator,'input_evaluator.json')
+% input_evaluator.start = 15
+% input_evaluator.end= 17
+% input_evaluator.clgsetp = 28
+% input_evaluator.cwsetp = 7
+% input_evaluator.lil = 0.5
+savejson('',input_evaluator,'input_evaluator.json')
 % Load the tree and the linear models
 load drtree12.mat
 load dr12control.mat
-input_evaluator= loadjson('input_evaluator.json')
+% input_evaluator= loadjson('input_evaluator.json')
 load ('./baseline_july17_val.mat');
 load './MATLAB/DR-Evaluation/drtree12.mat';
 load './MATLAB/DR-Baselining/XDR.mat';
@@ -45,11 +45,11 @@ for i = 1: numel(idx_dr)
     y_predict(idx_dr(i))=predicted_av;
 end
 time = [1:numel(y_predict)];
-figure(1)
-hold on
+figure,
 plot(time,y_predict,'b');
 hold on 
 plot(time,y_predict_old,'g');
+hold off
 response =[];
 response.y_predict = y_predict;
 response.time = time;
