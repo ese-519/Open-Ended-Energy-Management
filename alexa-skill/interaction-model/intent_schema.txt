@@ -129,9 +129,17 @@
       "type": "LIST_OF_BUILDINGS"
     }]
   }, {
-    "intent": "SuggestGoodStrategy"
+    "intent": "SuggestGoodStrategy",
+    "slots": [{
+      "name": "Building",
+      "type": "LIST_OF_BUILDINGS"
+    }]
   }, {
-    "intent": "BestStrategy"
+    "intent": "BestStrategy",
+    "slots": [{
+      "name": "Building",
+      "type": "LIST_OF_BUILDINGS"
+    }]
   }, {
     "intent": "AMAZON.HelpIntent"
   }, {
