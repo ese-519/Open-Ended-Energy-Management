@@ -1,0 +1,86 @@
+extends layout
+
+block content
+
+    div(style="padding-bottom:40px")
+      h3(style="text-align:center") On #{baseline_data.target_calendar}, the predicted peak power is #{baseline_data.peak_power} kW and total energy used is #{baseline_data.total_energy] MWh
+
+    div
+      div.row 
+        div.col-sm-4(style="text-align:center")
+          img(src="/images/ChilledWaterTemp.png" style="max-width:25%; height:auto; margin:auto")
+          p(style="margin:auto; font-size:20px") Chilled Water Temperature: 6.7 C
+          svg(id="ChilledWaterTempSvg" width="90" height="90" style="margin:auto")
+          script.
+            var tau = 2 * Math.PI; 
+            var arc = d3.arc().innerRadius(25).outerRadius(40).startAngle(-1*tau/4); 
+            var svg = d3.select("#ChilledWaterTempSvg"); 
+            var width = +svg.attr("width"); 
+            var height = +svg.attr("height"); 
+            var g = svg.append("g").attr("transform", "translate(" + width / 2 + "," + height / 2 + ")"); 
+            var p = (6.7 - 0.0) / (10.0 - 0.0);
+            var background = g.append("path").datum({endAngle: tau / 4}).style("fill", "E8E8E8").attr("d", arc); 
+            var foreground = g.append("path").datum({endAngle: (-1*tau/4) + p * tau / 2}).attr("d", arc).style("fill", "#63caf9");
+        div.col-sm-4(style="text-align:center")
+          img(src="/images/LightingLevel.png" style="max-width:25%; height:auto; margin:auto")
+          p(style="margin:auto; font-size:20px") Lighting Level: 70 % 
+          svg(id="LightingLevelSvg" width="90" height="90" style="margin:auto")
+          script.
+            var tau = 2 * Math.PI; 
+            var arc = d3.arc().innerRadius(25).outerRadius(40).startAngle(-1*tau/4); 
+            var svg = d3.select("#LightingLevelSvg"); 
+            var width = +svg.attr("width"); 
+            var height = +svg.attr("height"); 
+            var g = svg.append("g").attr("transform", "translate(" + width / 2 + "," + height / 2 + ")"); 
+            var p = (70 - 0) / (100 - 0);
+            var background = g.append("path").datum({endAngle: tau / 4}).style("fill", "#E8E8E8").attr("d", arc); 
+            var foreground = g.append("path").datum({endAngle: (-1*tau/4) + p * tau / 2}).attr("d", arc).style("fill", "#f7ef62");
+        div.col-sm-4(style="text-align:center")
+          img(src="/images/ZoneTemp.png" style="max-width:25%; height:auto; margin:auto")
+          p(style="margin:auto; font-size:20px") Zone Temperature: 26.7 C 
+          svg(id="ZoneTempSvg" width="90" height="90" style="margin:auto")
+          script.
+            var tau = 2 * Math.PI; 
+            var arc = d3.arc().innerRadius(25).outerRadius(40).startAngle(-1*tau/4); 
+            var svg = d3.select("#ZoneTempSvg"); 
+            var width = +svg.attr("width"); 
+            var height = +svg.attr("height"); 
+            var g = svg.append("g").attr("transform", "translate(" + width / 2 + "," + height / 2 + ")"); 
+            var p = (26.7 - 24.0) / (28.0 - 24.0);
+            var background = g.append("path").datum({endAngle: tau / 4}).style("fill", "#E8E8E8").attr("d", arc); 
+            var foreground = g.append("path").datum({endAngle: (-1*tau/4) + p * tau / 2}).attr("d", arc).style("fill", "#ce5a40");
+    div#lineContainer(style = "padding-top : 20px; padding-bottom: 20px; padding-left:20px; padding-right:20px")
+    script.
+      $(function () { 
+                 var myChart = Highcharts.chart('lineContainer', {
+               chart: {
+                   type: 'line'
+               },
+               title: {
+                   text: 'Energy Usage'
+               },
+               xAxis: {
+                  tickInterval: 5 * 60 * 1000,
+                   type: 'datetime',
+                  dateTimeLabelFormats: {
+                   day: '%H:%M'
+                 },
+                  //min: Date.UTC(2013,4,22,0,0),
+                  //max: Date.UTC(2013,4,22,23,55),
+
+                   title : { text: 'Time' }
+               },
+              yAxis: {
+                   title: {
+                       text: 'Power (kW)'
+                   }
+               },
+               series: [
+                  {
+                    name: 'Baseline',
+                    data: [#{baseline_data.y_predict}],
+                    pointInterval: 24 *60 * 60 *1000 /288
+                  }
+                ]
+           });
+      });

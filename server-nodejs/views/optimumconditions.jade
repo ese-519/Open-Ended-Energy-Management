@@ -1,0 +1,142 @@
+extends layout
+
+block content
+
+    div(style="padding-bottom:40px; padding-top: 40px")
+      div.row 
+        div.col-sm-4(style="text-align:center")
+          img(src="/images/ChilledWaterTemp.png" style="max-width:25%; height:auto; margin:auto")
+          p(style="margin:auto; font-size:20px") Chilled Water Temperature: #{dr_synthesize_data.optimal_cw} C 
+          p(style="margin:auto") default: 6.7 C
+          svg(id="ChilledWaterTempSvg" width="90" height="90" style="margin:auto")
+          script.
+            var tau = 2 * Math.PI; 
+            var arc = d3.arc().innerRadius(25).outerRadius(40).startAngle(-1*tau/4); 
+            var svg = d3.select("#ChilledWaterTempSvg"); 
+            var width = +svg.attr("width"); 
+            var height = +svg.attr("height"); 
+            var g = svg.append("g").attr("transform", "translate(" + width / 2 + "," + height / 2 + ")"); 
+            var p = (#{dr_synthesize_data.optimal_cw} - 0.0) / (10.0 - 0.0);
+            var background = g.append("path").datum({endAngle: tau / 4}).style("fill", "#e8e8e8").attr("d", arc); 
+            var foreground = g.append("path").datum({endAngle: (-1*tau/4) + p * tau / 2}).attr("d", arc).style("fill", "#63caf9");
+        div.col-sm-4(style="text-align:center")
+          img(src="/images/LightingLevel.png" style="max-width:25%; height:auto; margin:auto")
+          p(style="margin:auto; font-size:20px") Lighting Level: #{dr_synthesize_data.optimal_lit} % 
+          p(style="margin:auto") default: 70%
+          svg(id="LightingLevelSvg" width="90" height="90" style="margin:auto")
+          script.
+            var tau = 2 * Math.PI; 
+            var arc = d3.arc().innerRadius(25).outerRadius(40).startAngle(-1*tau/4); 
+            var svg = d3.select("#LightingLevelSvg"); 
+            var width = +svg.attr("width"); 
+            var height = +svg.attr("height"); 
+            var g = svg.append("g").attr("transform", "translate(" + width / 2 + "," + height / 2 + ")"); 
+            var p = (#{dr_synthesize_data.optimal_lit} - 0) / (100 - 0);
+            var background = g.append("path").datum({endAngle: tau / 4}).style("fill", "#e8e8e8").attr("d", arc); 
+            var foreground = g.append("path").datum({endAngle: (-1*tau/4) + p * tau / 2}).attr("d", arc).style("fill", "#f7ef62");
+        div.col-sm-4(style="text-align:center")
+          img(src="/images/ZoneTemp.png" style="max-width:25%; height:auto; margin:auto")
+          p(style="margin:auto; font-size:20px") Zone Temperature: #{dr_synthesize_data.optimal_clg} C 
+          p(style="margin:auto") default: 26.7 C
+          svg(id="ZoneTempSvg" width="90" height="90" style="margin:auto")
+          script.
+            var tau = 2 * Math.PI; 
+            var arc = d3.arc().innerRadius(25).outerRadius(40).startAngle(-1*tau/4); 
+            var svg = d3.select("#ZoneTempSvg"); 
+            var width = +svg.attr("width"); 
+            var height = +svg.attr("height"); 
+            var g = svg.append("g").attr("transform", "translate(" + width / 2 + "," + height / 2 + ")"); 
+            var p = (#{dr_synthesize_data.optimal_clg} - 24.0) / (28.0 - 24.0);
+            var background = g.append("path").datum({endAngle: tau / 4}).style("fill", "#e8e8e8").attr("d", arc); 
+            var foreground = g.append("path").datum({endAngle: (-1*tau/4) + p * tau / 2}).attr("d", arc).style("fill", "#ce5a40");      
+
+    div#lineContainer(style = "padding-top : 20px; padding-bottom: 20px; padding-left:20px; padding-right:20px")
+    script.
+      $(function () { 
+                 var myChart = Highcharts.chart('lineContainer', {
+               chart: {
+                   zoomType: 'xy'
+               },
+               title: {
+                   text: 'Optimal Set Point Values'
+               },
+               xAxis: {
+                   title : { text: 'Time' },
+                   tickInterval: 5 * 60 * 1000,
+                   type: 'datetime',
+                   dateTimeLabelFormats: {
+                    day: '%H:%M'
+                   },
+                   plotLines: [
+                   {
+                     color: '#FF0000', // Red
+                     width: 2,
+                     value: Date.UTC(2017,7,17,16,0) // Position, you'll have to translate this to the values on your x axis
+                   },
+                   {
+                     color: '#FF0000', // Red
+                     width: 2,
+                     value: Date.UTC(2017,7,17,17,0) // Position, you'll have to translate this to the values on your x axis
+                   },
+                   {
+                     color: '#0000FF', // blue
+                     width: 2,
+                     value: Date.UTC(2017,7,17,18,0) // Position, you'll have to translate this to the values on your x axis
+                   }],
+                   crosshair: true
+               },
+              yAxis: 
+                [{
+                  title: {
+                    text: 'Temperature (C)',
+                    style: {color: 'Black'}
+                  },
+                  labels: {
+                    style: {color: 'Black'}
+                  }
+                },
+                {
+                  title: {
+                    text: 'Percentage (%)',
+                    style: {color: 'Black'}
+                  },
+                  labels: {
+                    style: {color: 'Black'}
+                  },
+                  opposite: true
+                }],
+                tooltip: {
+                  shared: true
+                 },
+                series: [
+                  {
+                    name: 'Lighting Level',
+                    type: 'line',
+                    data: [#{dr_synthesize_data.lighting}],
+                    color: '#f7ef62',
+                    yAxis: 1,
+                    pointStart: Date.UTC(2017,7,17,12,25),
+                    pointInterval: 8 *60 * 60 *1000 /97,
+                    tooltip: {valueSuffix: ' %'}
+                  },
+                  {
+                    name: 'Chilled Water Temperature',
+                    type: 'line',
+                    data: [#{dr_synthesize_data.cw}],
+                    color: '#63caf9',
+                    pointStart: Date.UTC(2017,7,17,12,25),
+                    pointInterval: 8 *60 * 60 *1000 /97,
+                    tooltip: {valueSuffix: ' C'}
+                  },
+                  {
+                    name: 'Zone Temperature',
+                    type: 'line',
+                    data: [#{dr_synthesize_data.clg}],
+                    color: '#ce5a40',
+                    pointStart: Date.UTC(2017,7,17,12,25),
+                    pointInterval: 8 *60 * 60 *1000 /97,
+                    tooltip: {valueSuffix: ' C'}
+                  }
+                ]
+           });
+      });
