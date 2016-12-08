@@ -3,7 +3,7 @@ import json
 import boto3
 import botocore
 from boto3.dynamodb.conditions import Key, Attr
-ec2_addr='158.130.160.166' # karuna's machine 
+ec2_addr='158.130.167.226' # karuna's machine 
 #ec2_addr = '54.165.125.83'
 # ec2_addr = '158.130.166.151' # bob's machine
 ec2_tcp_port = 9000
@@ -180,7 +180,7 @@ def describe_conditions_for_usage(intent):
           time_str = str(time_int) + ' PM'
         else:
           time_str = str(time_int - 12) + ' PM'
-        speech_output = 'The building {} used {} kilowatts on average around {} pm' \
+        speech_output = 'The building {} used {} kilowatts on average around <say-as interpret-as="time">{}</say-as>' \
           'when the temperature is {} degrees celsius and humidity is {} percent'.format(
           building, usagekW, time_str, query_res['AvgTemperature'], query_res['AvgHumidity'])
 

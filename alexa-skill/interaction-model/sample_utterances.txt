@@ -1,10 +1,12 @@
-DescribeConditionsForUsage Describe the conditions for {Building} when energy usage is {UsagekW}
+cribeConditionsForUsage Describe the conditions for {Building} when energy usage is {UsagekW}
 DescribeConditionsForUsage Describe the conditions for {Building} when energy usage is {UsagekW} kilowatts
 DescribeConditionsForUsage When does  {Building} consume {UsagekW} kilowatts
 DescribeConditionsForUsage When does  {Building} consume {UsagekW} 
 DescribeConditionsOnlyUsage {UsagekW}
 DescribeConditionsOnlyUsage {UsagekW} kilowatts
-DescribeConditionsOnlyBuilding Describe the conditions for {Building} 
+DescribeConditionsOnlyUsage Describe the consitions when energy usage is {UsagekW} kilowatts
+DescribeConditionsOnlyBuilding Describe the conditions for {Building}
+DescribeConditionsOnlyBuilding {Building}
 PredictDay What is the predicted energy consumption for {Day}
 PredictDay How much is the energy consumption predicted for {Day}
 PredictDay Show the predicted consumption for {Day}
