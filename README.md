@@ -141,13 +141,13 @@ TODO: Steps to follow for anyone to use this code
 
 ### USE INSTRUCTIONS
 1. To start TCP server
-- python tcp_server.py
+ - python tcp_server.py
 
 2. To start web server
-- cd ./server_webserver
-- npm start
+ - cd ./server_webserver
+ - npm start
 
 3. To access the dashboard 
-- http://[IP_of_web_server]:8080
+ - http://[IP_of_web_server]:8080
 
 
