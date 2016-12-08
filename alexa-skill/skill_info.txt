@@ -1,3 +1,4 @@
+Skill Type: Custom Interaction Model
 Name: Energy Advisor
 Invocation name: energy advisor
 Audio player: No
