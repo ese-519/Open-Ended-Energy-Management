@@ -149,6 +149,7 @@ For this project, we use the following four tables:
 4. evaluator_one_setpoint{id (string), setpoint_type (string), setpoint_val (string)} - Table to store the setpoint specified in the conversation in case of evaluaton of one setpoint change.
 
 Steps to create a table:
+
 1. Log in to your aws account and navigate to DynamoDB service (from the list of services available to you). Click on the option "create table".
 2. Enter the table name and mention "id" as the primary key. Specify the type of the id (from the dropdown) as mentioned above.
 3. Retain default settings (leave it checked)
